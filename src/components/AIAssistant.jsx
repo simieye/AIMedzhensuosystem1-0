@@ -1,326 +1,358 @@
 // @ts-ignore;
 import React, { useState, useEffect, useRef } from 'react';
 // @ts-ignore;
-import { Button, useToast } from '@/components/ui';
+import { Button, Card, CardContent, useToast } from '@/components/ui';
 // @ts-ignore;
-import { X, Send, Mic, Volume2, MessageCircle, Sparkles, Activity, Heart, Brain } from 'lucide-react';
+import { MessageCircle, X, Send, Mic, MicOff, Camera, Image, FileText, Calendar, ShoppingBag, Stethoscope, Receipt, Package, User, Sparkles } from 'lucide-react';
 
 export function AIAssistant({
-  onSendMessage,
+  onQuery,
+  onAction,
   className = ''
 }) {
   const {
     toast
   } = useToast();
   const [isOpen, setIsOpen] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
-  const [isListening, setIsListening] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [digitalTwinData, setDigitalTwinData] = useState(null);
   const messagesEndRef = useRef(null);
-  const speechSynthesis = window.speechSynthesis;
-  const recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const speechRecognition = recognition ? new recognition() : null;
+  const inputRef = useRef(null);
+  useEffect(() => {
+    // 初始化数字孪生数据
+    setDigitalTwinData({
+      biologicalAge: 52.3,
+      change: -0.8,
+      healthScore: 92,
+      lastUpdate: new Date()
+    });
 
-  // 用户健康数据
-  const healthData = {
-    biologicalAge: 52.3,
-    monthlyChange: -0.8,
-    healthScore: 92,
-    lastUpdate: '2024-01-15'
-  };
+    // 自动欢迎消息
+    const timer = setTimeout(() => {
+      addMessage({
+        type: 'ai',
+        content: '您好，我是您的私人长寿医生·小臻。已同步您最新数字孪生数据，生物龄52.3岁（较上月-0.8）。',
+        timestamp: new Date()
+      });
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
   useEffect(() => {
-    if (speechRecognition) {
-      speechRecognition.continuous = false;
-      speechRecognition.interimResults = false;
-      speechRecognition.lang = 'zh-CN';
-      speechRecognition.onresult = event => {
-        const transcript = event.results[0][0].transcript;
-        setInputText(transcript);
-        setIsListening(false);
-      };
-      speechRecognition.onerror = () => {
-        setIsListening(false);
-        toast({
-          title: "语音识别失败",
-          description: "请检查麦克风权限或重试",
-          variant: "destructive"
-        });
-      };
-      speechRecognition.onend = () => {
-        setIsListening(false);
-      };
-    }
-  }, [toast]);
-  useEffect(() => {
-    // 自动滚动到底部
+    scrollToBottom();
+  }, [messages]);
+  const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
       behavior: 'smooth'
     });
-  }, [messages]);
-  const speak = (text, onStart, onEnd) => {
-    if ('speechSynthesis' in window) {
-      // 停止当前语音
-      speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'zh-CN';
-      utterance.rate = 0.9;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
-      utterance.onstart = () => {
-        setIsSpeaking(true);
-        onStart?.();
-      };
-      utterance.onend = () => {
-        setIsSpeaking(false);
-        onEnd?.();
-      };
-      utterance.onerror = () => {
-        setIsSpeaking(false);
-      };
-      speechSynthesis.speak(utterance);
-    } else {
-      toast({
-        title: "语音功能不可用",
-        description: "您的浏览器不支持语音合成",
-        variant: "destructive"
-      });
-    }
   };
-  const handleOpen = () => {
-    setIsOpen(true);
-    // 添加欢迎消息
-    const welcomeMessage = {
-      id: Date.now(),
-      type: 'assistant',
-      text: `您好，我是您的私人长寿医生·小臻。已同步您最新数字孪生数据，生物龄${healthData.biologicalAge}岁（较上月${healthData.monthlyChange > 0 ? '+' : ''}${healthData.monthlyChange}）`,
-      timestamp: new Date(),
-      hasHealthData: true
-    };
-    setMessages([welcomeMessage]);
-
-    // 语音播报欢迎语
-    setTimeout(() => {
-      speak(welcomeMessage.text);
-    }, 500);
+  const addMessage = message => {
+    setMessages(prev => [...prev, message]);
   };
-  const handleClose = () => {
-    setIsOpen(false);
-    // 停止语音
-    if (speechSynthesis) {
-      speechSynthesis.cancel();
-    }
-    if (speechRecognition) {
-      speechRecognition.stop();
-    }
-    setIsSpeaking(false);
-    setIsListening(false);
-  };
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!inputText.trim()) return;
     const userMessage = {
-      id: Date.now(),
       type: 'user',
-      text: inputText.trim(),
+      content: inputText,
       timestamp: new Date()
     };
-    setMessages(prev => [...prev, userMessage]);
+    addMessage(userMessage);
     setInputText('');
-
-    // 模拟AI回复
-    setTimeout(() => {
-      const aiResponse = generateAIResponse(inputText);
-      const assistantMessage = {
-        id: Date.now() + 1,
-        type: 'assistant',
-        text: aiResponse,
+    setIsTyping(true);
+    try {
+      // 模拟AI响应
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      const response = await generateAIResponse(inputText);
+      addMessage({
+        type: 'ai',
+        content: response.text,
+        action: response.action,
         timestamp: new Date()
-      };
-      setMessages(prev => [...prev, assistantMessage]);
-
-      // 语音播报回复
-      speak(aiResponse);
-    }, 1000);
-    onSendMessage?.(inputText);
-  };
-  const generateAIResponse = userInput => {
-    const input = userInput.toLowerCase();
-    if (input.includes('健康') || input.includes('身体')) {
-      return `根据您最新的数字孪生数据分析，您的整体健康评分为${healthData.healthScore}分，生物年龄${healthData.biologicalAge}岁，比实际年龄年轻${35 - healthData.biologicalAge}岁。建议继续保持良好的生活习惯。`;
-    } else if (input.includes('年龄') || input.includes('衰老')) {
-      return `您的生物年龄为${healthData.biologicalAge}岁，相比上月${healthData.monthlyChange > 0 ? '增加' : '���少'}了${Math.abs(healthData.monthlyChange)}岁。我们的抗衰老方案正在为您产生积极效果。`;
-    } else if (input.includes('建议') || input.includes('怎么办')) {
-      return '基于您的健康数据，我建议您：1）保持规律作息，每天7-8小时睡眠；2）适度运动，每周至少150分钟有氧运动；3）均衡饮食，控制热量摄入；4）定期进行健康检测。';
-    } else if (input.includes('检测') || input.includes('报告')) {
-      return '您的最新检测报告已更新。主要指标都在正常范围内，心血管功能良好，新陈代谢稳定。建议3个月后进行下一次全面检测。';
-    } else {
-      return '我是您的私人长寿医生小臻，可以为您提供健康咨询、抗衰老建议、检测报告解读等服务。请问有什么可以帮助您的？';
-    }
-  };
-  const handleVoiceInput = () => {
-    if (!speechRecognition) {
-      toast({
-        title: "语音识别不可用",
-        description: "您的浏览器不支持语音识别",
-        variant: "destructive"
       });
-      return;
+
+      // 执行RPA操作
+      if (response.action) {
+        onAction?.(response.action);
+      }
+    } catch (error) {
+      addMessage({
+        type: 'ai',
+        content: '抱歉，我暂时无法处理您的请求，请稍后再试。',
+        timestamp: new Date()
+      });
+    } finally {
+      setIsTyping(false);
     }
-    if (isListening) {
-      speechRecognition.stop();
-      setIsListening(false);
+  };
+  const generateAIResponse = async query => {
+    const lowerQuery = query.toLowerCase();
+
+    // 健康数据查询
+    if (lowerQuery.includes('心率') || lowerQuery.includes('心脏')) {
+      return {
+        text: '您的心率变异性HRV 42ms（偏低），推荐本周3次HIIT运动，已为您生成方案。',
+        action: {
+          type: 'create_plan',
+          data: {
+            type: 'exercise',
+            frequency: 'weekly',
+            intensity: 'HIIT'
+          }
+        }
+      };
+    }
+
+    // 肝功能查询
+    if (lowerQuery.includes('肝功能') || lowerQuery.includes('肝')) {
+      return {
+        text: 'ALT 38U/L，轻度升高，建议加服奶蓟草胶囊。根据《New England Journal of Medicine 2024》研究，ALT>40U/L需关注肝脏健康。',
+        action: {
+          type: 'recommend_product',
+          data: {
+            product: 'milk_thistle',
+            dosage: '300mg/day'
+          }
+        }
+      };
+    }
+
+    // 预约相关
+    if (lowerQuery.includes('预约') || lowerQuery.includes('针灸')) {
+      return {
+        text: '已为您查询到北大医院国医大师团队本周六上午有空档，是否需要我帮您预约？',
+        action: {
+          type: 'booking',
+          data: {
+            service: 'acupuncture',
+            time: 'saturday_morning'
+          }
+        }
+      };
+    }
+
+    // 产品购买
+    if (lowerQuery.includes('买') || lowerQuery.includes('订购') || lowerQuery.includes('抗衰保护剂')) {
+      return {
+        text: '根据您NAD+水平28.3（偏低），推荐NMN剂量900mg/日，已生成专属配方。是否立即下单？',
+        action: {
+          type: 'order',
+          data: {
+            product: 'nmn_custom',
+            dosage: '900mg',
+            quantity: 3
+          }
+        }
+      };
+    }
+
+    // 检测报告
+    if (lowerQuery.includes('报告') || lowerQuery.includes('检测')) {
+      return {
+        text: '您最新的检测报告显示：肺部结节3mm（良性可能98.7%），已加入数字孪生监控。需要我为您详细解读吗？',
+        action: {
+          type: 'view_report',
+          data: {
+            report_id: 'latest'
+          }
+        }
+      };
+    }
+
+    // 默认响应
+    return {
+      text: '我是您的私人长寿医生小臻，可以帮您：\n• 解读检测报告\n• 制定个性化方案\n• 预约专家服务\n• 推荐抗衰产品\n• 监控健康数据\n\n请问有什么可以帮助您的？'
+    };
+  };
+  const handleVoiceRecord = () => {
+    if (isRecording) {
+      setIsRecording(false);
+      toast({
+        title: "录音结束",
+        description: "正在识别语音..."
+      });
     } else {
-      speechRecognition.start();
-      setIsListening(true);
+      setIsRecording(true);
+      toast({
+        title: "开始录音",
+        description: "请说出您的需求..."
+      });
+      // 模拟录音结束
+      setTimeout(() => {
+        setIsRecording(false);
+        setInputText('帮我查看最新的健康报告');
+        toast({
+          title: "识别成功",
+          description: "语音已转换为文字"
+        });
+      }, 3000);
     }
   };
-  const handleStopSpeaking = () => {
-    if (speechSynthesis) {
-      speechSynthesis.cancel();
-    }
-    setIsSpeaking(false);
-  };
-  const formatTime = date => {
-    return date.toLocaleTimeString('zh-CN', {
-      hour: '2-digit',
-      minute: '2-digit'
+  const handleImageUpload = () => {
+    toast({
+      title: "上传图片",
+      description: "请选择检测报告图片进行AI解析"
     });
   };
-  return <>
-      {/* 悬浮按钮 */}
-      {!isOpen && <button onClick={handleOpen} className={`fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-amber-300 to-amber-500 rounded-full shadow-2xl backdrop-blur-md bg-opacity-90 border border-amber-200 flex items-center justify-center z-50 transition-all duration-300 hover:scale-110 ${className}`} style={{
-      animation: 'float 3s ease-in-out infinite, glow 2.8s ease-in-out infinite'
-    }}>
-          {/* DNA双螺旋图标 */}
-          <div className="relative w-8 h-8">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-amber-800" />
-            </div>
-            {/* DNA旋转动画 */}
-            <div className="absolute inset-0 border-2 border-amber-600 rounded-full opacity-60" style={{
-          animation: 'rotate 4s linear infinite'
-        }}></div>
-            <div className="absolute inset-1 border border-amber-400 rounded-full opacity-40" style={{
-          animation: 'rotate 3s linear infinite reverse'
-        }}></div>
-          </div>
+  const handleQuickAction = action => {
+    const actions = {
+      report: '查看最新报告',
+      formula: '生成定制胶囊',
+      booking: '预约黄帝内针',
+      doctor: '联系人工医生',
+      invoice: '开电子发票'
+    };
+    setInputText(actions[action]);
+  };
+  const quickActions = [{
+    id: 'report',
+    icon: FileText,
+    label: '查看最新报告'
+  }, {
+    id: 'formula',
+    icon: Sparkles,
+    label: '生成定制胶囊'
+  }, {
+    id: 'booking',
+    icon: Calendar,
+    label: '预约黄帝内针'
+  }, {
+    id: 'doctor',
+    icon: Stethoscope,
+    label: '联系人工医生'
+  }, {
+    id: 'invoice',
+    icon: Receipt,
+    label: '开电子发票'
+  }];
+  if (!isOpen) {
+    return <div className={`fixed bottom-20 right-5 z-50 ${className}`}>
+        {/* 悬浮按钮 */}
+        <button onClick={() => setIsOpen(true)} className="relative w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group">
+          {/* 呼吸灯效果 */}
+          <div className="absolute inset-0 bg-yellow-400 rounded-full animate-ping opacity-75"></div>
+          <div className="absolute inset-0 bg-yellow-500 rounded-full animate-pulse"></div>
           
-          {/* 呼吸光晕效果 */}
-          <div className="absolute inset-0 rounded-full bg-amber-400 opacity-30" style={{
-        animation: 'pulse 2.8s ease-in-out infinite'
-      }}></div>
-        </button>}
-
-      {/* 全屏会话窗口 */}
-      {isOpen && <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-2xl h-[80vh] max-h-[600px] bg-gradient-to-br from-emerald-900 to-emerald-800 rounded-3xl shadow-2xl backdrop-blur-xl border border-emerald-600 flex flex-col overflow-hidden">
-            {/* 头部 */}
-            <div className="bg-gradient-to-r from-emerald-800 to-emerald-700 p-6 border-b border-emerald-600">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-amber-300 to-amber-500 rounded-full flex items-center justify-center">
-                    <Sparkles className="w-6 h-6 text-amber-800" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-semibold text-lg">私人长寿医生·小臻</h3>
-                    <p className="text-emerald-200 text-sm">AI健康顾问 · 在线</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                  {isSpeaking && <button onClick={handleStopSpeaking} className="p-2 bg-emerald-600 text-white rounded-full hover:bg-emerald-500 transition-colors">
-                      <Volume2 className="w-4 h-4" />
-                    </button>}
-                  <button onClick={handleClose} className="p-2 bg-emerald-600 text-white rounded-full hover:bg-emerald-500 transition-colors">
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
+          {/* DNA双螺旋图标 */}
+          <div className="relative z-10 w-full h-full flex items-center justify-center">
+            <div className="relative">
+              <div className="w-6 h-6 border-2 border-white rounded-full animate-spin" style={{
+              animationDuration: '3s'
+            }}></div>
+              <div className="absolute inset-0 w-6 h-6 border-2 border-white rounded-full animate-spin" style={{
+              animationDuration: '3s',
+              animationDirection: 'reverse',
+              borderTopColor: 'transparent'
+            }}></div>
             </div>
+          </div>
 
+          {/* 悬浮提示 */}
+          <div className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            私人长寿医生·小臻
+            <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+          </div>
+        </button>
+      </div>;
+  }
+  return <div className={`fixed inset-0 z-50 flex items-end justify-end ${className}`}>
+      {/* 背景遮罩 */}
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsOpen(false)}></div>
+
+      {/* AI会话窗 */}
+      <div className={`relative w-full max-w-md h-[600px] bg-gradient-to-b from-slate-900 to-slate-800 rounded-t-3xl shadow-2xl flex flex-col ${isMinimized ? 'h-16' : ''}`}>
+        {/* 顶部栏 */}
+        <div className="flex items-center justify-between p-4 border-b border-slate-700">
+          <div className="flex items-center space-x-3">
+            {/* 数字孪生小头像 */}
+            <div className="relative">
+              <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              {/* 在线状态呼吸灯 */}
+              <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold">私人长寿医生·小臻</h3>
+              {digitalTwinData && <p className="text-xs text-gray-400">
+                  生物龄 {digitalTwinData.biologicalAge}岁 ({digitalTwinData.change > 0 ? '+' : ''}{digitalTwinData.change})
+                </p>}
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <button onClick={() => setIsMinimized(!isMinimized)} className="p-2 text-gray-400 hover:text-white">
+              <div className={`w-4 h-1 bg-current rounded-full transition-transform ${isMinimized ? 'rotate-90' : ''}`}></div>
+            </button>
+            <button onClick={() => setIsOpen(false)} className="p-2 text-gray-400 hover:text-white">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {!isMinimized && <>
             {/* 消息区域 */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
-              {messages.map(message => <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] rounded-2xl p-4 ${message.type === 'user' ? 'bg-blue-600 text-white' : 'bg-emerald-700 text-white'}`}>
-                    {message.hasHealthData && <div className="mb-3 p-3 bg-emerald-600 rounded-lg">
-                        <div className="flex items-center space-x-4 text-sm">
-                          <div className="flex items-center space-x-1">
-                            <Heart className="w-4 h-4" />
-                            <span>生物年龄: {healthData.biologicalAge}岁</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Activity className="w-4 h-4" />
-                            <span>{healthData.monthlyChange > 0 ? '+' : ''}{healthData.monthlyChange}岁</span>
-                          </div>
-                        </div>
-                      </div>}
-                    <p className="text-sm leading-relaxed">{message.text}</p>
-                    <p className="text-xs opacity-70 mt-2">
-                      {formatTime(message.timestamp)}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {messages.map((message, index) => <div key={index} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] ${message.type === 'user' ? 'order-2' : 'order-1'}`}>
+                    <div className={`px-4 py-3 rounded-2xl ${message.type === 'user' ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white' : 'bg-white/10 backdrop-blur-sm text-white border border-white/20'}`}>
+                      <p className="text-sm">{message.content}</p>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1 px-2">
+                      {message.timestamp.toLocaleTimeString('zh-CN', {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
                     </p>
                   </div>
                 </div>)}
+              
+              {isTyping && <div className="flex justify-start">
+                  <div className="bg-white/10 backdrop-blur-sm text-white border border-white/20 px-4 py-3 rounded-2xl">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{
+                  animationDelay: '0.1s'
+                }}></div>
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{
+                  animationDelay: '0.2s'
+                }}></div>
+                    </div>
+                  </div>
+                </div>}
               <div ref={messagesEndRef} />
             </div>
 
+            {/* 快捷指令条 */}
+            <div className="px-4 py-2 border-t border-slate-700">
+              <div className="flex space-x-2 overflow-x-auto pb-2">
+                {quickActions.map(action => {
+              const Icon = action.icon;
+              return <button key={action.id} onClick={() => handleQuickAction(action.id)} className="flex items-center space-x-1 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-xs whitespace-nowrap transition-colors">
+                    <Icon className="w-3 h-3" />
+                    <span>{action.label}</span>
+                  </button>;
+            })}
+              </div>
+            </div>
+
             {/* 输入区域 */}
-            <div className="p-4 border-t border-emerald-600 bg-emerald-800">
+            <div className="p-4 border-t border-slate-700">
               <div className="flex items-center space-x-2">
-                <div className="flex-1 relative">
-                  <input type="text" value={inputText} onChange={e => setInputText(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="输入您的问题..." className="w-full px-4 py-3 bg-emerald-700 text-white placeholder-emerald-300 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-400 border border-emerald-600" />
-                </div>
-                <button onClick={handleVoiceInput} className={`p-3 rounded-full transition-colors ${isListening ? 'bg-red-600 text-white' : 'bg-emerald-600 text-white hover:bg-emerald-500'}`}>
-                  <Mic className="w-5 h-5" />
+                <button onClick={handleImageUpload} className="p-2 text-gray-400 hover:text-white">
+                  <Camera className="w-5 h-5" />
                 </button>
-                <button onClick={handleSendMessage} disabled={!inputText.trim()} className="p-3 bg-amber-500 text-white rounded-full hover:bg-amber-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                <button onClick={handleVoiceRecord} className={`p-2 ${isRecording ? 'text-red-500' : 'text-gray-400 hover:text-white'}`}>
+                  {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+                </button>
+                <input ref={inputRef} type="text" value={inputText} onChange={e => setInputText(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="输入您的问题..." className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-full text-white placeholder-gray-400 focus:outline-none focus:border-white/40" />
+                <button onClick={handleSendMessage} disabled={!inputText.trim() || isTyping} className="p-2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-full hover:from-yellow-600 hover:to-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed">
                   <Send className="w-5 h-5" />
                 </button>
               </div>
-              {isListening && <div className="mt-2 text-center text-emerald-300 text-sm">
-                  正在听取您的语音...
-                </div>}
             </div>
-          </div>
-        </div>}
-
-      {/* CSS动画样式 */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-
-        @keyframes glow {
-          0%, 100% {
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
-          }
-          50% {
-            box-shadow: 0 0 40px rgba(251, 191, 36, 0.6);
-          }
-        }
-
-        @keyframes pulse {
-          0%, 100% {
-            transform: scale(1);
-            opacity: 0.3;
-          }
-          50% {
-            transform: scale(1.2);
-            opacity: 0.1;
-          }
-        }
-
-        @keyframes rotate {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
-    </>;
+          </>}
+      </div>
+    </div>;
 }

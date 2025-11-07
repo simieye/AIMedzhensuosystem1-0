@@ -1,16 +1,12 @@
 // @ts-ignore;
 import React, { useState, useEffect } from 'react';
 // @ts-ignore;
-import { Button, Card, CardContent, CardHeader, CardTitle, Alert, AlertDescription, useToast } from '@/components/ui';
+import { Button, Card, CardContent, CardHeader, CardTitle, Tabs, TabsContent, TabsList, TabsTrigger, Alert, AlertDescription, useToast } from '@/components/ui';
 // @ts-ignore;
-import { FileText, Upload, Search, Brain, Activity, TrendingUp, AlertTriangle, Calendar, Clock, Users, Stethoscope, Scan, MessageCircle, BookOpen } from 'lucide-react';
+import { FileText, Droplet, Watch, Upload, Clock, TrendingUp, Calendar, Filter, Download, Plus, Search, BarChart3, Activity, Heart, Brain } from 'lucide-react';
 
 // @ts-ignore;
-import { OCRReportAnalyzer } from '@/components/OCRReportAnalyzer';
-// @ts-ignore;
-import { AIMedicalConsultation } from '@/components/AIMedicalConsultation';
-// @ts-ignore;
-import { RAGKnowledgeBase } from '@/components/RAGKnowledgeBase';
+import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 export default function DetectionCenter(props) {
   const {
     $w,
@@ -19,234 +15,480 @@ export default function DetectionCenter(props) {
   const {
     toast
   } = useToast();
-  const [activeTab, setActiveTab] = useState('ocr');
-  const [ocrResult, setOcrResult] = useState(null);
-  const [consultationResult, setConsultationResult] = useState(null);
-  const [selectedRecommendation, setSelectedRecommendation] = useState(null);
-  const [userHealthData, setUserHealthData] = useState(null);
-  useEffect(() => {
-    // 模拟获取用户健康数据
-    const mockHealthData = {
-      uricAcid: 8.5,
-      // 高尿酸血症
-      lastCheckDate: '2024-01-10',
-      riskFactors: ['高嘌呤饮食', '饮酒', '缺乏运动'],
-      medications: ['降压药', '维生素D']
-    };
-    setUserHealthData(mockHealthData);
-  }, []);
-  const handleTabChange = tabId => {
-    setActiveTab(tabId);
-  };
-  const handleOCRAnalysisComplete = result => {
-    setOcrResult(result);
+  const [activeTab, setActiveTab] = useState('reports');
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [timeFilter, setTimeFilter] = useState('all');
+
+  // 模拟数据
+  const [reports, setReports] = useState([{
+    id: 1,
+    title: '年度体检报告',
+    type: 'comprehensive',
+    date: '2024-01-15',
+    status: 'completed',
+    hospital: '北京协和医院',
+    doctor: '张医生',
+    summary: '整体健康状况良好，建议注意血压控制',
+    score: 85
+  }, {
+    id: 2,
+    title: '血常规检查',
+    type: 'blood',
+    date: '2024-01-10',
+    status: 'completed',
+    hospital: '北京协和医院',
+    doctor: '李医生',
+    summary: '白细胞计数略高，建议复查',
+    score: 78
+  }, {
+    id: 3,
+    title: '心电图检查',
+    type: 'heart',
+    date: '2024-01-05',
+    status: 'completed',
+    hospital: '北京协和医院',
+    doctor: '王医生',
+    summary: '心律正常，无异常发现',
+    score: 92
+  }]);
+  const [bloodData, setBloodData] = useState([{
+    id: 1,
+    type: 'glucose',
+    value: 5.2,
+    unit: 'mmol/L',
+    date: '2024-01-15 08:00',
+    status: 'normal',
+    note: '空腹血糖'
+  }, {
+    id: 2,
+    type: 'glucose',
+    value: 7.8,
+    unit: 'mmol/L',
+    date: '2024-01-15 14:00',
+    status: 'high',
+    note: '餐后2小时'
+  }, {
+    id: 3,
+    type: 'pressure',
+    value: '120/80',
+    unit: 'mmHg',
+    date: '2024-01-14 09:00',
+    status: 'normal',
+    note: '晨起血压'
+  }]);
+  const [deviceData, setDeviceData] = useState([{
+    id: 1,
+    device: 'Apple Watch',
+    type: 'heart_rate',
+    value: 72,
+    unit: 'bpm',
+    date: '2024-01-15 10:30',
+    status: 'normal'
+  }, {
+    id: 2,
+    device: '小米手环',
+    type: 'steps',
+    value: 8542,
+    unit: '步',
+    date: '2024-01-15 18:00',
+    status: 'good'
+  }, {
+    id: 3,
+    device: 'Apple Watch',
+    type: 'sleep',
+    value: 7.5,
+    unit: '小时',
+    date: '2024-01-14 23:00',
+    status: 'good'
+  }]);
+
+  // 图表数据
+  const [chartData, setChartData] = useState([{
+    date: '01-10',
+    glucose: 5.1,
+    heartRate: 68,
+    steps: 6000
+  }, {
+    date: '01-11',
+    glucose: 5.3,
+    heartRate: 70,
+    steps: 7500
+  }, {
+    date: '01-12',
+    glucose: 5.0,
+    heartRate: 72,
+    steps: 8200
+  }, {
+    date: '01-13',
+    glucose: 5.4,
+    heartRate: 69,
+    steps: 6800
+  }, {
+    date: '01-14',
+    glucose: 5.2,
+    heartRate: 71,
+    steps: 9100
+  }, {
+    date: '01-15',
+    glucose: 5.2,
+    heartRate: 72,
+    steps: 8542
+  }]);
+  const healthScoreData = [{
+    name: '心血管',
+    value: 85,
+    color: '#ef4444'
+  }, {
+    name: '代谢',
+    value: 78,
+    color: '#f59e0b'
+  }, {
+    name: '免疫',
+    value: 92,
+    color: '#10b981'
+  }, {
+    name: '神经',
+    value: 88,
+    color: '#3b82f6'
+  }];
+  const handleUpload = type => {
     toast({
-      title: "CT分析完成",
-      description: "已检测到结节，建议进行AI问诊进一步评估"
+      title: "上传功能",
+      description: `${type}数据上传功能正在开发中`
     });
-    // 自动切换到问诊标签
-    setTimeout(() => {
-      setActiveTab('consultation');
-    }, 2000);
   };
-  const handleConsultationComplete = result => {
-    setConsultationResult(result);
-    toast({
-      title: "问诊完成",
-      description: "AI问诊已完成，查看知识库推荐方案"
-    });
-    // 如果风险评分较高，自动切换到知识库
-    if (result.riskScore > 40) {
-      setTimeout(() => {
-        setActiveTab('knowledge');
-      }, 2000);
+  const handleGenerateReport = async () => {
+    setIsLoading(true);
+    try {
+      // 模拟生成报告
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      toast({
+        title: "报告生成成功",
+        description: "您的健康寿命报告已生成完成"
+      });
+      // 跳转到报告页面
+      $w.utils.navigateTo({
+        pageId: 'healthReport',
+        params: {}
+      });
+    } catch (error) {
+      toast({
+        title: "生成失败",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
-  const handleRecommendationSelect = recommendation => {
-    setSelectedRecommendation(recommendation);
-    toast({
-      title: "方案已选择",
-      description: `已选择${recommendation.name}，正在生成治疗方案...`
-    });
+  const getStatusColor = status => {
+    switch (status) {
+      case 'normal':
+      case 'good':
+      case 'completed':
+        return 'text-green-600 bg-green-100';
+      case 'high':
+      case 'warning':
+        return 'text-yellow-600 bg-yellow-100';
+      case 'low':
+      case 'danger':
+        return 'text-red-600 bg-red-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
+    }
   };
-  const tabs = [{
-    id: 'ocr',
-    name: 'CT报告分析',
-    icon: Scan,
-    description: 'AI智能识别CT报告'
-  }, {
-    id: 'consultation',
-    name: 'AI问诊',
-    icon: MessageCircle,
-    description: '智能健康评估'
-  }, {
-    id: 'knowledge',
-    name: '知识库',
-    icon: BookOpen,
-    description: '医学文献推荐'
-  }];
-  const getRiskLevelColor = score => {
-    if (score <= 20) return 'text-green-600 bg-green-100';
-    if (score <= 35) return 'text-blue-600 bg-blue-100';
-    if (score <= 50) return 'text-yellow-600 bg-yellow-100';
-    if (score <= 70) return 'text-orange-600 bg-orange-100';
-    return 'text-red-600 bg-red-100';
-  };
-  const getRiskLevelText = score => {
-    if (score <= 20) return '低风险';
-    if (score <= 35) return '中低风险';
-    if (score <= 50) return '中等风险';
-    if (score <= 70) return '高风险';
-    return '极高风险';
+  const getStatusText = status => {
+    switch (status) {
+      case 'normal':
+        return '正常';
+      case 'good':
+        return '良好';
+      case 'high':
+        return '偏高';
+      case 'low':
+        return '偏低';
+      case 'completed':
+        return '已完成';
+      default:
+        return '未知';
+    }
   };
   return <div style={style} className="min-h-screen bg-gray-50">
-      {/* 顶部背景 */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-        <div className="container mx-auto px-4 py-6">
+      {/* 顶部导航 */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">AI智能检测中心</h1>
-              <p className="text-blue-100">基于人工智能的医学影像分析与健康评估</p>
+            <div className="flex items-center space-x-3">
+              <Activity className="w-6 h-6 text-blue-600" />
+              <h1 className="text-2xl font-bold text-gray-800">健康检测中心</h1>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold">{consultationResult?.riskScore || ocrResult?.overallAssessment?.riskScore || '--'}</div>
-                <div className="text-blue-100 text-sm">风险评分</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold">{ocrResult?.nodules?.length || '--'}</div>
-                <div className="text-blue-100 text-sm">检测结节</div>
-              </div>
-            </div>
+            <Button onClick={handleGenerateReport} disabled={isLoading} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+              <BarChart3 className="w-4 h-4 mr-2" />
+              {isLoading ? '生成中...' : '生成健康寿命报告'}
+            </Button>
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-6">
-        {/* 健康提醒 */}
-        {userHealthData && userHealthData.uricAcid > 7.0 && <Alert className="border-orange-200 bg-orange-50 mb-6">
-            <AlertTriangle className="h-4 w-4 text-orange-600" />
-            <AlertDescription className="text-orange-800">
-              <strong>健康提醒：</strong>您的尿酸水平为{userHealthData.uricAcid}mg/dL，高于正常值。建议查看知识库中的汉方清幽方案。
-            </AlertDescription>
-          </Alert>}
+        {/* 数据概览卡片 */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <Card className="border-l-4 border-l-blue-500">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">检测报告</p>
+                  <p className="text-2xl font-bold text-gray-800">{reports.length}</p>
+                </div>
+                <FileText className="w-8 h-8 text-blue-500" />
+              </div>
+            </CardContent>
+          </Card>
 
-        {/* 标签导航 */}
-        <div className="flex space-x-1 mb-6 bg-gray-200 p-1 rounded-lg">
-          {tabs.map(tab => {
-          const Icon = tab.icon;
-          return <button key={tab.id} onClick={() => handleTabChange(tab.id)} className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors flex items-center justify-center space-x-2 ${activeTab === tab.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-800'}`}>
-              <Icon className="w-4 h-4" />
-              <span>{tab.name}</span>
-            </button>;
-        })}
+          <Card className="border-l-4 border-l-red-500">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">指尖血数据</p>
+                  <p className="text-2xl font-bold text-gray-800">{bloodData.length}</p>
+                </div>
+                <Droplet className="w-8 h-8 text-red-500" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-l-4 border-l-green-500">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">设备数据</p>
+                  <p className="text-2xl font-bold text-gray-800">{deviceData.length}</p>
+                </div>
+                <Watch className="w-8 h-8 text-green-500" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-l-4 border-l-purple-500">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-600">健康评分</p>
+                  <p className="text-2xl font-bold text-gray-800">85</p>
+                </div>
+                <Heart className="w-8 h-8 text-purple-500" />
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* 主要内容区域 */}
-        <div className="space-y-6">
-          {activeTab === 'ocr' && <OCRReportAnalyzer onAnalysisComplete={handleOCRAnalysisComplete} />}
-          
-          {activeTab === 'consultation' && <AIMedicalConsultation initialData={ocrResult} onConsultationComplete={handleConsultationComplete} />}
-          
-          {activeTab === 'knowledge' && <RAGKnowledgeBase healthData={userHealthData} onRecommendationSelect={handleRecommendationSelect} />}
-        </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="reports" className="flex items-center space-x-2">
+              <FileText className="w-4 h-4" />
+              <span>报告单</span>
+            </TabsTrigger>
+            <TabsTrigger value="blood" className="flex items-center space-x-2">
+              <Droplet className="w-4 h-4" />
+              <span>指尖血</span>
+            </TabsTrigger>
+            <TabsTrigger value="devices" className="flex items-center space-x-2">
+              <Watch className="w-4 h-4" />
+              <span>穿戴设备</span>
+            </TabsTrigger>
+          </TabsList>
 
-        {/* 综合评估面板 */}
-        {(ocrResult || consultationResult) && <div className="mt-6">
+          {/* 报告单标签页 */}
+          <TabsContent value="reports" className="space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div className="flex items-center space-x-2">
+                <Search className="w-4 h-4 text-gray-400" />
+                <input type="text" placeholder="搜索报告..." className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+              </div>
+              <div className="flex items-center space-x-2">
+                <select className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" value={timeFilter} onChange={e => setTimeFilter(e.target.value)}>
+                  <option value="all">全部时间</option>
+                  <option value="week">最近一周</option>
+                  <option value="month">最近一月</option>
+                  <option value="year">最近一年</option>
+                </select>
+                <Button onClick={() => handleUpload('报告单')} className="bg-blue-600 hover:bg-blue-700">
+                  <Upload className="w-4 h-4 mr-2" />
+                  上传报告
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid gap-4">
+              {reports.map(report => <Card key={report.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <h3 className="text-lg font-semibold text-gray-800">{report.title}</h3>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(report.status)}`}>
+                            {getStatusText(report.status)}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-gray-600 mb-3">
+                          <div className="flex items-center">
+                            <Calendar className="w-4 h-4 mr-1" />
+                            {report.date}
+                          </div>
+                          <div className="flex items-center">
+                            <FileText className="w-4 h-4 mr-1" />
+                            {report.hospital}
+                          </div>
+                          <div className="flex items-center">
+                            <Heart className="w-4 h-4 mr-1" />
+                            {report.doctor}
+                          </div>
+                          <div className="flex items-center">
+                            <BarChart3 className="w-4 h-4 mr-1" />
+                            健康评分: {report.score}
+                          </div>
+                        </div>
+                        <p className="text-gray-700">{report.summary}</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Button variant="outline" size="sm">
+                          <Download className="w-4 h-4 mr-2" />
+                          下载
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          查看详情
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>)}
+            </div>
+          </TabsContent>
+
+          {/* 指尖血标签页 */}
+          <TabsContent value="blood" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold text-gray-800">指尖血检测数据</h3>
+              <Button onClick={() => handleUpload('指尖血')} className="bg-red-600 hover:bg-red-700">
+                <Plus className="w-4 h-4 mr-2" />
+                添加数据
+              </Button>
+            </div>
+
+            {/* 数据趋势图 */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Brain className="w-5 h-5 mr-2 text-blue-600" />
-                  综合健康评估
-                </CardTitle>
+                <CardTitle>血糖趋势图</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {/* CT分析结果 */}
-                  {ocrResult && <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-800 flex items-center">
-                        <Scan className="w-4 h-4 mr-2" />
-                        CT分析结果
-                      </h4>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">检测结节</span>
-                          <span className="font-medium">{ocrResult.nodules.length}个</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">最大结节</span>
-                          <span className="font-medium">{ocrResult.overallAssessment.largestNodule}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">风险评分</span>
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${getRiskLevelColor(ocrResult.overallAssessment.riskScore)}`}>
-                            {ocrResult.overallAssessment.riskScore}分
-                          </span>
-                        </div>
-                      </div>
-                    </div>}
-
-                  {/* 问诊结果 */}
-                  {consultationResult && <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-800 flex items-center">
-                        <Stethoscope className="w-4 h-4 mr-2" />
-                        AI问诊结果
-                      </h4>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">综合评分</span>
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${getRiskLevelColor(consultationResult.riskScore)}`}>
-                            {consultationResult.riskScore}分
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">风险等级</span>
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${getRiskLevelColor(consultationResult.riskScore)}`}>
-                            {getRiskLevelText(consultationResult.riskScore)}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">随访计划</span>
-                          <span className="font-medium">{consultationResult.followUpPlan.nextCT}</span>
-                        </div>
-                      </div>
-                    </div>}
-
-                  {/* 推荐方案 */}
-                  {selectedRecommendation && <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-800 flex items-center">
-                        <Activity className="w-4 h-4 mr-2" />
-                        推荐方案
-                      </h4>
-                      <div className="bg-blue-50 rounded-lg p-3">
-                        <h5 className="font-medium text-blue-800 mb-1">{selectedRecommendation.name}</h5>
-                        <p className="text-sm text-blue-700 mb-2">{selectedRecommendation.description}</p>
-                        <div className="flex justify-between text-xs text-blue-600">
-                          <span>疗效: {selectedRecommendation.efficacy}</span>
-                          <span>价格: {selectedRecommendation.price}</span>
-                        </div>
-                      </div>
-                    </div>}
-                </div>
-
-                {/* 操作按钮 */}
-                <div className="flex space-x-3 mt-6">
-                  <Button className="flex-1 bg-blue-600 hover:bg-blue-700">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    预约专家
-                  </Button>
-                  <Button variant="outline" className="flex-1">
-                    <FileText className="w-4 h-4 mr-2" />
-                    生成报告
-                  </Button>
-                  <Button variant="outline" className="flex-1">
-                    <Users className="w-4 h-4 mr-2" />
-                    分享结果
-                  </Button>
-                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="glucose" stroke="#ef4444" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
               </CardContent>
             </Card>
-          </div>}
+
+            <div className="grid gap-4">
+              {bloodData.map(item => <Card key={item.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className={`p-3 rounded-lg ${getStatusColor(item.status)}`}>
+                          <Droplet className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-800">
+                            {item.type === 'glucose' ? '血糖' : '血压'}: {item.value} {item.unit}
+                          </h4>
+                          <p className="text-sm text-gray-600">{item.note} • {item.date}</p>
+                        </div>
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(item.status)}`}>
+                        {getStatusText(item.status)}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>)}
+            </div>
+          </TabsContent>
+
+          {/* 穿戴设备标签页 */}
+          <TabsContent value="devices" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold text-gray-800">穿戴设备数据</h3>
+              <Button onClick={() => handleUpload('设备')} className="bg-green-600 hover:bg-green-700">
+                <Plus className="w-4 h-4 mr-2" />
+                同步设备
+              </Button>
+            </div>
+
+            {/* 健康评分分布 */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>健康评分分布</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <PieChart>
+                      <Pie data={healthScoreData} cx="50%" cy="50%" outerRadius={80} fill="#8884d8" dataKey="value" label>
+                        {healthScoreData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>步数趋势</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <AreaChart data={chartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Area type="monotone" dataKey="steps" stroke="#10b981" fill="#10b981" fillOpacity={0.6} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid gap-4">
+              {deviceData.map(item => <Card key={item.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className={`p-3 rounded-lg ${getStatusColor(item.status)}`}>
+                          <Watch className="w-6 h-6" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-800">
+                            {item.device} - {item.type === 'heart_rate' ? '心率' : item.type === 'steps' ? '步数' : '睡眠'}: {item.value} {item.unit}
+                          </h4>
+                          <p className="text-sm text-gray-600">{item.date}</p>
+                        </div>
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(item.status)}`}>
+                        {getStatusText(item.status)}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>)}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>;
 }

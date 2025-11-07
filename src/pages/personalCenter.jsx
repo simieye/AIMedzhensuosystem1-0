@@ -6,15 +6,11 @@ import { Button, Card, CardContent, CardHeader, CardTitle, Avatar, AvatarFallbac
 import { User, Settings, Shield, Key, LogOut, ChevronRight, Edit, Camera, Mail, Phone, Calendar, MapPin, Activity, Heart, Brain, Target, Award } from 'lucide-react';
 
 // @ts-ignore;
-import { EnhancedDigitalTwin3D } from '@/components/EnhancedDigitalTwin3D';
+import { DigitalTwin3D } from '@/components/DigitalTwin3D';
 // @ts-ignore;
 import { HealthDataComparison } from '@/components/HealthDataComparison';
 // @ts-ignore;
 import { AIAssistant } from '@/components/AIAssistant';
-// @ts-ignore;
-import { AIHealthReportGenerator } from '@/components/AIHealthReportGenerator';
-// @ts-ignore;
-import { RPAMembershipRenewal } from '@/components/RPAMembershipRenewal';
 export default function PersonalCenter(props) {
   const {
     $w,
@@ -24,10 +20,8 @@ export default function PersonalCenter(props) {
     toast
   } = useToast();
   const [user, setUser] = useState(null);
-  const [activeSection, setActiveSection] = useState('overview'); // overview, 3dmodel, comparison, report, membership
+  const [activeSection, setActiveSection] = useState('overview'); // overview, 3dmodel, comparison
   const [selectedBodyPart, setSelectedBodyPart] = useState(null);
-  const [reportData, setReportData] = useState(null);
-  const [renewalData, setRenewalData] = useState(null);
   useEffect(() => {
     // 模拟获取用户信息
     setUser({
@@ -45,12 +39,8 @@ export default function PersonalCenter(props) {
       healthScore: 92,
       healthAge: 52.3,
       actualAge: 53,
-      membership: {
-        plan: '白金会员',
-        expiresAt: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
-        daysUntilExpiry: 15,
-        consecutiveYears: 3
-      }
+      biologicalAge: 52.3,
+      ageChange: -0.8
     });
   }, [$w.auth.currentUser]);
   const handleLogout = () => {
@@ -66,27 +56,99 @@ export default function PersonalCenter(props) {
   const handleBodyPartClick = bodyPart => {
     setSelectedBodyPart(bodyPart);
     toast({
-      title: "器官详情",
-      description: `查看${bodyPart.name}的详细基因表达数据`
+      title: "部位详情",
+      description: `查看${bodyPart.name}的详细健康信息`
     });
   };
-  const handleReportGenerated = report => {
-    setReportData(report);
+  const handleExportData = data => {
+    // 模拟导出功能
+    const dataStr = JSON.stringify(data, null, 2);
+    const dataBlob = new Blob([dataStr], {
+      type: 'application/json'
+    });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `health_data_${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
     toast({
-      title: "报告生成成功",
-      description: "AI健康月报已生成，可下载PDF版本"
+      title: "导出成功",
+      description: "健康数据已导出"
     });
   };
-  const handleRenewalComplete = renewalInfo => {
-    setRenewalData(renewalInfo);
+  const handleShareData = data => {
+    // 模拟分享功能
+    if (navigator.share) {
+      navigator.share({
+        title: '我的健康数据',
+        text: '查看我的健康数据分析',
+        url: window.location.href
+      }).then(() => {
+        toast({
+          title: "分享成功",
+          description: "健康数据已分享"
+        });
+      }).catch(() => {
+        toast({
+          title: "分享取消",
+          description: "分享已取消"
+        });
+      });
+    } else {
+      // 复制链接到剪贴板
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        toast({
+          title: "链接已复制",
+          description: "分享链接已复制到剪贴板"
+        });
+      });
+    }
+  };
+  const handleAIQuery = async query => {
+    // 模拟AI查询处理
     toast({
-      title: "会员续费成功",
-      description: "感谢您的续费，会员权益已更新"
+      title: "AI查询",
+      description: `正在处理: ${query.text}`
     });
+    return {
+      text: "我是您的私人长寿医生小臻，可以帮您解读检测报告、制定个性化方案、预约专家服务等。",
+      action: null
+    };
   };
-  const handleAIMessage = message => {
-    console.log('AI消息:', message);
-    // 可以在这里处理AI消息，比如发送到后端进行分析
+  const handleAIAction = action => {
+    // 处理AI触发的RPA操作
+    switch (action.type) {
+      case 'create_plan':
+        toast({
+          title: "方案生成",
+          description: "正在为您生成个性化运动方案..."
+        });
+        break;
+      case 'recommend_product':
+        toast({
+          title: "产品推荐",
+          description: "正在推荐适合您的保健品..."
+        });
+        break;
+      case 'booking':
+        toast({
+          title: "预约服务",
+          description: "正在为您预约专家服务..."
+        });
+        break;
+      case 'order':
+        toast({
+          title: "下单处理",
+          description: "正在处理您的订单..."
+        });
+        break;
+      default:
+        toast({
+          title: "处理中",
+          description: "正在处理您的请求..."
+        });
+    }
   };
   const menuItems = [{
     icon: Edit,
@@ -134,7 +196,7 @@ export default function PersonalCenter(props) {
   }, {
     icon: Activity,
     label: '生物年龄',
-    value: user?.healthAge || 0,
+    value: user?.biologicalAge || 0,
     unit: '岁',
     color: 'text-blue-500'
   }, {
@@ -145,31 +207,10 @@ export default function PersonalCenter(props) {
     color: 'text-yellow-500'
   }, {
     icon: Target,
-    label: '年龄差',
-    value: (user?.actualAge || 0) - (user?.healthAge || 0),
+    label: '年龄逆转',
+    value: Math.abs((user?.actualAge || 0) - (user?.biologicalAge || 0)),
     unit: '岁',
     color: 'text-green-500'
-  }];
-  const sectionTabs = [{
-    id: 'overview',
-    name: '概览',
-    icon: User
-  }, {
-    id: '3dmodel',
-    name: '3D模型',
-    icon: Brain
-  }, {
-    id: 'comparison',
-    name: '数据对比',
-    icon: Activity
-  }, {
-    id: 'report',
-    name: '健康报告',
-    icon: Target
-  }, {
-    id: 'membership',
-    name: '会员续费',
-    icon: Award
   }];
   if (!user) {
     return <div style={style} className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -180,28 +221,28 @@ export default function PersonalCenter(props) {
       </div>;
   }
   return <div style={style} className="min-h-screen bg-gray-50">
-      {/* 顶部背景 */}
-      <div className="bg-gradient-to-r from-blue-500 to-indigo-600 h-48 relative">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
+      {/* 顶部背景 - 奢华医疗风格 */}
+      <div className="bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 h-48 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="text-white">
-            <h1 className="text-3xl font-bold mb-2">个人中心</h1>
-            <p className="text-blue-100">管理您的账户信息和健康数据</p>
+            <h1 className="text-3xl font-bold mb-2">臻寿个人中心</h1>
+            <p className="text-yellow-100">您的私人长寿医生·小臻已就绪</p>
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 -mt-20 relative z-10">
-        {/* 用户信息卡片 */}
-        <Card className="shadow-lg mb-6">
+        {/* 用户信息卡片 - 奢华风格 */}
+        <Card className="shadow-xl mb-6 bg-gradient-to-br from-white to-yellow-50 border-yellow-200">
           <CardContent className="p-6">
             <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
               <div className="relative">
-                <Avatar className="w-24 h-24">
+                <Avatar className="w-24 h-24 border-4 border-yellow-400">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="text-2xl">{user.name?.charAt(0) || 'U'}</AvatarFallback>
+                  <AvatarFallback className="text-2xl bg-gradient-to-br from-yellow-500 to-yellow-600 text-white">{user.name?.charAt(0) || 'U'}</AvatarFallback>
                 </Avatar>
-                <button className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition-colors">
+                <button className="absolute bottom-0 right-0 bg-yellow-500 text-white p-2 rounded-full hover:bg-yellow-600 transition-colors shadow-lg">
                   <Camera className="w-4 h-4" />
                 </button>
               </div>
@@ -230,39 +271,52 @@ export default function PersonalCenter(props) {
                 </div>
               </div>
 
-              {/* 快速统计 */}
+              {/* 快速统计 - 奢华风格 */}
               <div className="grid grid-cols-2 gap-4">
                 {quickStats.map((stat, index) => {
                 const Icon = stat.icon;
                 return <div key={index} className="text-center">
-                    <Icon className={`w-6 h-6 mx-auto mb-1 ${stat.color}`} />
-                    <div className="text-2xl font-bold text-gray-800">{stat.value}</div>
+                    <div className={`w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-2`}>
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="text-lg font-bold text-gray-800">{stat.value}</div>
                     <div className="text-xs text-gray-600">{stat.label}</div>
                   </div>;
               })}
+              </div>
+            </div>
+
+            {/* 生物年龄提示 */}
+            <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Brain className="w-5 h-5 text-green-600" />
+                  <span className="text-green-800 font-medium">
+                    生物年龄 {user.biologicalAge}岁（实际年龄 {user.actualAge}岁）
+                  </span>
+                </div>
+                <span className="text-green-600 font-bold">
+                  {user.ageChange > 0 ? '+' : ''}{user.ageChange}岁
+                </span>
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* 功能导航标签 */}
-        <div className="flex space-x-1 mb-6 bg-gray-200 p-1 rounded-lg overflow-x-auto">
-          {sectionTabs.map(section => {
-          const Icon = section.icon;
-          return <button key={section.id} onClick={() => setActiveSection(section.id)} className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${activeSection === section.id ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-800'}`}>
-              <Icon className="w-4 h-4" />
-              <span>{section.name}</span>
-            </button>;
-        })}
+        <div className="flex space-x-1 mb-6 bg-gradient-to-r from-yellow-100 to-yellow-50 p-1 rounded-xl border border-yellow-200">
+          {['overview', '3dmodel', 'comparison'].map(section => <button key={section} onClick={() => setActiveSection(section)} className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all ${activeSection === section ? 'bg-white text-yellow-600 shadow-md border border-yellow-300' : 'text-gray-600 hover:text-gray-800 hover:bg-white/50'}`}>
+              {section === 'overview' ? '概览' : section === '3dmodel' ? '数字孪生' : '数据对比'}
+            </button>)}
         </div>
 
         {/* 主要内容区域 */}
         {activeSection === 'overview' && <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
-            {menuItems.map((item, index) => <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer" onClick={item.onClick}>
+            {menuItems.map((item, index) => <Card key={index} className="hover:shadow-lg transition-all cursor-pointer border-yellow-200 hover:border-yellow-400 bg-gradient-to-br from-white to-yellow-50" onClick={item.onClick}>
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className={`p-2 rounded-lg bg-gray-100 ${item.color}`}>
+                      <div className={`p-3 rounded-lg bg-gradient-to-br from-yellow-400 to-yellow-600 ${item.color} text-white`}>
                         <item.icon className="w-5 h-5" />
                       </div>
                       <div>
@@ -270,24 +324,24 @@ export default function PersonalCenter(props) {
                         <p className="text-sm text-gray-600">{item.description}</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                    <ChevronRight className="w-5 h-5 text-yellow-600" />
                   </div>
                 </CardContent>
               </Card>)}
           </div>}
 
         {activeSection === '3dmodel' && <div className="space-y-6">
-            <EnhancedDigitalTwin3D healthData={{
+            <DigitalTwin3D healthData={{
           overall: user.healthScore,
-          age: user.healthAge
+          age: user.biologicalAge
         }} onBodyPartClick={handleBodyPartClick} />
             
-            {/* 选中器官详情 */}
-            {selectedBodyPart && <Card className="bg-blue-50 border-blue-200">
+            {/* 选中部位详情 */}
+            {selectedBodyPart && <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-3 mb-4">
                     <Brain className="w-6 h-6 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-blue-800">{selectedBodyPart.name}基因表达分析</h3>
+                    <h3 className="text-lg font-semibold text-blue-800">{selectedBodyPart.name}详细分析</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
@@ -295,41 +349,23 @@ export default function PersonalCenter(props) {
                       <p className="text-2xl font-bold text-blue-600">{selectedBodyPart.health}%</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 mb-1">端粒长度</p>
-                      <p className="text-lg font-semibold text-green-600">{selectedBodyPart.geneExpression?.telomereLength} kb</p>
+                      <p className="text-sm text-gray-600 mb-1">健康状态</p>
+                      <p className="text-lg font-semibold text-blue-800">
+                        {selectedBodyPart.status === 'excellent' ? '优秀' : selectedBodyPart.status === 'good' ? '良好' : selectedBodyPart.status === 'fair' ? '一般' : '需改善'}
+                      </p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600 mb-1">线粒体DNA</p>
-                      <p className="text-lg font-semibold text-purple-600">{selectedBodyPart.geneExpression?.mitochondrialDNA}%</p>
+                      <p className="text-sm text-gray-600 mb-1">建议措施</p>
+                      <p className="text-sm text-blue-700">
+                        {selectedBodyPart.issues.length > 0 ? '建议进一步检查' : '保持良好状态'}
+                      </p>
                     </div>
                   </div>
-                  {selectedBodyPart.geneExpression && <div className="mt-4 space-y-3">
-                      <div>
-                        <h4 className="font-medium text-gray-800 mb-2">关键基因</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {selectedBodyPart.geneExpression.keyGenes.map((gene, index) => <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm">
-                              {gene}
-                            </span>)}
-                        </div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800 mb-2">风险因素</h4>
-                        <ul className="space-y-1">
-                          {selectedBodyPart.geneExpression.riskFactors.map((risk, index) => <li key={index} className="flex items-center space-x-2 text-sm text-red-600">
-                              <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
-                              <span>{risk}</span>
-                            </li>)}
-                        </ul>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-gray-800 mb-2">优化建议</h4>
-                        <ul className="space-y-1">
-                          {selectedBodyPart.geneExpression.recommendations.map((rec, index) => <li key={index} className="flex items-center space-x-2 text-sm text-green-600">
-                              <span className="w-1.5 h-1.5 bg-green-600 rounded-full"></span>
-                              <span>{rec}</span>
-                            </li>)}
-                        </ul>
-                      </div>
+                  {selectedBodyPart.issues.length > 0 && <div className="mt-4">
+                      <p className="text-sm text-gray-600 mb-2">注意事项：</p>
+                      <ul className="list-disc list-inside text-sm text-blue-700 space-y-1">
+                        {selectedBodyPart.issues.map((issue, index) => <li key={index}>{issue}</li>)}
+                      </ul>
                     </div>}
                 </CardContent>
               </Card>}
@@ -337,16 +373,8 @@ export default function PersonalCenter(props) {
 
         {activeSection === 'comparison' && <HealthDataComparison currentData={{
         score: user.healthScore,
-        age: user.healthAge
-      }} historicalData={[]} onExport={() => {}} onShare={() => {}} />}
-
-        {activeSection === 'report' && <AIHealthReportGenerator healthData={{
-        biologicalAge: user.healthAge,
-        actualAge: user.actualAge,
-        healthScore: user.healthScore
-      }} onReportGenerated={handleReportGenerated} />}
-
-        {activeSection === 'membership' && <RPAMembershipRenewal currentMembership={user.membership} onRenewalComplete={handleRenewalComplete} />}
+        age: user.biologicalAge
+      }} historicalData={[]} onExport={handleExportData} onShare={handleShareData} />}
 
         {/* 退出登录按钮 */}
         <Card className="border-red-200">
@@ -359,7 +387,7 @@ export default function PersonalCenter(props) {
         </Card>
       </div>
 
-      {/* AI客服悬浮按钮 */}
-      <AIAssistant onSendMessage={handleAIMessage} />
+      {/* AI助手 */}
+      <AIAssistant onQuery={handleAIQuery} onAction={handleAIAction} />
     </div>;
 }

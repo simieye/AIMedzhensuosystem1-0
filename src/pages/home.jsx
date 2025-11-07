@@ -8,8 +8,6 @@ import { Activity, Target, ShoppingBag, User, TrendingUp, Heart, Brain, Shield, 
 // @ts-ignore;
 import { TabBar } from '@/components/TabBar';
 // @ts-ignore;
-import { EnhancedDigitalTwin } from '@/components/EnhancedDigitalTwin';
-// @ts-ignore;
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 export default function Home(props) {
   const {
@@ -27,51 +25,43 @@ export default function Home(props) {
     // 模拟获取用户数据
     const mockUserStats = {
       healthScore: 85,
-      healthAge: 52.3,
-      actualAge: 53,
+      healthAge: 32,
+      actualAge: 35,
       completedPlans: 3,
       activePlans: 2,
       totalReports: 12,
-      points: 15890,
-      sleepScore: 72,
-      sleepChange: -8
+      points: 15890
     };
     const mockHealthData = [{
       date: '01-10',
       score: 78,
       steps: 6000,
-      heartRate: 68,
-      sleep: 80
+      heartRate: 68
     }, {
       date: '01-11',
       score: 80,
       steps: 7500,
-      heartRate: 70,
-      sleep: 75
+      heartRate: 70
     }, {
       date: '01-12',
       score: 82,
       steps: 8200,
-      heartRate: 72,
-      sleep: 78
+      heartRate: 72
     }, {
       date: '01-13',
       score: 83,
       steps: 6800,
-      heartRate: 69,
-      sleep: 76
+      heartRate: 69
     }, {
       date: '01-14',
       score: 84,
       steps: 9100,
-      heartRate: 71,
-      sleep: 74
+      heartRate: 71
     }, {
       date: '01-15',
       score: 85,
       steps: 8542,
-      heartRate: 72,
-      sleep: 72
+      heartRate: 72
     }];
     const mockRecommendations = [{
       id: 1,
@@ -156,17 +146,8 @@ export default function Home(props) {
       bookAppointment: () => {
         toast({
           title: "预约服务",
-          description: "正在为您预约黄帝内针疗程..."
+          description: "预约功能正在开发中..."
         });
-        // 模拟RPA预约
-        setTimeout(() => {
-          const appointmentTime = new Date(Date.now() + 24 * 60 * 60 * 1000);
-          const timeString = appointmentTime.toLocaleString('zh-CN');
-          toast({
-            title: "预约成功",
-            description: `黄帝内针预约成功，时间：${timeString}`
-          });
-        }, 2000);
       }
     };
     if (actionMap[action]) {
@@ -187,19 +168,6 @@ export default function Home(props) {
         }
       });
     }
-  };
-  const handleBodyPartClick = bodyPart => {
-    toast({
-      title: "部位详情",
-      description: `查看${bodyPart.name}的详细健康信息`
-    });
-  };
-  const handleVoiceCommand = command => {
-    console.log('语音指令:', command);
-    toast({
-      title: "语音指令",
-      description: `识别到指令: ${command}`
-    });
   };
   const quickActions = [{
     id: 'generateReport',
@@ -222,7 +190,7 @@ export default function Home(props) {
   }, {
     id: 'bookAppointment',
     title: '预约服务',
-    description: '预约黄帝内针',
+    description: '预约专家咨询',
     icon: Clock,
     color: 'bg-orange-500'
   }];
@@ -234,7 +202,7 @@ export default function Home(props) {
     color: 'text-red-500',
     trend: 'up'
   }, {
-    title: '生物年龄',
+    title: '健康年龄',
     value: userStats?.healthAge || 0,
     unit: '岁',
     icon: Shield,
@@ -298,22 +266,6 @@ export default function Home(props) {
       </div>
 
       <div className="container mx-auto px-4 py-6 space-y-6">
-        {/* AI增强数字孪生仪表盘 */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">AI数字孪生仪表盘</h2>
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <Brain className="w-4 h-4" />
-              <span>AI增强</span>
-            </div>
-          </div>
-          <EnhancedDigitalTwin healthData={{
-          overall: userStats.healthScore,
-          age: userStats.healthAge,
-          sleepScore: userStats.sleepScore
-        }} onBodyPartClick={handleBodyPartClick} onVoiceCommand={handleVoiceCommand} />
-        </div>
-
         {/* 快捷操作 */}
         <div>
           <h2 className="text-lg font-semibold text-gray-800 mb-4">快捷操作</h2>
@@ -347,7 +299,6 @@ export default function Home(props) {
                 <YAxis />
                 <Tooltip />
                 <Area type="monotone" dataKey="score" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
-                <Area type="monotone" dataKey="sleep" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.4} />
               </AreaChart>
             </ResponsiveContainer>
           </CardContent>
@@ -392,7 +343,7 @@ export default function Home(props) {
         <Alert className="border-blue-200 bg-blue-50">
           <Brain className="h-4 w-4 text-blue-600" />
           <AlertDescription className="text-blue-800">
-            <strong>AI健康提醒：</strong>您的睡眠质量有所下降，建议调整作息时间，保证充足睡眠以提高身体恢复能力。
+            <strong>健康提醒：</strong>您今天还没有记录运动数据，建议进行30分钟的有氧运动以保持健康状态。
           </AlertDescription>
         </Alert>
       </div>
