@@ -1,0 +1,103 @@
+
+  {
+    "name": "health_data",
+    "title": "健康数据管理",
+    "schemas": [
+      {
+        "name": "user_id",
+        "title": "用户ID",
+        "type": "String"
+      },
+      {
+        "name": "data_type",
+        "title": "数据类型",
+        "type": "String"
+      },
+      {
+        "name": "category",
+        "title": "数据分类",
+        "type": "String"
+      },
+      {
+        "name": "indicator_name",
+        "title": "指标名称",
+        "type": "String"
+      },
+      {
+        "name": "value",
+        "title": "数值",
+        "type": "Number"
+      },
+      {
+        "name": "unit",
+        "title": "单位",
+        "type": "String"
+      },
+      {
+        "name": "status",
+        "title": "状态",
+        "type": "String"
+      },
+      {
+        "name": "reference_range",
+        "title": "参考范围",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "measurement_time",
+        "title": "测量时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "device_info",
+        "title": "设备信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "location",
+        "title": "测量地点",
+        "type": "String"
+      },
+      {
+        "name": "notes",
+        "title": "备注",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "source",
+        "title": "数据来源",
+        "type": "String"
+      },
+      {
+        "name": "report_id",
+        "title": "关联报告ID",
+        "type": "String"
+      },
+      {
+        "name": "health_score",
+        "title": "健康评分",
+        "type": "Number"
+      },
+      {
+        "name": "trend",
+        "title": "趋势",
+        "type": "String"
+      },
+      {
+        "name": "tags",
+        "title": "标签",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      }
+    ]
+  }
+  

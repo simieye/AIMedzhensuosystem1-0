@@ -1,0 +1,110 @@
+
+  {
+    "name": "health_user",
+    "title": "健康管理系统用户信息",
+    "schemas": [
+      {
+        "name": "username",
+        "title": "用户名",
+        "type": "String"
+      },
+      {
+        "name": "real_name",
+        "title": "真实姓名",
+        "type": "String"
+      },
+      {
+        "name": "nickname",
+        "title": "昵称",
+        "type": "String"
+      },
+      {
+        "name": "email",
+        "title": "邮箱",
+        "type": "Email"
+      },
+      {
+        "name": "phone",
+        "title": "手机号",
+        "type": "String"
+      },
+      {
+        "name": "password",
+        "title": "密码",
+        "type": "String"
+      },
+      {
+        "name": "avatar",
+        "title": "头像",
+        "type": "Image"
+      },
+      {
+        "name": "location",
+        "title": "所在地",
+        "type": "String"
+      },
+      {
+        "name": "bio",
+        "title": "个人简介",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "member_level",
+        "title": "会员等级",
+        "type": "String"
+      },
+      {
+        "name": "member_points",
+        "title": "会员积分",
+        "type": "Number"
+      },
+      {
+        "name": "health_score",
+        "title": "健康评分",
+        "type": "Number"
+      },
+      {
+        "name": "join_date",
+        "title": "加入日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "email_verified",
+        "title": "邮箱是否验证",
+        "type": "Boolean"
+      },
+      {
+        "name": "phone_verified",
+        "title": "手机号是否验证",
+        "type": "Boolean"
+      },
+      {
+        "name": "status",
+        "title": "账户状态",
+        "type": "String"
+      },
+      {
+        "name": "login_type",
+        "title": "登录方式",
+        "type": "String"
+      },
+      {
+        "name": "social_auth",
+        "title": "社交登录信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "preferences",
+        "title": "用户偏好设置",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      }
+    ]
+  }
+  

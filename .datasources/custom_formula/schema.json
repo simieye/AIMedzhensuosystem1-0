@@ -1,0 +1,178 @@
+
+  {
+    "name": "custom_formula",
+    "title": "定制配方管理",
+    "schemas": [
+      {
+        "name": "user_id",
+        "title": "用户ID",
+        "type": "String"
+      },
+      {
+        "name": "formula_name",
+        "title": "配方名称",
+        "type": "String"
+      },
+      {
+        "name": "formula_type",
+        "title": "配方类型",
+        "type": "String"
+      },
+      {
+        "name": "category",
+        "title": "分类",
+        "type": "String"
+      },
+      {
+        "name": "description",
+        "title": "配方描述",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "formula_image",
+        "title": "配方图片",
+        "type": "Image"
+      },
+      {
+        "name": "status",
+        "title": "配方状态",
+        "type": "String"
+      },
+      {
+        "name": "ingredients",
+        "title": "成分列表",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "nutrition_info",
+        "title": "营养信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "custom_parameters",
+        "title": "定制参数",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "user_preferences",
+        "title": "用户偏好",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "health_goals",
+        "title": "健康目标",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "allergens",
+        "title": "过敏原信息",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "dietary_restrictions",
+        "title": "饮食限制",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "serving_size",
+        "title": "份量大小",
+        "type": "Number"
+      },
+      {
+        "name": "unit",
+        "title": "单位",
+        "type": "String"
+      },
+      {
+        "name": "preparation_method",
+        "title": "制作方法",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "storage_instructions",
+        "title": "储存说明",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "shelf_life",
+        "title": "保质期",
+        "type": "Number"
+      },
+      {
+        "name": "price",
+        "title": "价格",
+        "type": "Number"
+      },
+      {
+        "name": "currency",
+        "title": "货币单位",
+        "type": "String"
+      },
+      {
+        "name": "is_recommended",
+        "title": "是否推荐",
+        "type": "Boolean"
+      },
+      {
+        "name": "rating",
+        "title": "评分",
+        "type": "Number"
+      },
+      {
+        "name": "review_count",
+        "title": "评价数量",
+        "type": "Number"
+      },
+      {
+        "name": "tags",
+        "title": "标签",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "created_by_nutritionist",
+        "title": "营养师ID",
+        "type": "String"
+      },
+      {
+        "name": "approval_status",
+        "title": "审核状态",
+        "type": "String"
+      },
+      {
+        "name": "approval_date",
+        "title": "审核日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "notes",
+        "title": "备注",
+        "type": "MultiLineString"
+      }
+    ]
+  }
+  

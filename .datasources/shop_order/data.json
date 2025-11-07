@@ -1,0 +1,428 @@
+
+  [
+    {
+      "_id": "1",
+      "user_id": "1",
+      "order_no": "ORD202401150001",
+      "order_type": "product",
+      "status": "completed",
+      "payment_status": "paid",
+      "shipping_status": "delivered",
+      "total_amount": 299.00,
+      "discount_amount": 30.00,
+      "shipping_fee": 0.00,
+      "actual_amount": 269.00,
+      "currency": "CNY",
+      "items": [
+        {
+          "product_id": "P001",
+          "product_name": "智能血压计",
+          "product_image": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=200&fit=crop",
+          "sku": "BP001",
+          "price": 199.00,
+          "quantity": 1,
+          "subtotal": 199.00,
+          "category": "医疗设备",
+          "brand": "欧姆龙"
+        },
+        {
+          "product_id": "P002",
+          "product_name": "维生素D补充剂",
+          "product_image": "https://images.unsplash.com/photo-1607619056574-7b4d1983474d?w=200&h=200&fit=crop",
+          "sku": "VD001",
+          "price": 100.00,
+          "quantity": 1,
+          "subtotal": 100.00,
+          "category": "保健品",
+          "brand": "汤臣倍健"
+        }
+      ],
+      "shipping_address": {
+        "receiver_name": "张三",
+        "phone": "13888888888",
+        "province": "北京市",
+        "city": "北京市",
+        "district": "朝阳区",
+        "address": "建国路88号SOHO现代城A座2801",
+        "postal_code": "100022"
+      },
+      "billing_address": {
+        "receiver_name": "张三",
+        "phone": "13888888888",
+        "province": "北京市",
+        "city": "北京市",
+        "district": "朝阳区",
+        "address": "建国路88号SOHO现代城A座2801",
+        "postal_code": "100022"
+      },
+      "payment_info": {
+        "payment_method": "wechat_pay",
+        "payment_channel": "微信支付",
+        "transaction_id": "wx20240115001234567890",
+        "payment_account": "138****8888"
+      },
+      "shipping_info": {
+        "shipping_company": "顺丰速运",
+        "tracking_number": "SF1234567890123",
+        "shipping_weight": 0.5,
+        "shipping_volume": "20x15x10"
+      },
+      "order_date": 1705310400000,
+      "payment_date": 1705311000000,
+      "shipping_date": 1705317600000,
+      "delivery_date": 1705404000000,
+      "cancel_date": null,
+      "cancel_reason": "",
+      "notes": "请尽快发货，谢谢",
+      "coupon_info": {
+        "coupon_id": "CPN001",
+        "coupon_name": "新用户专享券",
+        "coupon_type": "discount",
+        "discount_value": 30.00,
+        "min_amount": 100.00
+      },
+      "points_used": 100,
+      "points_earned": 269,
+      "refund_info": {},
+      "tags": ["已完成", "微信支付", "顺丰快递"],
+      "source": "mobile_app",
+      "createdAt": 1705310400000,
+      "updatedAt": 1705404000000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "2",
+      "user_id": "1",
+      "order_no": "ORD202401140002",
+      "order_type": "product",
+      "status": "shipped",
+      "payment_status": "paid",
+      "shipping_status": "in_transit",
+      "total_amount": 159.00,
+      "discount_amount": 0.00,
+      "shipping_fee": 10.00,
+      "actual_amount": 169.00,
+      "currency": "CNY",
+      "items": [
+        {
+          "product_id": "P003",
+          "product_name": "智能手环",
+          "product_image": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop",
+          "sku": "WB001",
+          "price": 159.00,
+          "quantity": 1,
+          "subtotal": 159.00,
+          "category": "智能穿戴",
+          "brand": "小米"
+        }
+      ],
+      "shipping_address": {
+        "receiver_name": "张三",
+        "phone": "13888888888",
+        "province": "北京市",
+        "city": "北京市",
+        "district": "朝阳区",
+        "address": "建国路88号SOHO现代城A座2801",
+        "postal_code": "100022"
+      },
+      "billing_address": {
+        "receiver_name": "张三",
+        "phone": "13888888888",
+        "province": "北京市",
+        "city": "北京市",
+        "district": "朝阳区",
+        "address": "建国路88号SOHO现代城A座2801",
+        "postal_code": "100022"
+      },
+      "payment_info": {
+        "payment_method": "alipay",
+        "payment_channel": "支付宝",
+        "transaction_id": "al20240114001234567890",
+        "payment_account": "138****8888"
+      },
+      "shipping_info": {
+        "shipping_company": "中通快递",
+        "tracking_number": "ZT9876543210987",
+        "shipping_weight": 0.2,
+        "shipping_volume": "15x10x5"
+      },
+      "order_date": 1705224000000,
+      "payment_date": 1705224600000,
+      "shipping_date": 1705232000000,
+      "delivery_date": null,
+      "cancel_date": null,
+      "cancel_reason": "",
+      "notes": "",
+      "coupon_info": {},
+      "points_used": 0,
+      "points_earned": 169,
+      "refund_info": {},
+      "tags": ["已发货", "支付宝", "中通快递"],
+      "source": "mobile_app",
+      "createdAt": 1705224000000,
+      "updatedAt": 1705232000000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "3",
+      "user_id": "1",
+      "order_no": "ORD202401130003",
+      "order_type": "product",
+      "status": "pending_payment",
+      "payment_status": "unpaid",
+      "shipping_status": "unshipped",
+      "total_amount": 89.00,
+      "discount_amount": 10.00,
+      "shipping_fee": 0.00,
+      "actual_amount": 79.00,
+      "currency": "CNY",
+      "items": [
+        {
+          "product_id": "P004",
+          "product_name": "蛋白粉",
+          "product_image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=200&fit=crop",
+          "sku": "PP001",
+          "price": 89.00,
+          "quantity": 1,
+          "subtotal": 89.00,
+          "category": "营养补充",
+          "brand": "康恩贝"
+        }
+      ],
+      "shipping_address": {
+        "receiver_name": "张三",
+        "phone": "13888888888",
+        "province": "北京市",
+        "city": "北京市",
+        "district": "朝阳区",
+        "address": "建国路88号SOHO现代城A座2801",
+        "postal_code": "100022"
+      },
+      "billing_address": {
+        "receiver_name": "张三",
+        "phone": "13888888888",
+        "province": "北京市",
+        "city": "北京市",
+        "district": "朝阳区",
+        "address": "建国路88号SOHO现代城A座2801",
+        "postal_code": "100022"
+      },
+      "payment_info": {
+        "payment_method": "",
+        "payment_channel": "",
+        "transaction_id": "",
+        "payment_account": ""
+      },
+      "shipping_info": {
+        "shipping_company": "",
+        "tracking_number": "",
+        "shipping_weight": 0,
+        "shipping_volume": ""
+      },
+      "order_date": 1705137600000,
+      "payment_date": null,
+      "shipping_date": null,
+      "delivery_date": null,
+      "cancel_date": null,
+      "cancel_reason": "",
+      "notes": "请尽快付款",
+      "coupon_info": {
+        "coupon_id": "CPN002",
+        "coupon_name": "满减券",
+        "coupon_type": "discount",
+        "discount_value": 10.00,
+        "min_amount": 50.00
+      },
+      "points_used": 0,
+      "points_earned": 0,
+      "refund_info": {},
+      "tags": ["待付款", "优惠券"],
+      "source": "mobile_app",
+      "createdAt": 1705137600000,
+      "updatedAt": 1705137600000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "4",
+      "user_id": "2",
+      "order_no": "ORD202401120004",
+      "order_type": "product",
+      "status": "cancelled",
+      "payment_status": "refunded",
+      "shipping_status": "cancelled",
+      "total_amount": 299.00,
+      "discount_amount": 0.00,
+      "shipping_fee": 15.00,
+      "actual_amount": 314.00,
+      "currency": "CNY",
+      "items": [
+        {
+          "product_id": "P005",
+          "product_name": "瑜伽垫",
+          "product_image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=200&fit=crop",
+          "sku": "YM001",
+          "price": 129.00,
+          "quantity": 1,
+          "subtotal": 129.00,
+          "category": "运动器材",
+          "brand": "迪卡侬"
+        },
+        {
+          "product_id": "P006",
+          "product_name": "哑铃套装",
+          "product_image": "https://images.unsplash.com/photo-1581009146145-b5ef035c09bd?w=200&h=200&fit=crop",
+          "sku": "DB001",
+          "price": 170.00,
+          "quantity": 1,
+          "subtotal": 170.00,
+          "category": "运动器材",
+          "brand": "迪卡侬"
+        }
+      ],
+      "shipping_address": {
+        "receiver_name": "李四",
+        "phone": "13999999999",
+        "province": "上海市",
+        "city": "上海市",
+        "district": "浦东新区",
+        "address": "陆家嘴环路1000号恒生银行大厦15楼",
+        "postal_code": "200120"
+      },
+      "billing_address": {
+        "receiver_name": "李四",
+        "phone": "13999999999",
+        "province": "上海市",
+        "city": "上海市",
+        "district": "浦东新区",
+        "address": "陆家嘴环路1000号恒生银行大厦15楼",
+        "postal_code": "200120"
+      },
+      "payment_info": {
+        "payment_method": "alipay",
+        "payment_channel": "支付宝",
+        "transaction_id": "al20240112001234567890",
+        "payment_account": "139****9999"
+      },
+      "shipping_info": {
+        "shipping_company": "",
+        "tracking_number": "",
+        "shipping_weight": 0,
+        "shipping_volume": ""
+      },
+      "order_date": 1705051200000,
+      "payment_date": 1705051800000,
+      "shipping_date": null,
+      "delivery_date": null,
+      "cancel_date": 1705065600000,
+      "cancel_reason": "用户主动取消",
+      "notes": "不需要了",
+      "coupon_info": {},
+      "points_used": 0,
+      "points_earned": 0,
+      "refund_info": {
+        "refund_amount": 314.00,
+        "refund_date": 1705065600000,
+        "refund_reason": "用户取消订单",
+        "refund_method": "alipay",
+        "refund_status": "completed",
+        "refund_transaction_id": "rf20240112001234567890"
+      },
+      "tags": ["已取消", "已退款", "支付宝"],
+      "source": "mobile_app",
+      "createdAt": 1705051200000,
+      "updatedAt": 1705065600000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "5",
+      "user_id": "2",
+      "order_no": "ORD202401110005",
+      "order_type": "service",
+      "status": "completed",
+      "payment_status": "paid",
+      "shipping_status": "delivered",
+      "total_amount": 199.00,
+      "discount_amount": 20.00,
+      "shipping_fee": 0.00,
+      "actual_amount": 179.00,
+      "currency": "CNY",
+      "items": [
+        {
+          "product_id": "S001",
+          "product_name": "营养咨询套餐",
+          "product_image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=200&h=200&fit=crop",
+          "sku": "NC001",
+          "price": 199.00,
+          "quantity": 1,
+          "subtotal": 199.00,
+          "category": "健康服务",
+          "brand": "健康管理中心",
+          "service_type": "consultation",
+          "duration": "60分钟"
+        }
+      ],
+      "shipping_address": {
+        "receiver_name": "李四",
+        "phone": "13999999999",
+        "province": "上海市",
+        "city": "上海市",
+        "district": "浦东新区",
+        "address": "陆家嘴环路1000号恒生银行大厦15楼",
+        "postal_code": "200120"
+      },
+      "billing_address": {
+        "receiver_name": "李四",
+        "phone": "13999999999",
+        "province": "上海市",
+        "city": "上海市",
+        "district": "浦东新区",
+        "address": "陆家嘴环路1000号恒生银行大厦15楼",
+        "postal_code": "200120"
+      },
+      "payment_info": {
+        "payment_method": "wechat_pay",
+        "payment_channel": "微信支付",
+        "transaction_id": "wx20240111001234567890",
+        "payment_account": "139****9999"
+      },
+      "shipping_info": {
+        "shipping_company": "线上服务",
+        "tracking_number": "",
+        "shipping_weight": 0,
+        "shipping_volume": ""
+      },
+      "order_date": 1704964800000,
+      "payment_date": 1704965400000,
+      "shipping_date": 1704964800000,
+      "delivery_date": 1705051200000,
+      "cancel_date": null,
+      "cancel_reason": "",
+      "notes": "希望安排在周末",
+      "coupon_info": {
+        "coupon_id": "CPN003",
+        "coupon_name": "服务优惠券",
+        "coupon_type": "discount",
+        "discount_value": 20.00,
+        "min_amount": 100.00
+      },
+      "points_used": 50,
+      "points_earned": 179,
+      "refund_info": {},
+      "tags": ["已完成", "服务订单", "微信支付"],
+      "source": "mobile_app",
+      "createdAt": 1704964800000,
+      "updatedAt": 1705051200000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    }
+  ]
+  

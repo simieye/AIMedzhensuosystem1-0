@@ -1,0 +1,152 @@
+
+  {
+    "name": "detection_report",
+    "title": "检测报告管理",
+    "schemas": [
+      {
+        "name": "user_id",
+        "title": "用户ID",
+        "type": "String"
+      },
+      {
+        "name": "title",
+        "title": "报告标题",
+        "type": "String"
+      },
+      {
+        "name": "report_type",
+        "title": "报告类型",
+        "type": "String"
+      },
+      {
+        "name": "category",
+        "title": "检测分类",
+        "type": "String"
+      },
+      {
+        "name": "status",
+        "title": "报告状态",
+        "type": "String"
+      },
+      {
+        "name": "hospital",
+        "title": "检测机构",
+        "type": "String"
+      },
+      {
+        "name": "department",
+        "title": "科室",
+        "type": "String"
+      },
+      {
+        "name": "doctor",
+        "title": "医生",
+        "type": "String"
+      },
+      {
+        "name": "report_date",
+        "title": "报告日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "test_date",
+        "title": "检测日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "summary",
+        "title": "报告摘要",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "health_score",
+        "title": "健康评分",
+        "type": "Number"
+      },
+      {
+        "name": "risk_level",
+        "title": "风险等级",
+        "type": "String"
+      },
+      {
+        "name": "report_file",
+        "title": "报告文件",
+        "type": "File"
+      },
+      {
+        "name": "report_images",
+        "title": "报告图片",
+        "type": "Array",
+        "items": {
+          "type": "Image"
+        }
+      },
+      {
+        "name": "test_items",
+        "title": "检测项目",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "reference_values",
+        "title": "参考值",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "abnormal_items",
+        "title": "异常项目",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "recommendations",
+        "title": "建议",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "follow_up_date",
+        "title": "复查日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "is_shared",
+        "title": "是否分享",
+        "type": "Boolean"
+      },
+      {
+        "name": "tags",
+        "title": "标签",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "source",
+        "title": "数据来源",
+        "type": "String"
+      },
+      {
+        "name": "device_info",
+        "title": "设备信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      }
+    ]
+  }
+  

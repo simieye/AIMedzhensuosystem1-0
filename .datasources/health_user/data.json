@@ -1,0 +1,220 @@
+
+  [
+    {
+      "_id": "1",
+      "username": "zhangsan2023",
+      "real_name": "张三",
+      "nickname": "健康达人",
+      "email": "zhangsan@example.com",
+      "phone": "13888888888",
+      "password": "hashed_password_123",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+      "location": "北京市",
+      "bio": "这是一个简单的个人简介，热爱健康生活，关注身体健康。",
+      "member_level": "platinum",
+      "member_points": 15890,
+      "health_score": 92,
+      "join_date": "2023-01-15",
+      "email_verified": true,
+      "phone_verified": true,
+      "status": "active",
+      "login_type": "password",
+      "social_auth": {
+        "wechat": {
+          "openid": "wx_openid_123",
+          "unionid": "wx_unionid_123"
+        },
+        "qq": {
+          "openid": "qq_openid_456"
+        }
+      },
+      "preferences": {
+        "notifications": {
+          "email": true,
+          "sms": false,
+          "push": true
+        },
+        "privacy": {
+          "profile_public": true,
+          "show_health_data": false
+        },
+        "language": "zh-CN",
+        "timezone": "Asia/Shanghai"
+      },
+      "createdAt": 1673740800000,
+      "updatedAt": 1699488000000,
+      "owner": "system",
+      "createBy": "system",
+      "updateBy": "system"
+    },
+    {
+      "_id": "2",
+      "username": "lisi_health",
+      "real_name": "李四",
+      "nickname": "运动爱好者",
+      "email": "lisi@example.com",
+      "phone": "13999999999",
+      "password": "hashed_password_456",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+      "location": "上海市",
+      "bio": "健身达人，每天坚持运动，注重营养搭配。",
+      "member_level": "gold",
+      "member_points": 8560,
+      "health_score": 88,
+      "join_date": "2023-03-20",
+      "email_verified": true,
+      "phone_verified": true,
+      "status": "active",
+      "login_type": "wechat",
+      "social_auth": {
+        "wechat": {
+          "openid": "wx_openid_789",
+          "unionid": "wx_unionid_789"
+        }
+      },
+      "preferences": {
+        "notifications": {
+          "email": true,
+          "sms": true,
+          "push": true
+        },
+        "privacy": {
+          "profile_public": false,
+          "show_health_data": true
+        },
+        "language": "zh-CN",
+        "timezone": "Asia/Shanghai"
+      },
+      "createdAt": 1679299200000,
+      "updatedAt": 1699488000000,
+      "owner": "system",
+      "createBy": "system",
+      "updateBy": "system"
+    },
+    {
+      "_id": "3",
+      "username": "wangwu_fit",
+      "real_name": "王五",
+      "nickname": "营养专家",
+      "email": "wangwu@example.com",
+      "phone": "13777777777",
+      "password": "hashed_password_789",
+      "avatar": "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+      "location": "广州市",
+      "bio": "专业营养师，致力于为用户提供科学的营养建议和健康指导。",
+      "member_level": "diamond",
+      "member_points": 25430,
+      "health_score": 95,
+      "join_date": "2022-11-08",
+      "email_verified": true,
+      "phone_verified": false,
+      "status": "active",
+      "login_type": "password",
+      "social_auth": {},
+      "preferences": {
+        "notifications": {
+          "email": false,
+          "sms": false,
+          "push": true
+        },
+        "privacy": {
+          "profile_public": true,
+          "show_health_data": true
+        },
+        "language": "zh-CN",
+        "timezone": "Asia/Shanghai"
+      },
+      "createdAt": 1667894400000,
+      "updatedAt": 1699488000000,
+      "owner": "system",
+      "createBy": "system",
+      "updateBy": "system"
+    },
+    {
+      "_id": "4",
+      "username": "zhaoliu_new",
+      "real_name": "赵六",
+      "nickname": "健康新手",
+      "email": "zhaoliu@example.com",
+      "phone": "13666666666",
+      "password": "hashed_password_012",
+      "avatar": "",
+      "location": "深圳市",
+      "bio": "刚开始关注健康，希望在这里学到更多健康知识。",
+      "member_level": "bronze",
+      "member_points": 1200,
+      "health_score": 75,
+      "join_date": "2023-08-12",
+      "email_verified": false,
+      "phone_verified": true,
+      "status": "active",
+      "login_type": "code",
+      "social_auth": {
+        "apple": {
+          "id": "apple_id_345"
+        }
+      },
+      "preferences": {
+        "notifications": {
+          "email": true,
+          "sms": true,
+          "push": false
+        },
+        "privacy": {
+          "profile_public": false,
+          "show_health_data": false
+        },
+        "language": "zh-CN",
+        "timezone": "Asia/Shanghai"
+      },
+      "createdAt": 1691846400000,
+      "updatedAt": 1699488000000,
+      "owner": "system",
+      "createBy": "system",
+      "updateBy": "system"
+    },
+    {
+      "_id": "5",
+      "username": "chenqi_wellness",
+      "real_name": "陈七",
+      "nickname": "瑜伽达人",
+      "email": "chenqi@example.com",
+      "phone": "13555555555",
+      "password": "hashed_password_345",
+      "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+      "location": "杭州市",
+      "bio": "瑜伽教练，专注于身心平衡和整体健康。",
+      "member_level": "silver",
+      "member_points": 4320,
+      "health_score": 90,
+      "join_date": "2023-05-28",
+      "email_verified": true,
+      "phone_verified": true,
+      "status": "active",
+      "login_type": "qq",
+      "social_auth": {
+        "qq": {
+          "openid": "qq_openid_678"
+        }
+      },
+      "preferences": {
+        "notifications": {
+          "email": true,
+          "sms": false,
+          "push": true
+        },
+        "privacy": {
+          "profile_public": true,
+          "show_health_data": false
+        },
+        "language": "zh-CN",
+        "timezone": "Asia/Shanghai"
+      },
+      "createdAt": 1685289600000,
+      "updatedAt": 1699488000000,
+      "owner": "system",
+      "createBy": "system",
+      "updateBy": "system"
+    }
+  ]
+  

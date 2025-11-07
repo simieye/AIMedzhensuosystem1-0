@@ -1,0 +1,393 @@
+
+  [
+    {
+      "_id": "1",
+      "user_id": "1",
+      "data_type": "blood_test",
+      "category": "glucose",
+      "indicator_name": "空腹血糖",
+      "value": 5.2,
+      "unit": "mmol/L",
+      "status": "normal",
+      "reference_range": {
+        "min": 3.9,
+        "max": 6.1,
+        "unit": "mmol/L"
+      },
+      "measurement_time": 1705310400000,
+      "device_info": {
+        "name": "家用血糖仪",
+        "model": "Accu-Chek Active",
+        "serial": "AC2024001"
+      },
+      "location": "家中",
+      "notes": "空腹血糖，早上8点测量",
+      "source": "self_test",
+      "health_score": 85,
+      "trend": "stable",
+      "tags": ["血糖", "空腹", "日常监测"],
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "2",
+      "user_id": "1",
+      "data_type": "blood_test",
+      "category": "glucose",
+      "indicator_name": "餐后2小时血糖",
+      "value": 7.8,
+      "unit": "mmol/L",
+      "status": "high",
+      "reference_range": {
+        "min": 3.9,
+        "max": 7.8,
+        "unit": "mmol/L"
+      },
+      "measurement_time": 1705332000000,
+      "device_info": {
+        "name": "家用血糖仪",
+        "model": "Accu-Chek Active",
+        "serial": "AC2024001"
+      },
+      "location": "家中",
+      "notes": "午餐后2小时测量",
+      "source": "self_test",
+      "health_score": 78,
+      "trend": "up",
+      "tags": ["血糖", "餐后", "日常监测"],
+      "createdAt": 1705332000000,
+      "updatedAt": 1705332000000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "3",
+      "user_id": "1",
+      "data_type": "blood_pressure",
+      "category": "pressure",
+      "indicator_name": "血压",
+      "value": 120,
+      "unit": "mmHg",
+      "status": "normal",
+      "reference_range": {
+        "systolic_min": 90,
+        "systolic_max": 140,
+        "diastolic_min": 60,
+        "diastolic_max": 90,
+        "unit": "mmHg"
+      },
+      "measurement_time": 1705226400000,
+      "device_info": {
+        "name": "欧姆龙电子血压计",
+        "model": "HEM-7120",
+        "serial": "OM2024001"
+      },
+      "location": "家中",
+      "notes": "晨起血压，收缩压/舒张压: 120/80 mmHg",
+      "source": "self_test",
+      "health_score": 88,
+      "trend": "stable",
+      "tags": ["血压", "晨起", "日常监测"],
+      "createdAt": 1705226400000,
+      "updatedAt": 1705226400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "4",
+      "user_id": "1",
+      "data_type": "wearable_device",
+      "category": "heart_rate",
+      "indicator_name": "心率",
+      "value": 72,
+      "unit": "bpm",
+      "status": "normal",
+      "reference_range": {
+        "min": 60,
+        "max": 100,
+        "unit": "bpm"
+      },
+      "measurement_time": 1705346400000,
+      "device_info": {
+        "name": "Apple Watch",
+        "model": "Series 8",
+        "serial": "AW2024001"
+      },
+      "location": "办公室",
+      "notes": "静息心率",
+      "source": "device_sync",
+      "health_score": 90,
+      "trend": "stable",
+      "tags": ["心率", "Apple Watch", "静息"],
+      "createdAt": 1705346400000,
+      "updatedAt": 1705346400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "5",
+      "user_id": "1",
+      "data_type": "wearable_device",
+      "category": "steps",
+      "indicator_name": "步数",
+      "value": 8542,
+      "unit": "步",
+      "status": "good",
+      "reference_range": {
+        "min": 8000,
+        "max": 12000,
+        "unit": "步"
+      },
+      "measurement_time": 1705393200000,
+      "device_info": {
+        "name": "小米手环",
+        "model": "Mi Band 8",
+        "serial": "MB2024001"
+      },
+      "location": "全天",
+      "notes": "今日步数统计",
+      "source": "device_sync",
+      "health_score": 85,
+      "trend": "up",
+      "tags": ["步数", "小米手环", "运动"],
+      "createdAt": 1705393200000,
+      "updatedAt": 1705393200000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "6",
+      "user_id": "1",
+      "data_type": "wearable_device",
+      "category": "sleep",
+      "indicator_name": "睡眠时长",
+      "value": 7.5,
+      "unit": "小时",
+      "status": "good",
+      "reference_range": {
+        "min": 7,
+        "max": 9,
+        "unit": "小时"
+      },
+      "measurement_time": 1705168000000,
+      "device_info": {
+        "name": "Apple Watch",
+        "model": "Series 8",
+        "serial": "AW2024001"
+      },
+      "location": "家中",
+      "notes": "昨晚睡眠时长，深度睡眠2.5小时",
+      "source": "device_sync",
+      "health_score": 88,
+      "trend": "stable",
+      "tags": ["睡眠", "Apple Watch", "深度睡眠"],
+      "createdAt": 1705168000000,
+      "updatedAt": 1705168000000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "7",
+      "user_id": "1",
+      "data_type": "medical_report",
+      "category": "comprehensive",
+      "indicator_name": "年度体检报告",
+      "value": 85,
+      "unit": "分",
+      "status": "completed",
+      "reference_range": {
+        "min": 0,
+        "max": 100,
+        "unit": "分"
+      },
+      "measurement_time": 1705310400000,
+      "device_info": {
+        "name": "北京协和医院",
+        "department": "体检中心",
+        "doctor": "张医生"
+      },
+      "location": "北京协和医院",
+      "notes": "整体健康状况良好，建议注意血压控制",
+      "source": "hospital",
+      "report_id": "RPT2024001",
+      "health_score": 85,
+      "trend": "stable",
+      "tags": ["体检", "年度", "综合检查"],
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "8",
+      "user_id": "1",
+      "data_type": "medical_report",
+      "category": "blood",
+      "indicator_name": "血常规检查",
+      "value": 78,
+      "unit": "分",
+      "status": "completed",
+      "reference_range": {
+        "min": 0,
+        "max": 100,
+        "unit": "分"
+      },
+      "measurement_time": 1704878400000,
+      "device_info": {
+        "name": "北京协和医院",
+        "department": "检验科",
+        "doctor": "李医生"
+      },
+      "location": "北京协和医院",
+      "notes": "白细胞计数略高，建议复查",
+      "source": "hospital",
+      "report_id": "RPT2024002",
+      "health_score": 78,
+      "trend": "down",
+      "tags": ["血常规", "检验", "复查"],
+      "createdAt": 1704878400000,
+      "updatedAt": 1704878400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "9",
+      "user_id": "1",
+      "data_type": "medical_report",
+      "category": "heart",
+      "indicator_name": "心电图检查",
+      "value": 92,
+      "unit": "分",
+      "status": "completed",
+      "reference_range": {
+        "min": 0,
+        "max": 100,
+        "unit": "分"
+      },
+      "measurement_time": 1704446400000,
+      "device_info": {
+        "name": "北京协和医院",
+        "department": "心内科",
+        "doctor": "王医生"
+      },
+      "location": "北京协和医院",
+      "notes": "心律正常，无异常发现",
+      "source": "hospital",
+      "report_id": "RPT2024003",
+      "health_score": 92,
+      "trend": "stable",
+      "tags": ["心电图", "心内科", "正常"],
+      "createdAt": 1704446400000,
+      "updatedAt": 1704446400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "10",
+      "user_id": "2",
+      "data_type": "blood_test",
+      "category": "glucose",
+      "indicator_name": "空腹血糖",
+      "value": 4.8,
+      "unit": "mmol/L",
+      "status": "normal",
+      "reference_range": {
+        "min": 3.9,
+        "max": 6.1,
+        "unit": "mmol/L"
+      },
+      "measurement_time": 1705310400000,
+      "device_info": {
+        "name": "家用血糖仪",
+        "model": "OneTouch Ultra",
+        "serial": "OT2024001"
+      },
+      "location": "家中",
+      "notes": "空腹血糖，早上7:30测量",
+      "source": "self_test",
+      "health_score": 90,
+      "trend": "down",
+      "tags": ["血糖", "空腹", "日常监测"],
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310400000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "11",
+      "user_id": "2",
+      "data_type": "wearable_device",
+      "category": "heart_rate",
+      "indicator_name": "心率",
+      "value": 68,
+      "unit": "bpm",
+      "status": "normal",
+      "reference_range": {
+        "min": 60,
+        "max": 100,
+        "unit": "bpm"
+      },
+      "measurement_time": 1705346400000,
+      "device_info": {
+        "name": "华为手表",
+        "model": "Watch GT 4",
+        "serial": "HW2024001"
+      },
+      "location": "健身房",
+      "notes": "运动后心率",
+      "source": "device_sync",
+      "health_score": 92,
+      "trend": "stable",
+      "tags": ["心率", "华为手表", "运动"],
+      "createdAt": 1705346400000,
+      "updatedAt": 1705346400000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "12",
+      "user_id": "2",
+      "data_type": "wearable_device",
+      "category": "steps",
+      "indicator_name": "步数",
+      "value": 12350,
+      "unit": "步",
+      "status": "excellent",
+      "reference_range": {
+        "min": 8000,
+        "max": 15000,
+        "unit": "步"
+      },
+      "measurement_time": 1705393200000,
+      "device_info": {
+        "name": "华为手表",
+        "model": "Watch GT 4",
+        "serial": "HW2024001"
+      },
+      "location": "全天",
+      "notes": "包含5公里跑步",
+      "source": "device_sync",
+      "health_score": 95,
+      "trend": "up",
+      "tags": ["步数", "华为手表", "跑步"],
+      "createdAt": 1705393200000,
+      "updatedAt": 1705393200000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    }
+  ]
+  

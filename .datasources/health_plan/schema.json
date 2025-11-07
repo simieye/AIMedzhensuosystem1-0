@@ -1,0 +1,131 @@
+
+  {
+    "name": "health_plan",
+    "title": "健康方案记录管理",
+    "schemas": [
+      {
+        "name": "user_id",
+        "title": "用户ID",
+        "type": "String"
+      },
+      {
+        "name": "title",
+        "title": "计划标题",
+        "type": "String"
+      },
+      {
+        "name": "category",
+        "title": "计划分类",
+        "type": "String"
+      },
+      {
+        "name": "description",
+        "title": "计划描述",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "start_date",
+        "title": "开始日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "end_date",
+        "title": "结束日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "status",
+        "title": "计划状态",
+        "type": "String"
+      },
+      {
+        "name": "progress",
+        "title": "完成进度",
+        "type": "Number"
+      },
+      {
+        "name": "target",
+        "title": "目标信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "tasks",
+        "title": "任务列表",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "completed_date",
+        "title": "完成日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "priority",
+        "title": "优先级",
+        "type": "String"
+      },
+      {
+        "name": "difficulty",
+        "title": "难度等级",
+        "type": "String"
+      },
+      {
+        "name": "reminder_settings",
+        "title": "提醒设置",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "notes",
+        "title": "备注",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "tags",
+        "title": "标签",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "icon",
+        "title": "图标",
+        "type": "String"
+      },
+      {
+        "name": "color",
+        "title": "主题色",
+        "type": "String"
+      },
+      {
+        "name": "is_public",
+        "title": "是否公开",
+        "type": "Boolean"
+      },
+      {
+        "name": "template_id",
+        "title": "模板ID",
+        "type": "String"
+      },
+      {
+        "name": "achievement_badges",
+        "title": "成就徽章",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      }
+    ]
+  }
+  

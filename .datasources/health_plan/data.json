@@ -1,0 +1,351 @@
+
+  [
+    {
+      "_id": "1",
+      "user_id": "1",
+      "title": "30天减重计划",
+      "category": "weight_loss",
+      "description": "通过合理饮食和运动，在30天内健康减重5公斤",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-30",
+      "status": "active",
+      "progress": 65,
+      "target": {
+        "type": "weight",
+        "current": 75,
+        "target": 70,
+        "unit": "kg"
+      },
+      "tasks": [
+        {
+          "id": 1,
+          "title": "每日运动30分钟",
+          "completed": true,
+          "time": "08:00",
+          "frequency": "daily"
+        },
+        {
+          "id": 2,
+          "title": "控制饮食热量",
+          "completed": true,
+          "time": "12:00",
+          "frequency": "daily"
+        },
+        {
+          "id": 3,
+          "title": "晚上瑜伽放松",
+          "completed": false,
+          "time": "20:00",
+          "frequency": "daily"
+        }
+      ],
+      "priority": "high",
+      "difficulty": "medium",
+      "reminder_settings": {
+        "enabled": true,
+        "times": ["07:30", "11:30", "19:30"],
+        "sound": true,
+        "vibration": true
+      },
+      "notes": "注意循序渐进，避免过度运动导致受伤",
+      "tags": ["减重", "运动", "饮食控制"],
+      "icon": "Activity",
+      "color": "purple",
+      "is_public": false,
+      "template_id": "weight_loss_30d",
+      "achievement_badges": ["week1_survivor", "halfway_there"],
+      "createdAt": 1704067200000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "2",
+      "user_id": "1",
+      "title": "血压控制计划",
+      "category": "health",
+      "description": "通过生活方式调整，将血压控制在正常范围",
+      "start_date": "2024-01-10",
+      "end_date": "2024-03-10",
+      "status": "active",
+      "progress": 30,
+      "target": {
+        "type": "blood_pressure",
+        "current": "135/85",
+        "target": "120/80",
+        "unit": "mmHg"
+      },
+      "tasks": [
+        {
+          "id": 1,
+          "title": "低盐饮食",
+          "completed": true,
+          "time": "每餐",
+          "frequency": "meal"
+        },
+        {
+          "id": 2,
+          "title": "规律服药",
+          "completed": true,
+          "time": "09:00",
+          "frequency": "daily"
+        },
+        {
+          "id": 3,
+          "title": "每日监测血压",
+          "completed": false,
+          "time": "19:00",
+          "frequency": "daily"
+        }
+      ],
+      "priority": "high",
+      "difficulty": "easy",
+      "reminder_settings": {
+        "enabled": true,
+        "times": ["08:30", "18:30"],
+        "sound": true,
+        "vibration": false
+      },
+      "notes": "遵医嘱服药，定期复查",
+      "tags": ["血压", "健康", "慢病管理"],
+      "icon": "Heart",
+      "color": "red",
+      "is_public": false,
+      "template_id": "bp_control",
+      "achievement_badges": ["consistent_monitor"],
+      "createdAt": 1704878400000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "3",
+      "user_id": "1",
+      "title": "睡眠改善计划",
+      "category": "lifestyle",
+      "description": "调整作息习惯，提高睡眠质量",
+      "start_date": "2024-01-15",
+      "end_date": "2024-02-15",
+      "status": "paused",
+      "progress": 20,
+      "target": {
+        "type": "sleep",
+        "current": 6.5,
+        "target": 8,
+        "unit": "小时"
+      },
+      "tasks": [
+        {
+          "id": 1,
+          "title": "22:30前睡觉",
+          "completed": false,
+          "time": "22:30",
+          "frequency": "daily"
+        },
+        {
+          "id": 2,
+          "title": "睡前冥想",
+          "completed": false,
+          "time": "22:00",
+          "frequency": "daily"
+        }
+      ],
+      "priority": "medium",
+      "difficulty": "medium",
+      "reminder_settings": {
+        "enabled": true,
+        "times": ["21:45", "22:15"],
+        "sound": false,
+        "vibration": true
+      },
+      "notes": "避免睡前使用电子设备",
+      "tags": ["睡眠", "作息", "生活方式"],
+      "icon": "Brain",
+      "color": "blue",
+      "is_public": false,
+      "template_id": "sleep_improvement",
+      "achievement_badges": [],
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "4",
+      "user_id": "1",
+      "title": "21天运动习惯养成",
+      "category": "exercise",
+      "description": "连续21天每天运动，养成运动习惯",
+      "start_date": "2023-12-01",
+      "end_date": "2023-12-21",
+      "status": "completed",
+      "progress": 100,
+      "target": {
+        "type": "exercise",
+        "current": 21,
+        "target": 21,
+        "unit": "天"
+      },
+      "completed_date": "2023-12-21",
+      "tasks": [
+        {
+          "id": 1,
+          "title": "晨跑30分钟",
+          "completed": true,
+          "time": "06:30",
+          "frequency": "daily"
+        },
+        {
+          "id": 2,
+          "title": "力量训练",
+          "completed": true,
+          "time": "18:00",
+          "frequency": "every_other_day"
+        }
+      ],
+      "priority": "high",
+      "difficulty": "hard",
+      "reminder_settings": {
+        "enabled": true,
+        "times": ["06:00", "17:30"],
+        "sound": true,
+        "vibration": true
+      },
+      "notes": "坚持就是胜利！",
+      "tags": ["运动", "习惯养成", "挑战"],
+      "icon": "Activity",
+      "color": "green",
+      "is_public": true,
+      "template_id": "exercise_habit_21d",
+      "achievement_badges": ["21_day_champion", "early_bird", "consistency_master"],
+      "createdAt": 1701388800000,
+      "updatedAt": 1703059200000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "5",
+      "user_id": "2",
+      "title": "血糖管理计划",
+      "category": "health",
+      "description": "通过饮食控制和运动，维持血糖稳定",
+      "start_date": "2024-01-05",
+      "end_date": "2024-04-05",
+      "status": "active",
+      "progress": 45,
+      "target": {
+        "type": "glucose",
+        "current": 6.5,
+        "target": 5.5,
+        "unit": "mmol/L"
+      },
+      "tasks": [
+        {
+          "id": 1,
+          "title": "监测空腹血糖",
+          "completed": true,
+          "time": "07:00",
+          "frequency": "daily"
+        },
+        {
+          "id": 2,
+          "title": "餐后散步",
+          "completed": true,
+          "time": "餐后30分钟",
+          "frequency": "meal"
+        },
+        {
+          "id": 3,
+          "title": "控制碳水化合物摄入",
+          "completed": false,
+          "time": "每餐",
+          "frequency": "meal"
+        }
+      ],
+      "priority": "high",
+      "difficulty": "medium",
+      "reminder_settings": {
+        "enabled": true,
+        "times": ["06:45", "12:30", "18:30"],
+        "sound": true,
+        "vibration": true
+      },
+      "notes": "定期复查，遵医嘱调整方案",
+      "tags": ["血糖", "糖尿病", "饮食控制"],
+      "icon": "Heart",
+      "color": "orange",
+      "is_public": false,
+      "template_id": "glucose_management",
+      "achievement_badges": ["stable_week", "consistent_monitor"],
+      "createdAt": 1704446400000,
+      "updatedAt": 1705310400000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "6",
+      "user_id": "2",
+      "title": "压力管理计划",
+      "category": "mental_health",
+      "description": "学习压力管理技巧，提高心理健康水平",
+      "start_date": "2024-01-20",
+      "end_date": "2024-03-20",
+      "status": "active",
+      "progress": 25,
+      "target": {
+        "type": "stress_level",
+        "current": 7,
+        "target": 3,
+        "unit": "分"
+      },
+      "tasks": [
+        {
+          "id": 1,
+          "title": "深呼吸练习",
+          "completed": true,
+          "time": "10:00",
+          "frequency": "twice_daily"
+        },
+        {
+          "id": 2,
+          "title": "正念冥想",
+          "completed": false,
+          "time": "20:00",
+          "frequency": "daily"
+        },
+        {
+          "id": 3,
+          "title": "写感恩日记",
+          "completed": false,
+          "time": "21:00",
+          "frequency": "daily"
+        }
+      ],
+      "priority": "medium",
+      "difficulty": "easy",
+      "reminder_settings": {
+        "enabled": true,
+        "times": ["09:45", "19:45", "20:45"],
+        "sound": false,
+        "vibration": true
+      },
+      "notes": "保持积极心态，学会释放压力",
+      "tags": ["心理健康", "压力管理", "冥想"],
+      "icon": "Brain",
+      "color": "purple",
+      "is_public": false,
+      "template_id": "stress_management",
+      "achievement_badges": ["mindful_moment"],
+      "createdAt": 1705651200000,
+      "updatedAt": 1705310400000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    }
+  ]
+  

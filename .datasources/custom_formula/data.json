@@ -1,0 +1,524 @@
+
+  [
+    {
+      "_id": "1",
+      "user_id": "1",
+      "formula_name": "高蛋白增肌配方",
+      "formula_type": "sports_nutrition",
+      "category": "protein_supplement",
+      "description": "专为健身人群设计的高蛋白配方，含有优质乳清蛋白和必需氨基酸，有助于肌肉恢复和增长。",
+      "formula_image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=300&fit=crop",
+      "status": "published",
+      "ingredients": [
+        {
+          "name": "乳清蛋白",
+          "amount": 25,
+          "unit": "g",
+          "percentage": 75,
+          "source": "乳制品"
+        },
+        {
+          "name": "酪蛋白",
+          "amount": 5,
+          "unit": "g",
+          "percentage": 15,
+          "source": "乳制品"
+        },
+        {
+          "name": "BCAA",
+          "amount": 3,
+          "unit": "g",
+          "percentage": 9,
+          "source": "合成"
+        },
+        {
+          "name": "肌酸",
+          "amount": 1,
+          "unit": "g",
+          "percentage": 1,
+          "source": "合成"
+        }
+      ],
+      "nutrition_info": {
+        "calories": 120,
+        "protein": 30,
+        "carbohydrates": 2,
+        "fat": 1,
+        "fiber": 0,
+        "sugar": 1,
+        "sodium": 50,
+        "cholesterol": 5,
+        "vitamins": {
+          "vitamin_b12": 2.4,
+          "vitamin_d": 5,
+          "vitamin_e": 15
+        },
+        "minerals": {
+          "calcium": 200,
+          "iron": 1.8,
+          "magnesium": 50,
+          "zinc": 5
+        }
+      },
+      "custom_parameters": {
+        "protein_ratio": 0.75,
+        "carb_ratio": 0.05,
+        "fat_ratio": 0.20,
+        "sweetness_level": "medium",
+        "flavor_type": "chocolate",
+        "texture": "smooth"
+      },
+      "user_preferences": {
+        "taste_preferences": ["chocolate", "vanilla"],
+        "avoid_ingredients": ["artificial_sweeteners"],
+        "preferred_brands": ["optimum_nutrition", "muscle_tech"],
+        "budget_range": "medium"
+      },
+      "health_goals": ["muscle_gain", "recovery", "performance"],
+      "allergens": ["milk"],
+      "dietary_restrictions": [],
+      "serving_size": 35,
+      "unit": "g",
+      "preparation_method": "将35g粉末加入250ml水或牛奶中，搅拌均匀即可饮用。建议运动后30分钟内饮用。",
+      "storage_instructions": "置于阴凉干燥处，避免阳光直射。开封后请密封保存，并在3个月内使用完毕。",
+      "shelf_life": 24,
+      "price": 89.00,
+      "currency": "CNY",
+      "is_recommended": true,
+      "rating": 4.8,
+      "review_count": 156,
+      "tags": ["高蛋白", "增肌", "运动营养", "乳清蛋白"],
+      "created_by_nutritionist": "NUT001",
+      "approval_status": "approved",
+      "approval_date": "2024-01-10",
+      "notes": "适合健身人群，不建议乳糖不耐受者使用",
+      "createdAt": 1704878400000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "2",
+      "user_id": "1",
+      "formula_name": "低糖减脂配方",
+      "formula_type": "weight_management",
+      "category": "meal_replacement",
+      "description": "低热量、高纤维的减脂配方，提供饱腹感的同时控制热量摄入，适合减脂期使用。",
+      "formula_image": "https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=300&h=300&fit=crop",
+      "status": "published",
+      "ingredients": [
+        {
+          "name": "豌豆蛋白",
+          "amount": 20,
+          "unit": "g",
+          "percentage": 40,
+          "source": "植物"
+        },
+        {
+          "name": "燕麦纤维",
+          "amount": 15,
+          "unit": "g",
+          "percentage": 30,
+          "source": "谷物"
+        },
+        {
+          "name": "奇亚籽",
+          "amount": 8,
+          "unit": "g",
+          "percentage": 16,
+          "source": "植物"
+        },
+        {
+          "name": "绿茶提取物",
+          "amount": 2,
+          "unit": "g",
+          "percentage": 4,
+          "source": "植物"
+        },
+        {
+          "name": "L-肉碱",
+          "amount": 1,
+          "unit": "g",
+          "percentage": 2,
+          "source": "合成"
+        }
+      ],
+      "nutrition_info": {
+        "calories": 95,
+        "protein": 22,
+        "carbohydrates": 8,
+        "fat": 2,
+        "fiber": 12,
+        "sugar": 1,
+        "sodium": 80,
+        "cholesterol": 0,
+        "vitamins": {
+          "vitamin_c": 60,
+          "vitamin_e": 10,
+          "vitamin_k": 25
+        },
+        "minerals": {
+          "iron": 3.2,
+          "magnesium": 80,
+          "potassium": 350,
+          "zinc": 3
+        }
+      },
+      "custom_parameters": {
+        "protein_ratio": 0.65,
+        "carb_ratio": 0.25,
+        "fat_ratio": 0.10,
+        "sweetness_level": "low",
+        "flavor_type": "natural",
+        "texture": "grainy"
+      },
+      "user_preferences": {
+        "taste_preferences": ["natural", "berry"],
+        "avoid_ingredients": ["milk", "soy"],
+        "preferred_brands": ["vega", "orgain"],
+        "budget_range": "high"
+      },
+      "health_goals": ["weight_loss", "detox", "energy"],
+      "allergens": [],
+      "dietary_restrictions": ["vegan", "gluten_free"],
+      "serving_size": 45,
+      "unit": "g",
+      "preparation_method": "将45g粉末加入300ml温水或植物奶中，搅拌均匀。可作为代餐或加餐使用。",
+      "storage_instructions": "密封保存于阴凉干燥处，避免受潮。开封后建议2个月内使用完毕。",
+      "shelf_life": 18,
+      "price": 128.00,
+      "currency": "CNY",
+      "is_recommended": true,
+      "rating": 4.6,
+      "review_count": 89,
+      "tags": ["减脂", "低糖", "素食", "高纤维"],
+      "created_by_nutritionist": "NUT002",
+      "approval_status": "approved",
+      "approval_date": "2024-01-08",
+      "notes": "纯植物配方，适合素食主义者",
+      "createdAt": 1704792000000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "3",
+      "user_id": "2",
+      "formula_name": "儿童成长配方",
+      "formula_type": "pediatric",
+      "category": "growth_support",
+      "description": "专为3-12岁儿童设计的成长配方，富含钙质、维生素D和DHA，支持儿童健康成长。",
+      "formula_image": "https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=300&h=300&fit=crop",
+      "status": "published",
+      "ingredients": [
+        {
+          "name": "全脂奶粉",
+          "amount": 30,
+          "unit": "g",
+          "percentage": 50,
+          "source": "乳制品"
+        },
+        {
+          "name": "麦芽糊精",
+          "amount": 12,
+          "unit": "g",
+          "percentage": 20,
+          "source": "谷物"
+        },
+        {
+          "name": "DHA藻油",
+          "amount": 3,
+          "unit": "g",
+          "percentage": 5,
+          "source": "海洋"
+        },
+        {
+          "name": "钙强化剂",
+          "amount": 2,
+          "unit": "g",
+          "percentage": 3.3,
+          "source": "矿物"
+        },
+        {
+          "name": "维生素复合物",
+          "amount": 1,
+          "unit": "g",
+          "percentage": 1.7,
+          "source": "合成"
+        }
+      ],
+      "nutrition_info": {
+        "calories": 145,
+        "protein": 8,
+        "carbohydrates": 18,
+        "fat": 6,
+        "fiber": 1,
+        "sugar": 12,
+        "sodium": 40,
+        "cholesterol": 15,
+        "vitamins": {
+          "vitamin_a": 300,
+          "vitamin_c": 45,
+          "vitamin_d": 10,
+          "vitamin_e": 8
+        },
+        "minerals": {
+          "calcium": 400,
+          "iron": 5,
+          "zinc": 3,
+          "iodine": 70
+        }
+      },
+      "custom_parameters": {
+        "protein_ratio": 0.22,
+        "carb_ratio": 0.50,
+        "fat_ratio": 0.28,
+        "sweetness_level": "high",
+        "flavor_type": "strawberry",
+        "texture": "creamy"
+      },
+      "user_preferences": {
+        "taste_preferences": ["strawberry", "chocolate"],
+        "avoid_ingredients": ["artificial_colors"],
+        "preferred_brands": ["nestle", "abbott"],
+        "budget_range": "medium"
+      },
+      "health_goals": ["growth", "immunity", "brain_development"],
+      "allergens": ["milk", "soy"],
+      "dietary_restrictions": [],
+      "serving_size": 60,
+      "unit": "g",
+      "preparation_method": "将60g粉末加入200ml温水中，搅拌均匀至完全溶解。温度不宜超过40°C。",
+      "storage_instructions": "密封保存于阴凉干燥处，避免高温。开封后请于1个月内使用完毕。",
+      "shelf_life": 12,
+      "price": 158.00,
+      "currency": "CNY",
+      "is_recommended": false,
+      "rating": 4.9,
+      "review_count": 234,
+      "tags": ["儿童", "成长", "DHA", "钙质"],
+      "created_by_nutritionist": "NUT003",
+      "approval_status": "approved",
+      "approval_date": "2024-01-05",
+      "notes": "适合3-12岁儿童，请在医生指导下使用",
+      "createdAt": 1704705600000,
+      "updatedAt": 1705310400000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "4",
+      "user_id": "2",
+      "formula_name": "老年营养配方",
+      "formula_type": "geriatric",
+      "category": "senior_health",
+      "description": "专为老年人设计的营养配方，易于消化吸收，强化骨骼健康和认知功能。",
+      "formula_image": "https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?w=300&h=300&fit=crop",
+      "status": "draft",
+      "ingredients": [
+        {
+          "name": "水解蛋白",
+          "amount": 18,
+          "unit": "g",
+          "percentage": 36,
+          "source": "乳制品"
+        },
+        {
+          "name": "缓释碳水化合物",
+          "amount": 20,
+          "unit": "g",
+          "percentage": 40,
+          "source": "谷物"
+        },
+        {
+          "name": "MCT油",
+          "amount": 5,
+          "unit": "g",
+          "percentage": 10,
+          "source": "椰子"
+        },
+        {
+          "name": "益生菌",
+          "amount": 2,
+          "unit": "g",
+          "percentage": 4,
+          "source": "发酵"
+        },
+        {
+          "name": "磷脂酰丝氨酸",
+          "amount": 0.5,
+          "unit": "g",
+          "percentage": 1,
+          "source": "大豆"
+        }
+      ],
+      "nutrition_info": {
+        "calories": 180,
+        "protein": 18,
+        "carbohydrates": 22,
+        "fat": 7,
+        "fiber": 3,
+        "sugar": 8,
+        "sodium": 120,
+        "cholesterol": 10,
+        "vitamins": {
+          "vitamin_b12": 3,
+          "vitamin_d": 15,
+          "vitamin_k": 80
+        },
+        "minerals": {
+          "calcium": 500,
+          "magnesium": 120,
+          "zinc": 8,
+          "selenium": 55
+        }
+      },
+      "custom_parameters": {
+        "protein_ratio": 0.40,
+        "carb_ratio": 0.45,
+        "fat_ratio": 0.15,
+        "sweetness_level": "low",
+        "flavor_type": "vanilla",
+        "texture": "smooth"
+      },
+      "user_preferences": {
+        "taste_preferences": ["vanilla", "mild"],
+        "avoid_ingredients": ["high_fiber"],
+        "preferred_brands": ["ensure", "boost"],
+        "budget_range": "medium"
+      },
+      "health_goals": ["bone_health", "cognition", "digestion"],
+      "allergens": ["milk", "soy"],
+      "dietary_restrictions": ["low_fiber"],
+      "serving_size": 50,
+      "unit": "g",
+      "preparation_method": "将50g粉末加入250ml温水中，缓慢搅拌至完全溶解。可分次饮用。",
+      "storage_instructions": "密封保存于阴凉处，避免受潮。开封后请于45天内使用完毕。",
+      "shelf_life": 15,
+      "price": 138.00,
+      "currency": "CNY",
+      "is_recommended": false,
+      "rating": 0,
+      "review_count": 0,
+      "tags": ["老年", "骨骼健康", "认知", "易消化"],
+      "created_by_nutritionist": "NUT004",
+      "approval_status": "pending",
+      "approval_date": null,
+      "notes": "待审核配方，专为老年人营养需求设计",
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310400000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "5",
+      "user_id": "1",
+      "formula_name": "孕期营养配方",
+      "formula_type": "maternal",
+      "category": "prenatal",
+      "description": "专为孕产妇设计的营养配方，富含叶酸、铁质和DHA，支持母婴健康。",
+      "formula_image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=300&h=300&fit=crop",
+      "status": "published",
+      "ingredients": [
+        {
+          "name": "乳清蛋白",
+          "amount": 15,
+          "unit": "g",
+          "percentage": 30,
+          "source": "乳制品"
+        },
+        {
+          "name": "燕麦粉",
+          "amount": 18,
+          "unit": "g",
+          "percentage": 36,
+          "source": "谷物"
+        },
+        {
+          "name": "叶酸强化剂",
+          "amount": 0.8,
+          "unit": "g",
+          "percentage": 1.6,
+          "source": "合成"
+        },
+        {
+          "name": "铁强化剂",
+          "amount": 1.2,
+          "unit": "g",
+          "percentage": 2.4,
+          "source": "矿物"
+        },
+        {
+          "name": "DHA藻油",
+          "amount": 2,
+          "unit": "g",
+          "percentage": 4,
+          "source": "海洋"
+        }
+      ],
+      "nutrition_info": {
+        "calories": 165,
+        "protein": 16,
+        "carbohydrates": 20,
+        "fat": 5,
+        "fiber": 4,
+        "sugar": 6,
+        "sodium": 60,
+        "cholesterol": 8,
+        "vitamins": {
+          "folic_acid": 800,
+          "vitamin_b12": 2.8,
+          "vitamin_d": 12,
+          "vitamin_e": 12
+        },
+        "minerals": {
+          "iron": 27,
+          "calcium": 350,
+          "magnesium": 100,
+          "zinc": 7
+        }
+      },
+      "custom_parameters": {
+        "protein_ratio": 0.39,
+        "carb_ratio": 0.48,
+        "fat_ratio": 0.13,
+        "sweetness_level": "medium",
+        "flavor_type": "mixed_berry",
+        "texture": "smooth"
+      },
+      "user_preferences": {
+        "taste_preferences": ["berry", "natural"],
+        "avoid_ingredients": ["caffeine", "alcohol"],
+        "preferred_brands": ["similac", "enfamil"],
+        "budget_range": "high"
+      },
+      "health_goals": ["fetal_development", "maternal_health", "lactation"],
+      "allergens": ["milk"],
+      "dietary_restrictions": [],
+      "serving_size": 55,
+      "unit": "g",
+      "preparation_method": "将55g粉末加入250ml温水或牛奶中，搅拌均匀。建议每日1-2次。",
+      "storage_instructions": "密封保存于阴凉干燥处。开封后请于2个月内使用完毕。",
+      "shelf_life": 18,
+      "price": 188.00,
+      "currency": "CNY",
+      "is_recommended": true,
+      "rating": 4.7,
+      "review_count": 67,
+      "tags": ["孕期", "叶酸", "DHA", "母婴"],
+      "created_by_nutritionist": "NUT005",
+      "approval_status": "approved",
+      "approval_date": "2024-01-12",
+      "notes": "适合备孕、孕期及哺乳期女性",
+      "createdAt": 1705396800000,
+      "updatedAt": 1705396800000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    }
+  ]
+  

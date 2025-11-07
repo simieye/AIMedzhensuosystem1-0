@@ -1,0 +1,361 @@
+
+  [
+    {
+      "_id": "1",
+      "user_id": "1",
+      "title": "年度体检报告",
+      "report_type": "comprehensive",
+      "category": "physical_exam",
+      "status": "completed",
+      "hospital": "北京协和医院",
+      "department": "体检中心",
+      "doctor": "张医生",
+      "report_date": "2024-01-15",
+      "test_date": "2024-01-14",
+      "summary": "整体健康状况良好，建议注意血压控制，适当增加运动量，保持良好的作息习惯。",
+      "health_score": 85,
+      "risk_level": "low",
+      "report_file": "https://example.com/reports/annual_exam_2024.pdf",
+      "report_images": [
+        "https://example.com/reports/annual_exam_1.jpg",
+        "https://example.com/reports/annual_exam_2.jpg"
+      ],
+      "test_items": [
+        {
+          "name": "血常规",
+          "result": "正常",
+          "value": "WBC: 6.5×10⁹/L",
+          "status": "normal"
+        },
+        {
+          "name": "肝功能",
+          "result": "正常",
+          "value": "ALT: 25 U/L",
+          "status": "normal"
+        },
+        {
+          "name": "肾功能",
+          "result": "正常",
+          "value": "Cr: 85 μmol/L",
+          "status": "normal"
+        },
+        {
+          "name": "血压",
+          "result": "偏高",
+          "value": "135/85 mmHg",
+          "status": "high"
+        }
+      ],
+      "reference_values": {
+        "blood_pressure": {
+          "systolic": { "min": 90, "max": 130, "unit": "mmHg" },
+          "diastolic": { "min": 60, "max": 85, "unit": "mmHg" }
+        },
+        "wbc": { "min": 4.0, "max": 10.0, "unit": "×10⁹/L" },
+        "alt": { "min": 0, "max": 40, "unit": "U/L" },
+        "creatinine": { "min": 57, "max": 111, "unit": "μmol/L" }
+      },
+      "abnormal_items": [
+        {
+          "name": "血压",
+          "value": "135/85 mmHg",
+          "reference": "120/80 mmHg",
+          "severity": "mild",
+          "description": "收缩压轻度升高"
+        }
+      ],
+      "recommendations": [
+        "控制饮食，减少盐分摄入",
+        "增加有氧运动，每周至少3次",
+        "定期监测血压",
+        "保持良好作息"
+      ],
+      "follow_up_date": "2024-04-15",
+      "is_shared": false,
+      "tags": ["年度体检", "综合检查", "血压偏高"],
+      "source": "hospital",
+      "device_info": {},
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "2",
+      "user_id": "1",
+      "title": "血常规检查",
+      "report_type": "blood",
+      "category": "laboratory",
+      "status": "completed",
+      "hospital": "北京协和医院",
+      "department": "检验科",
+      "doctor": "李医生",
+      "report_date": "2024-01-10",
+      "test_date": "2024-01-10",
+      "summary": "白细胞计数略高，建议复查，可能存在轻微炎症反应。",
+      "health_score": 78,
+      "risk_level": "medium",
+      "report_file": "https://example.com/reports/blood_test_2024.pdf",
+      "report_images": [
+        "https://example.com/reports/blood_test_1.jpg"
+      ],
+      "test_items": [
+        {
+          "name": "白细胞计数",
+          "result": "偏高",
+          "value": "11.2×10⁹/L",
+          "status": "high"
+        },
+        {
+          "name": "红细胞计数",
+          "result": "正常",
+          "value": "4.8×10¹²/L",
+          "status": "normal"
+        },
+        {
+          "name": "血红蛋白",
+          "result": "正常",
+          "value": "145 g/L",
+          "status": "normal"
+        },
+        {
+          "name": "血小板计数",
+          "result": "正常",
+          "value": "250×10⁹/L",
+          "status": "normal"
+        }
+      ],
+      "reference_values": {
+        "wbc": { "min": 4.0, "max": 10.0, "unit": "×10⁹/L" },
+        "rbc": { "min": 4.0, "max": 5.5, "unit": "×10¹²/L" },
+        "hemoglobin": { "min": 120, "max": 160, "unit": "g/L" },
+        "platelets": { "min": 100, "max": 300, "unit": "×10⁹/L" }
+      },
+      "abnormal_items": [
+        {
+          "name": "白细胞计数",
+          "value": "11.2×10⁹/L",
+          "reference": "4.0-10.0×10⁹/L",
+          "severity": "mild",
+          "description": "轻度升高，可能存在炎症"
+        }
+      ],
+      "recommendations": [
+        "一周后复查血常规",
+        "注意休息，避免劳累",
+        "如有发热等症状及时就医"
+      ],
+      "follow_up_date": "2024-01-17",
+      "is_shared": false,
+      "tags": ["血常规", "白细胞偏高", "复查"],
+      "source": "hospital",
+      "device_info": {},
+      "createdAt": 1704878400000,
+      "updatedAt": 1704878400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "3",
+      "user_id": "1",
+      "title": "心电图检查",
+      "report_type": "heart",
+      "category": "cardiology",
+      "status": "completed",
+      "hospital": "北京协和医院",
+      "department": "心内科",
+      "doctor": "王医生",
+      "report_date": "2024-01-05",
+      "test_date": "2024-01-05",
+      "summary": "心律正常，无异常发现，心电图显示窦性心律，心率72次/分。",
+      "health_score": 92,
+      "risk_level": "low",
+      "report_file": "https://example.com/reports/ecg_2024.pdf",
+      "report_images": [
+        "https://example.com/reports/ecg_1.jpg",
+        "https://example.com/reports/ecg_2.jpg"
+      ],
+      "test_items": [
+        {
+          "name": "心律",
+          "result": "正常",
+          "value": "窦性心律",
+          "status": "normal"
+        },
+        {
+          "name": "心率",
+          "result": "正常",
+          "value": "72 bpm",
+          "status": "normal"
+        },
+        {
+          "name": "P波",
+          "result": "正常",
+          "value": "正常形态",
+          "status": "normal"
+        },
+        {
+          "name": "QRS波群",
+          "result": "正常",
+          "value": "正常时限",
+          "status": "normal"
+        }
+      ],
+      "reference_values": {
+        "heart_rate": { "min": 60, "max": 100, "unit": "bpm" },
+        "pr_interval": { "min": 120, "max": 200, "unit": "ms" },
+        "qrs_duration": { "min": 60, "max": 120, "unit": "ms" },
+        "qt_interval": { "min": 350, "max": 450, "unit": "ms" }
+      },
+      "abnormal_items": [],
+      "recommendations": [
+        "继续保持良好的生活习惯",
+        "定期进行心电图检查",
+        "如有心悸等症状及时就医"
+      ],
+      "follow_up_date": "2025-01-05",
+      "is_shared": true,
+      "tags": ["心电图", "正常", "年度检查"],
+      "source": "hospital",
+      "device_info": {},
+      "createdAt": 1704446400000,
+      "updatedAt": 1704446400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "4",
+      "user_id": "1",
+      "title": "指尖血糖检测",
+      "report_type": "glucose",
+      "category": "self_test",
+      "status": "completed",
+      "hospital": "居家自测",
+      "department": "家庭护理",
+      "doctor": "自测",
+      "report_date": "2024-01-15",
+      "test_date": "2024-01-15",
+      "summary": "空腹血糖正常，餐后血糖略高，建议控制饮食。",
+      "health_score": 80,
+      "risk_level": "low",
+      "report_file": "",
+      "report_images": [],
+      "test_items": [
+        {
+          "name": "空腹血糖",
+          "result": "正常",
+          "value": "5.2 mmol/L",
+          "status": "normal"
+        },
+        {
+          "name": "餐后2小时血糖",
+          "result": "偏高",
+          "value": "7.8 mmol/L",
+          "status": "high"
+        }
+      ],
+      "reference_values": {
+        "fasting_glucose": { "min": 3.9, "max": 6.1, "unit": "mmol/L" },
+        "postprandial_glucose": { "min": 3.9, "max": 7.8, "unit": "mmol/L" }
+      },
+      "abnormal_items": [
+        {
+          "name": "餐后2小时血糖",
+          "value": "7.8 mmol/L",
+          "reference": "<7.8 mmol/L",
+          "severity": "mild",
+          "description": "达到上限值"
+        }
+      ],
+      "recommendations": [
+        "控制碳水化合物摄入",
+        "增加运动量",
+        "定期监测血糖"
+      ],
+      "follow_up_date": "2024-01-22",
+      "is_shared": false,
+      "tags": ["血糖", "自测", "餐后血糖"],
+      "source": "self_test",
+      "device_info": {
+        "name": "家用血糖仪",
+        "model": "Accu-Chek Active",
+        "serial": "AC2024001"
+      },
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "5",
+      "user_id": "2",
+      "title": "运动心电图",
+      "report_type": "stress_ecg",
+      "category": "cardiology",
+      "status": "completed",
+      "hospital": "北京协和医院",
+      "department": "心内科",
+      "doctor": "赵医生",
+      "report_date": "2024-01-12",
+      "test_date": "2024-01-12",
+      "summary": "运动耐量良好，无心肌缺血表现，运动心电图正常。",
+      "health_score": 95,
+      "risk_level": "low",
+      "report_file": "https://example.com/reports/stress_ecg_2024.pdf",
+      "report_images": [
+        "https://example.com/reports/stress_ecg_1.jpg"
+      ],
+      "test_items": [
+        {
+          "name": "静息心率",
+          "result": "正常",
+          "value": "68 bpm",
+          "status": "normal"
+        },
+        {
+          "name": "最大心率",
+          "result": "正常",
+          "value": "152 bpm",
+          "status": "normal"
+        },
+        {
+          "name": "运动耐量",
+          "result": "良好",
+          "value": "12 METs",
+          "status": "good"
+        },
+        {
+          "name": "血压反应",
+          "result": "正常",
+          "value": "正常反应",
+          "status": "normal"
+        }
+      ],
+      "reference_values": {
+        "resting_hr": { "min": 60, "max": 100, "unit": "bpm" },
+        "max_hr": { "min": 150, "max": 170, "unit": "bpm" },
+        "metabolic_equivalents": { "min": 8, "max": 15, "unit": "METs" }
+      },
+      "abnormal_items": [],
+      "recommendations": [
+        "继续保持运动习惯",
+        "可适当增加运动强度",
+        "定期进行心脏检查"
+      ],
+      "follow_up_date": "2025-01-12",
+      "is_shared": true,
+      "tags": ["运动心电图", "正常", "运动耐量"],
+      "source": "hospital",
+      "device_info": {},
+      "createdAt": 1705041600000,
+      "updatedAt": 1705041600000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    }
+  ]
+  

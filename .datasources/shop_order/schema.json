@@ -1,0 +1,182 @@
+
+  {
+    "name": "shop_order",
+    "title": "商品订单管理",
+    "schemas": [
+      {
+        "name": "user_id",
+        "title": "用户ID",
+        "type": "String"
+      },
+      {
+        "name": "order_no",
+        "title": "订单号",
+        "type": "String"
+      },
+      {
+        "name": "order_type",
+        "title": "订单类型",
+        "type": "String"
+      },
+      {
+        "name": "status",
+        "title": "订单状态",
+        "type": "String"
+      },
+      {
+        "name": "payment_status",
+        "title": "支付状态",
+        "type": "String"
+      },
+      {
+        "name": "shipping_status",
+        "title": "物流状态",
+        "type": "String"
+      },
+      {
+        "name": "total_amount",
+        "title": "订单总金额",
+        "type": "Number"
+      },
+      {
+        "name": "discount_amount",
+        "title": "优惠金额",
+        "type": "Number"
+      },
+      {
+        "name": "shipping_fee",
+        "title": "运费",
+        "type": "Number"
+      },
+      {
+        "name": "actual_amount",
+        "title": "实付金额",
+        "type": "Number"
+      },
+      {
+        "name": "currency",
+        "title": "货币单位",
+        "type": "String"
+      },
+      {
+        "name": "items",
+        "title": "商品列表",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "shipping_address",
+        "title": "收货地址",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "billing_address",
+        "title": "账单地址",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "payment_info",
+        "title": "支付信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "shipping_info",
+        "title": "物流信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "order_date",
+        "title": "下单时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "payment_date",
+        "title": "支付时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "shipping_date",
+        "title": "发货时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "delivery_date",
+        "title": "收货时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "cancel_date",
+        "title": "取消时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "cancel_reason",
+        "title": "取消原因",
+        "type": "String"
+      },
+      {
+        "name": "notes",
+        "title": "订单备注",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "coupon_info",
+        "title": "优惠券信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "points_used",
+        "title": "使用积分",
+        "type": "Number"
+      },
+      {
+        "name": "points_earned",
+        "title": "获得积分",
+        "type": "Number"
+      },
+      {
+        "name": "refund_info",
+        "title": "退款信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "tags",
+        "title": "标签",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "source",
+        "title": "订单来源",
+        "type": "String"
+      }
+    ]
+  }
+  
