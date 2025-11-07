@@ -1,0 +1,212 @@
+
+  {
+    "name": "model_3d",
+    "title": "3D模型管理",
+    "schemas": [
+      {
+        "name": "user_id",
+        "title": "用户ID",
+        "type": "String"
+      },
+      {
+        "name": "model_id",
+        "title": "模型ID",
+        "type": "String"
+      },
+      {
+        "name": "model_name",
+        "title": "模型名称",
+        "type": "String"
+      },
+      {
+        "name": "model_type",
+        "title": "模型类型",
+        "type": "String"
+      },
+      {
+        "name": "category",
+        "title": "模型分类",
+        "type": "String"
+      },
+      {
+        "name": "description",
+        "title": "模型描述",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "model_file",
+        "title": "模型文件",
+        "type": "File"
+      },
+      {
+        "name": "model_format",
+        "title": "模型格式",
+        "type": "String"
+      },
+      {
+        "name": "model_size",
+        "title": "文件大小",
+        "type": "Number"
+      },
+      {
+        "name": "thumbnail",
+        "title": "缩略图",
+        "type": "Image"
+      },
+      {
+        "name": "status",
+        "title": "模型状态",
+        "type": "String"
+      },
+      {
+        "name": "config",
+        "title": "模型配置",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "position",
+        "title": "位置信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "rotation",
+        "title": "旋转信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "scale",
+        "title": "缩放信息",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "materials",
+        "title": "材质配置",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "animations",
+        "title": "动画配置",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "health_data_mapping",
+        "title": "健康数据映射",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "interaction_settings",
+        "title": "交互设置",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "lighting_settings",
+        "title": "光照设置",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "camera_settings",
+        "title": "相机设置",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "render_settings",
+        "title": "渲染设置",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "performance_settings",
+        "title": "性能设置",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "tags",
+        "title": "标签",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "is_public",
+        "title": "是否公开",
+        "type": "Boolean"
+      },
+      {
+        "name": "is_default",
+        "title": "是否默认",
+        "type": "Boolean"
+      },
+      {
+        "name": "version",
+        "title": "模型版本",
+        "type": "String"
+      },
+      {
+        "name": "author",
+        "title": "作者",
+        "type": "String"
+      },
+      {
+        "name": "license",
+        "title": "许可证",
+        "type": "String"
+      },
+      {
+        "name": "download_count",
+        "title": "下载次数",
+        "type": "Number"
+      },
+      {
+        "name": "rating",
+        "title": "评分",
+        "type": "Number"
+      },
+      {
+        "name": "review_count",
+        "title": "评价数量",
+        "type": "Number"
+      },
+      {
+        "name": "notes",
+        "title": "备注",
+        "type": "MultiLineString"
+      }
+    ]
+  }
+  

@@ -20,6 +20,7 @@ export default function PersonalCenter(props) {
   const [user, setUser] = useState(null);
   const [activeSection, setActiveSection] = useState('overview'); // overview, 3dmodel, comparison
   const [selectedBodyPart, setSelectedBodyPart] = useState(null);
+  const [healthData, setHealthData] = useState(null);
   useEffect(() => {
     // 模拟获取用户信息
     setUser({
@@ -37,6 +38,18 @@ export default function PersonalCenter(props) {
       healthScore: 92,
       healthAge: 32,
       actualAge: 35
+    });
+
+    // 模拟获取健康数据
+    setHealthData({
+      overall: 92,
+      heart: 85,
+      lungs: 90,
+      liver: 78,
+      kidneys: 88,
+      bones: 75,
+      eyes: 88,
+      stomach: 82
     });
   }, [$w.auth.currentUser]);
   const handleLogout = () => {
@@ -265,10 +278,7 @@ export default function PersonalCenter(props) {
           </div>}
 
         {activeSection === '3dmodel' && <div className="space-y-6">
-            <DigitalTwin3D healthData={{
-          overall: user.healthScore,
-          age: user.healthAge
-        }} onBodyPartClick={handleBodyPartClick} />
+            <DigitalTwin3D healthData={healthData} onBodyPartClick={handleBodyPartClick} />
             
             {/* 选中部位详情 */}
             {selectedBodyPart && <Card className="bg-blue-50 border-blue-200">
@@ -305,10 +315,7 @@ export default function PersonalCenter(props) {
               </Card>}
           </div>}
 
-        {activeSection === 'comparison' && <HealthDataComparison currentData={{
-        score: user.healthScore,
-        age: user.healthAge
-      }} historicalData={[]} onExport={handleExportData} onShare={handleShareData} />}
+        {activeSection === 'comparison' && <HealthDataComparison currentData={healthData} historicalData={[]} onExport={handleExportData} onShare={handleShareData} />}
 
         {/* 退出登录按钮 */}
         <Card className="border-red-200">

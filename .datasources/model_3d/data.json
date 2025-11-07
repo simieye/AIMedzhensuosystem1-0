@@ -1,0 +1,868 @@
+
+  [
+    {
+      "_id": "1",
+      "user_id": "1",
+      "model_id": "human_body_male_01",
+      "model_name": "男性人体模型",
+      "model_type": "human_body",
+      "category": "anatomy",
+      "description": "标准男性人体解剖模型，包含主要器官系统和骨骼结构，适用于健康数据可视化。",
+      "model_file": "https://example.com/models/human_body_male_01.glb",
+      "model_format": "glb",
+      "model_size": 15.6,
+      "thumbnail": "https://example.com/thumbnails/human_body_male_01.jpg",
+      "status": "active",
+      "config": {
+        "auto_rotate": true,
+        "show_labels": true,
+        "transparent_skin": false,
+        "show_skeleton": false,
+        "show_organs": true
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "materials": [
+        {
+          "name": "skin",
+          "type": "standard",
+          "color": "#fdbcb4",
+          "opacity": 0.9,
+          "roughness": 0.8,
+          "metalness": 0.1
+        },
+        {
+          "name": "organs",
+          "type": "standard",
+          "color": "#ff6b6b",
+          "opacity": 0.8,
+          "roughness": 0.6,
+          "metalness": 0.2
+        },
+        {
+          "name": "bones",
+          "type": "standard",
+          "color": "#f8f8f8",
+          "opacity": 1.0,
+          "roughness": 0.4,
+          "metalness": 0.3
+        }
+      ],
+      "animations": [
+        {
+          "name": "breathing",
+          "type": "loop",
+          "duration": 4,
+          "enabled": true,
+          "intensity": 0.1
+        },
+        {
+          "name": "heartbeat",
+          "type": "pulse",
+          "duration": 1,
+          "enabled": true,
+          "intensity": 0.05
+        }
+      ],
+      "health_data_mapping": [
+        {
+          "body_part": "heart",
+          "data_type": "heart_rate",
+          "color_mapping": {
+            "normal": "#4CAF50",
+            "high": "#FF9800",
+            "low": "#2196F3",
+            "critical": "#F44336"
+          },
+          "animation_intensity": "pulse"
+        },
+        {
+          "body_part": "lungs",
+          "data_type": "breathing_rate",
+          "color_mapping": {
+            "normal": "#4CAF50",
+            "high": "#FF9800",
+            "low": "#2196F3"
+          },
+          "animation_intensity": "breathing"
+        },
+        {
+          "body_part": "brain",
+          "data_type": "stress_level",
+          "color_mapping": {
+            "low": "#4CAF50",
+            "medium": "#FF9800",
+            "high": "#F44336"
+          },
+          "animation_intensity": "glow"
+        },
+        {
+          "body_part": "stomach",
+          "data_type": "digestion_health",
+          "color_mapping": {
+            "good": "#4CAF50",
+            "moderate": "#FF9800",
+            "poor": "#F44336"
+          },
+          "animation_intensity": "none"
+        }
+      ],
+      "interaction_settings": {
+        "enable_rotation": true,
+        "enable_zoom": true,
+        "enable_pan": true,
+        "enable_click": true,
+        "enable_hover": true,
+        "click_action": "show_details",
+        "hover_action": "highlight"
+      },
+      "lighting_settings": {
+        "ambient_light": {
+          "color": "#ffffff",
+          "intensity": 0.6
+        },
+        "directional_light": {
+          "color": "#ffffff",
+          "intensity": 0.8,
+          "position": { "x": 10, "y": 10, "z": 5 }
+        },
+        "point_light": {
+          "color": "#ffffff",
+          "intensity": 0.3,
+          "position": { "x": 0, "y": 5, "z": 0 }
+        }
+      },
+      "camera_settings": {
+        "position": { "x": 0, "y": 1.6, "z": 3 },
+        "target": { "x": 0, "y": 1, "z": 0 },
+        "fov": 60,
+        "near": 0.1,
+        "far": 1000
+      },
+      "render_settings": {
+        "shadows": true,
+        "antialiasing": true,
+        "bloom": false,
+        "depth_of_field": false,
+        "resolution_scale": 1.0
+      },
+      "performance_settings": {
+        "lod_enabled": true,
+        "max_polygons": 100000,
+        "texture_quality": "high",
+        "animation_fps": 30
+      },
+      "tags": ["人体", "解剖", "男性", "健康可视化"],
+      "is_public": true,
+      "is_default": true,
+      "version": "1.0.0",
+      "author": "Health3D Team",
+      "license": "MIT",
+      "download_count": 1250,
+      "rating": 4.8,
+      "review_count": 89,
+      "notes": "标准男性人体模型，适用于大多数健康数据可视化场景",
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "2",
+      "user_id": "1",
+      "model_id": "human_body_female_01",
+      "model_name": "女性人体模型",
+      "model_type": "human_body",
+      "category": "anatomy",
+      "description": "标准女性人体解剖模型，包含主要器官系统和骨骼结构，适用于女性健康数据可视化。",
+      "model_file": "https://example.com/models/human_body_female_01.glb",
+      "model_format": "glb",
+      "model_size": 14.8,
+      "thumbnail": "https://example.com/thumbnails/human_body_female_01.jpg",
+      "status": "active",
+      "config": {
+        "auto_rotate": true,
+        "show_labels": true,
+        "transparent_skin": false,
+        "show_skeleton": false,
+        "show_organs": true
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "materials": [
+        {
+          "name": "skin",
+          "type": "standard",
+          "color": "#f4c2c2",
+          "opacity": 0.9,
+          "roughness": 0.8,
+          "metalness": 0.1
+        },
+        {
+          "name": "organs",
+          "type": "standard",
+          "color": "#ff6b6b",
+          "opacity": 0.8,
+          "roughness": 0.6,
+          "metalness": 0.2
+        },
+        {
+          "name": "bones",
+          "type": "standard",
+          "color": "#f8f8f8",
+          "opacity": 1.0,
+          "roughness": 0.4,
+          "metalness": 0.3
+        }
+      ],
+      "animations": [
+        {
+          "name": "breathing",
+          "type": "loop",
+          "duration": 4,
+          "enabled": true,
+          "intensity": 0.1
+        },
+        {
+          "name": "heartbeat",
+          "type": "pulse",
+          "duration": 1,
+          "enabled": true,
+          "intensity": 0.05
+        }
+      ],
+      "health_data_mapping": [
+        {
+          "body_part": "heart",
+          "data_type": "heart_rate",
+          "color_mapping": {
+            "normal": "#4CAF50",
+            "high": "#FF9800",
+            "low": "#2196F3",
+            "critical": "#F44336"
+          },
+          "animation_intensity": "pulse"
+        },
+        {
+          "body_part": "lungs",
+          "data_type": "breathing_rate",
+          "color_mapping": {
+            "normal": "#4CAF50",
+            "high": "#FF9800",
+            "low": "#2196F3"
+          },
+          "animation_intensity": "breathing"
+        },
+        {
+          "body_part": "brain",
+          "data_type": "stress_level",
+          "color_mapping": {
+            "low": "#4CAF50",
+            "medium": "#FF9800",
+            "high": "#F44336"
+          },
+          "animation_intensity": "glow"
+        },
+        {
+          "body_part": "reproductive_system",
+          "data_type": "reproductive_health",
+          "color_mapping": {
+            "good": "#4CAF50",
+            "moderate": "#FF9800",
+            "poor": "#F44336"
+          },
+          "animation_intensity": "none"
+        }
+      ],
+      "interaction_settings": {
+        "enable_rotation": true,
+        "enable_zoom": true,
+        "enable_pan": true,
+        "enable_click": true,
+        "enable_hover": true,
+        "click_action": "show_details",
+        "hover_action": "highlight"
+      },
+      "lighting_settings": {
+        "ambient_light": {
+          "color": "#ffffff",
+          "intensity": 0.6
+        },
+        "directional_light": {
+          "color": "#ffffff",
+          "intensity": 0.8,
+          "position": { "x": 10, "y": 10, "z": 5 }
+        },
+        "point_light": {
+          "color": "#ffffff",
+          "intensity": 0.3,
+          "position": { "x": 0, "y": 5, "z": 0 }
+        }
+      },
+      "camera_settings": {
+        "position": { "x": 0, "y": 1.6, "z": 3 },
+        "target": { "x": 0, "y": 1, "z": 0 },
+        "fov": 60,
+        "near": 0.1,
+        "far": 1000
+      },
+      "render_settings": {
+        "shadows": true,
+        "antialiasing": true,
+        "bloom": false,
+        "depth_of_field": false,
+        "resolution_scale": 1.0
+      },
+      "performance_settings": {
+        "lod_enabled": true,
+        "max_polygons": 100000,
+        "texture_quality": "high",
+        "animation_fps": 30
+      },
+      "tags": ["人体", "解剖", "女性", "健康可视化"],
+      "is_public": true,
+      "is_default": false,
+      "version": "1.0.0",
+      "author": "Health3D Team",
+      "license": "MIT",
+      "download_count": 980,
+      "rating": 4.7,
+      "review_count": 67,
+      "notes": "标准女性人体模型，包含女性特有的生殖系统",
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "3",
+      "user_id": "2",
+      "model_id": "heart_detailed_01",
+      "model_name": "心脏详细模型",
+      "model_type": "organ",
+      "category": "cardiology",
+      "description": "高精度心脏解剖模型，包含心房、心室、瓣膜和主要血管，适用于心血管健康数据可视化。",
+      "model_file": "https://example.com/models/heart_detailed_01.glb",
+      "model_format": "glb",
+      "model_size": 8.2,
+      "thumbnail": "https://example.com/thumbnails/heart_detailed_01.jpg",
+      "status": "active",
+      "config": {
+        "auto_rotate": false,
+        "show_labels": true,
+        "transparent_walls": true,
+        "show_vessels": true,
+        "show_valves": true
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 2,
+        "y": 2,
+        "z": 2
+      },
+      "materials": [
+        {
+          "name": "heart_muscle",
+          "type": "standard",
+          "color": "#e74c3c",
+          "opacity": 0.9,
+          "roughness": 0.7,
+          "metalness": 0.1
+        },
+        {
+          "name": "blood_vessels",
+          "type": "standard",
+          "color": "#c0392b",
+          "opacity": 0.8,
+          "roughness": 0.5,
+          "metalness": 0.2
+        },
+        {
+          "name": "valves",
+          "type": "standard",
+          "color": "#f39c12",
+          "opacity": 1.0,
+          "roughness": 0.4,
+          "metalness": 0.3
+        }
+      ],
+      "animations": [
+        {
+          "name": "heartbeat_cycle",
+          "type": "loop",
+          "duration": 1,
+          "enabled": true,
+          "intensity": 0.15
+        },
+        {
+          "name": "blood_flow",
+          "type": "particle",
+          "duration": 2,
+          "enabled": true,
+          "intensity": 0.8
+        }
+      ],
+      "health_data_mapping": [
+        {
+          "body_part": "left_ventricle",
+          "data_type": "blood_pressure_systolic",
+          "color_mapping": {
+            "normal": "#4CAF50",
+            "high": "#FF9800",
+            "critical": "#F44336"
+          },
+          "animation_intensity": "contraction"
+        },
+        {
+          "body_part": "right_ventricle",
+          "data_type": "blood_pressure_diastolic",
+          "color_mapping": {
+            "normal": "#4CAF50",
+            "high": "#FF9800",
+            "critical": "#F44336"
+          },
+          "animation_intensity": "contraction"
+        },
+        {
+          "body_part": "coronary_arteries",
+          "data_type": "cholesterol_level",
+          "color_mapping": {
+            "normal": "#4CAF50",
+            "borderline": "#FF9800",
+            "high": "#F44336"
+          },
+          "animation_intensity": "flow_speed"
+        }
+      ],
+      "interaction_settings": {
+        "enable_rotation": true,
+        "enable_zoom": true,
+        "enable_pan": true,
+        "enable_click": true,
+        "enable_hover": true,
+        "click_action": "show_details",
+        "hover_action": "highlight"
+      },
+      "lighting_settings": {
+        "ambient_light": {
+          "color": "#ffffff",
+          "intensity": 0.5
+        },
+        "directional_light": {
+          "color": "#ffffff",
+          "intensity": 0.9,
+          "position": { "x": 5, "y": 10, "z": 5 }
+        }
+      },
+      "camera_settings": {
+        "position": { "x": 0, "y": 0, "z": 5 },
+        "target": { "x": 0, "y": 0, "z": 0 },
+        "fov": 45,
+        "near": 0.1,
+        "far": 100
+      },
+      "render_settings": {
+        "shadows": true,
+        "antialiasing": true,
+        "bloom": true,
+        "depth_of_field": false,
+        "resolution_scale": 1.2
+      },
+      "performance_settings": {
+        "lod_enabled": false,
+        "max_polygons": 200000,
+        "texture_quality": "ultra",
+        "animation_fps": 60
+      },
+      "tags": ["心脏", "心血管", "解剖", "高精度"],
+      "is_public": true,
+      "is_default": false,
+      "version": "1.2.0",
+      "author": "Cardio3D Team",
+      "license": "Creative Commons",
+      "download_count": 756,
+      "rating": 4.9,
+      "review_count": 45,
+      "notes": "高精度心脏模型，适合专业医疗可视化",
+      "createdAt": 1705396800000,
+      "updatedAt": 1705396800000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "4",
+      "user_id": "2",
+      "model_id": "brain_detailed_01",
+      "model_name": "大脑详细模型",
+      "model_type": "organ",
+      "category": "neurology",
+      "description": "高精度大脑解剖模型，包含大脑皮层、小脑、脑干和主要神经结构，适用于神经健康数据可视化。",
+      "model_file": "https://example.com/models/brain_detailed_01.glb",
+      "model_format": "glb",
+      "model_size": 12.4,
+      "thumbnail": "https://example.com/thumbnails/brain_detailed_01.jpg",
+      "status": "active",
+      "config": {
+        "auto_rotate": false,
+        "show_labels": true,
+        "transparent_layers": true,
+        "show_lobes": true,
+        "show_vessels": true
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1.5,
+        "y": 1.5,
+        "z": 1.5
+      },
+      "materials": [
+        {
+          "name": "cerebral_cortex",
+          "type": "standard",
+          "color": "#f39c12",
+          "opacity": 0.9,
+          "roughness": 0.6,
+          "metalness": 0.1
+        },
+        {
+          "name": "cerebellum",
+          "type": "standard",
+          "color": "#e67e22",
+          "opacity": 0.8,
+          "roughness": 0.5,
+          "metalness": 0.2
+        },
+        {
+          "name": "brain_stem",
+          "type": "standard",
+          "color": "#d35400",
+          "opacity": 1.0,
+          "roughness": 0.4,
+          "metalness": 0.3
+        }
+      ],
+      "animations": [
+        {
+          "name": "neural_activity",
+          "type": "pulse",
+          "duration": 3,
+          "enabled": true,
+          "intensity": 0.1
+        },
+        {
+          "name": "brain_waves",
+          "type": "wave",
+          "duration": 2,
+          "enabled": false,
+          "intensity": 0.05
+        }
+      ],
+      "health_data_mapping": [
+        {
+          "body_part": "frontal_lobe",
+          "data_type": "cognitive_function",
+          "color_mapping": {
+            "excellent": "#4CAF50",
+            "good": "#8BC34A",
+            "moderate": "#FF9800",
+            "poor": "#F44336"
+          },
+          "animation_intensity": "activity"
+        },
+        {
+          "body_part": "temporal_lobe",
+          "data_type": "memory_function",
+          "color_mapping": {
+            "excellent": "#4CAF50",
+            "good": "#8BC34A",
+            "moderate": "#FF9800",
+            "poor": "#F44336"
+          },
+          "animation_intensity": "activity"
+        },
+        {
+          "body_part": "cerebellum",
+          "data_type": "motor_function",
+          "color_mapping": {
+            "excellent": "#4CAF50",
+            "good": "#8BC34A",
+            "moderate": "#FF9800",
+            "poor": "#F44336"
+          },
+          "animation_intensity": "activity"
+        },
+        {
+          "body_part": "brain_stem",
+          "data_type": "vital_functions",
+          "color_mapping": {
+            "normal": "#4CAF50",
+            "impaired": "#FF9800",
+            "critical": "#F44336"
+          },
+          "animation_intensity": "pulse"
+        }
+      ],
+      "interaction_settings": {
+        "enable_rotation": true,
+        "enable_zoom": true,
+        "enable_pan": true,
+        "enable_click": true,
+        "enable_hover": true,
+        "click_action": "show_details",
+        "hover_action": "highlight"
+      },
+      "lighting_settings": {
+        "ambient_light": {
+          "color": "#ffffff",
+          "intensity": 0.4
+        },
+        "directional_light": {
+          "color": "#ffffff",
+          "intensity": 0.8,
+          "position": { "x": 8, "y": 12, "z": 6 }
+        }
+      },
+      "camera_settings": {
+        "position": { "x": 0, "y": 2, "z": 6 },
+        "target": { "x": 0, "y": 0, "z": 0 },
+        "fov": 50,
+        "near": 0.1,
+        "far": 200
+      },
+      "render_settings": {
+        "shadows": true,
+        "antialiasing": true,
+        "bloom": true,
+        "depth_of_field": true,
+        "resolution_scale": 1.1
+      },
+      "performance_settings": {
+        "lod_enabled": true,
+        "max_polygons": 150000,
+        "texture_quality": "high",
+        "animation_fps": 30
+      },
+      "tags": ["大脑", "神经", "解剖", "认知"],
+      "is_public": true,
+      "is_default": false,
+      "version": "1.1.0",
+      "author": "Neuro3D Team",
+      "license": "MIT",
+      "download_count": 623,
+      "rating": 4.6,
+      "review_count": 38,
+      "notes": "高精度大脑模型，适合神经科学研究和教育",
+      "createdAt": 1705483200000,
+      "updatedAt": 1705483200000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "5",
+      "user_id": "1",
+      "model_id": "skeleton_system_01",
+      "model_name": "骨骼系统模型",
+      "model_type": "skeletal",
+      "category": "orthopedics",
+      "description": "完整人体骨骼系统模型，包含所有主要骨骼和关节，适用于骨骼健康数据可视化。",
+      "model_file": "https://example.com/models/skeleton_system_01.glb",
+      "model_format": "glb",
+      "model_size": 9.8,
+      "thumbnail": "https://example.com/thumbnails/skeleton_system_01.jpg",
+      "status": "active",
+      "config": {
+        "auto_rotate": true,
+        "show_labels": true,
+        "show_joints": true,
+        "show_bone_density": false,
+        "transparent_bones": false
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "scale": {
+        "x": 1,
+        "y": 1,
+        "z": 1
+      },
+      "materials": [
+        {
+          "name": "compact_bone",
+          "type": "standard",
+          "color": "#f8f8f8",
+          "opacity": 1.0,
+          "roughness": 0.3,
+          "metalness": 0.4
+        },
+        {
+          "name": "spongy_bone",
+          "type": "standard",
+          "color": "#e8e8e8",
+          "opacity": 0.8,
+          "roughness": 0.5,
+          "metalness": 0.2
+        },
+        {
+          "name": "cartilage",
+          "type": "standard",
+          "color": "#fffacd",
+          "opacity": 0.9,
+          "roughness": 0.6,
+          "metalness": 0.1
+        }
+      ],
+      "animations": [
+        {
+          "name": "posture_adjustment",
+          "type": "transition",
+          "duration": 2,
+          "enabled": false,
+          "intensity": 0.1
+        }
+      ],
+      "health_data_mapping": [
+        {
+          "body_part": "spine",
+          "data_type": "posture_health",
+          "color_mapping": {
+            "excellent": "#4CAF50",
+            "good": "#8BC34A",
+            "moderate": "#FF9800",
+            "poor": "#F44336"
+          },
+          "animation_intensity": "alignment"
+        },
+        {
+          "body_part": "femur",
+          "data_type": "bone_density",
+          "color_mapping": {
+            "normal": "#4CAF50",
+            "osteopenia": "#FF9800",
+            "osteoporosis": "#F44336"
+          },
+          "animation_intensity": "density"
+        },
+        {
+          "body_part": "joints",
+          "data_type": "joint_health",
+          "color_mapping": {
+            "healthy": "#4CAF50",
+            "mild_arthritis": "#FF9800",
+            "severe_arthritis": "#F44336"
+          },
+          "animation_intensity": "inflammation"
+        }
+      ],
+      "interaction_settings": {
+        "enable_rotation": true,
+        "enable_zoom": true,
+        "enable_pan": true,
+        "enable_click": true,
+        "enable_hover": true,
+        "click_action": "show_details",
+        "hover_action": "highlight"
+      },
+      "lighting_settings": {
+        "ambient_light": {
+          "color": "#ffffff",
+          "intensity": 0.7
+        },
+        "directional_light": {
+          "color": "#ffffff",
+          "intensity": 0.8,
+          "position": { "x": 6, "y": 8, "z": 4 }
+        }
+      },
+      "camera_settings": {
+        "position": { "x": 0, "y": 1.5, "z": 4 },
+        "target": { "x": 0, "y": 1, "z": 0 },
+        "fov": 55,
+        "near": 0.1,
+        "far": 100
+      },
+      "render_settings": {
+        "shadows": true,
+        "antialiasing": true,
+        "bloom": false,
+        "depth_of_field": false,
+        "resolution_scale": 1.0
+      },
+      "performance_settings": {
+        "lod_enabled": true,
+        "max_polygons": 80000,
+        "texture_quality": "medium",
+        "animation_fps": 24
+      },
+      "tags": ["骨骼", "关节", "解剖", "骨科"],
+      "is_public": true,
+      "is_default": false,
+      "version": "1.0.0",
+      "author": "Ortho3D Team",
+      "license": "MIT",
+      "download_count": 445,
+      "rating": 4.5,
+      "review_count": 29,
+      "notes": "完整骨骼系统模型，适合骨科健康评估",
+      "createdAt": 1705569600000,
+      "updatedAt": 1705569600000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    }
+  ]
+  

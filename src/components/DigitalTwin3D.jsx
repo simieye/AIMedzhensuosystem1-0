@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // @ts-ignore;
 import { Button, Card, CardContent, CardHeader, CardTitle, Badge, useToast } from '@/components/ui';
 // @ts-ignore;
-import { RotateCw, ZoomIn, ZoomOut, Move, Maximize2, Grid3x3, User, Activity, Heart, Brain, Eye, Settings, Info, Play, Pause, RotateCcw } from 'lucide-react';
+import { RotateCw, ZoomIn, ZoomOut, Move, Maximize2, Grid3x3, User, Activity, Heart, Brain, Eye, Settings, Info, Play, Pause, RotateCcw, Calendar, Compare, ArrowLeft, ArrowRight } from 'lucide-react';
 
 export function DigitalTwin3D({
   healthData,
@@ -14,6 +14,7 @@ export function DigitalTwin3D({
     toast
   } = useToast();
   const canvasRef = useRef(null);
+  const comparisonCanvasRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPart, setSelectedPart] = useState(null);
   const [viewMode, setViewMode] = useState('front'); // front, back, side, 360
@@ -21,6 +22,12 @@ export function DigitalTwin3D({
   const [zoomLevel, setZoomLevel] = useState(1);
   const [showGrid, setShowGrid] = useState(false);
   const [animationSpeed, setAnimationSpeed] = useState(1);
+  const [comparisonMode, setComparisonMode] = useState('none'); // none, sideBySide, overlay
+  const [selectedTimePoints, setSelectedTimePoints] = useState({
+    current: '2024-01-15',
+    previous: '2023-12-15'
+  });
+  const [historicalData, setHistoricalData] = useState({});
   const [bodyParts, setBodyParts] = useState([
   // 头部
   {
@@ -127,11 +134,50 @@ export function DigitalTwin3D({
     name: '360°',
     icon: RotateCw
   }];
+  const timePoints = [{
+    id: '2024-01-15',
+    name: '当前',
+    date: '2024-01-15'
+  }, {
+    id: '2023-12-15',
+    name: '1个月前',
+    date: '2023-12-15'
+  }, {
+    id: '2023-11-15',
+    name: '2个月前',
+    date: '2023-11-15'
+  }, {
+    id: '2023-10-15',
+    name: '3个月前',
+    date: '2023-10-15'
+  }, {
+    id: '2023-09-15',
+    name: '4个月前',
+    date: '2023-09-15'
+  }, {
+    id: '2023-06-15',
+    name: '6个月前',
+    date: '2023-06-15'
+  }];
+  const comparisonModes = [{
+    id: 'none',
+    name: '单视图',
+    icon: User
+  }, {
+    id: 'sideBySide',
+    name: '并排对比',
+    icon: Compare
+  }, {
+    id: 'overlay',
+    name: '叠加对比',
+    icon: Layers
+  }];
   useEffect(() => {
     // 模拟3D模型加载
     const timer = setTimeout(() => {
       setIsLoading(false);
       initializeCanvas();
+      loadHistoricalData();
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -148,15 +194,90 @@ export function DigitalTwin3D({
       return () => clearInterval(interval);
     }
   }, [isRotating, animationSpeed]);
+  const loadHistoricalData = () => {
+    // 模拟加载历史数据
+    const mockHistoricalData = {
+      '2024-01-15': [{
+        id: 'head',
+        health: 92,
+        status: 'excellent',
+        issues: []
+      }, {
+        id: 'heart',
+        health: 85,
+        status: 'good',
+        issues: ['心率略高']
+      }, {
+        id: 'liver',
+        health: 78,
+        status: 'fair',
+        issues: ['轻度脂肪肝']
+      }],
+      '2023-12-15': [{
+        id: 'head',
+        health: 90,
+        status: 'excellent',
+        issues: []
+      }, {
+        id: 'heart',
+        health: 82,
+        status: 'good',
+        issues: []
+      }, {
+        id: 'liver',
+        health: 75,
+        status: 'fair',
+        issues: ['轻度脂肪肝']
+      }],
+      '2023-11-15': [{
+        id: 'head',
+        health: 88,
+        status: 'good',
+        issues: []
+      }, {
+        id: 'heart',
+        health: 80,
+        status: 'good',
+        issues: []
+      }, {
+        id: 'liver',
+        health: 72,
+        status: 'fair',
+        issues: ['脂肪肝']
+      }],
+      '2023-10-15': [{
+        id: 'head',
+        health: 85,
+        status: 'good',
+        issues: []
+      }, {
+        id: 'heart',
+        health: 78,
+        status: 'fair',
+        issues: ['心率偏高']
+      }, {
+        id: 'liver',
+        health: 70,
+        status: 'fair',
+        issues: ['脂肪肝']
+      }]
+    };
+    setHistoricalData(mockHistoricalData);
+  };
   const initializeCanvas = () => {
     // 初始化3D画布
     if (canvasRef.current) {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
-      draw3DModel(ctx);
+      draw3DModel(ctx, 'current');
+    }
+    if (comparisonCanvasRef.current && comparisonMode !== 'none') {
+      const canvas = comparisonCanvasRef.current;
+      const ctx = canvas.getContext('2d');
+      draw3DModel(ctx, 'previous');
     }
   };
-  const draw3DModel = ctx => {
+  const draw3DModel = (ctx, timePoint = 'current') => {
     if (!ctx) return;
     const canvas = ctx.canvas;
     const width = canvas.width;
@@ -190,6 +311,24 @@ export function DigitalTwin3D({
       }
     }
 
+    // 获取指定时间点的数据
+    let currentBodyParts = bodyParts;
+    if (timePoint !== 'current' && historicalData[timePoint]) {
+      const historicalParts = historicalData[timePoint];
+      currentBodyParts = bodyParts.map(part => {
+        const historicalPart = historicalParts.find(hp => hp.id === part.id);
+        if (historicalPart) {
+          return {
+            ...part,
+            health: historicalPart.health,
+            status: historicalPart.status,
+            issues: historicalPart.issues
+          };
+        }
+        return part;
+      });
+    }
+
     // 绘制人体轮廓
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
     ctx.lineWidth = 2;
@@ -215,21 +354,24 @@ export function DigitalTwin3D({
     ctx.stroke();
 
     // 绘制健康热点
-    bodyParts.forEach(part => {
+    currentBodyParts.forEach(part => {
       const x = width * (part.x / 100);
       const y = height * (part.y / 100);
+
+      // 在对比模式下，调整透明度
+      const opacity = comparisonMode === 'overlay' ? 0.6 : 1;
 
       // 绘制热点圆圈
       ctx.beginPath();
       ctx.arc(x, y, 8, 0, Math.PI * 2);
-      ctx.fillStyle = part.color + '40';
+      ctx.fillStyle = part.color + Math.round(opacity * 255).toString(16).padStart(2, '0');
       ctx.fill();
       ctx.strokeStyle = part.color;
       ctx.lineWidth = 2;
       ctx.stroke();
 
       // 绘制健康数值
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
       ctx.font = '12px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(part.health + '%', x, y - 12);
@@ -278,12 +420,39 @@ export function DigitalTwin3D({
     setViewMode('front');
     setIsRotating(false);
     setSelectedPart(null);
+    setComparisonMode('none');
   };
   const handleExport = () => {
     toast({
       title: "导出功能",
       description: "正在导出3D模型数据..."
     });
+  };
+  const handleComparisonModeChange = mode => {
+    setComparisonMode(mode);
+    if (mode !== 'none') {
+      setTimeout(() => {
+        if (comparisonCanvasRef.current) {
+          const ctx = comparisonCanvasRef.current.getContext('2d');
+          draw3DModel(ctx, 'previous');
+        }
+      }, 100);
+    }
+  };
+  const handleTimePointChange = (type, timePointId) => {
+    setSelectedTimePoints(prev => ({
+      ...prev,
+      [type]: timePointId
+    }));
+    // 重新绘制对比视图
+    if (comparisonMode !== 'none') {
+      setTimeout(() => {
+        if (comparisonCanvasRef.current) {
+          const ctx = comparisonCanvasRef.current.getContext('2d');
+          draw3DModel(ctx, 'previous');
+        }
+      }, 100);
+    }
   };
   const getStatusColor = status => {
     switch (status) {
@@ -313,17 +482,39 @@ export function DigitalTwin3D({
         return '未知';
     }
   };
+  const getHealthChange = partId => {
+    const currentData = historicalData[selectedTimePoints.current];
+    const previousData = historicalData[selectedTimePoints.previous];
+    if (!currentData || !previousData) return 0;
+    const currentPart = currentData.find(p => p.id === partId);
+    const previousPart = previousData.find(p => p.id === partId);
+    if (!currentPart || !previousPart) return 0;
+    return currentPart.health - previousPart.health;
+  };
   return <div className={`bg-slate-900 rounded-lg overflow-hidden ${className}`}>
       {/* 控制面板 */}
       <div className="bg-slate-800 p-4 border-b border-slate-700">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-4">
             <h3 className="text-white font-semibold">数字孪生人</h3>
             <Badge className="bg-blue-600">
               {selectedPart ? selectedPart.name : '整体视图'}
             </Badge>
+            {comparisonMode !== 'none' && <Badge className="bg-purple-600">
+                对比模式
+              </Badge>}
           </div>
           <div className="flex items-center space-x-2">
+            {/* 对比模式切换 */}
+            <div className="flex items-center bg-slate-700 rounded-lg p-1">
+              {comparisonModes.map(mode => {
+              const Icon = mode.icon;
+              return <button key={mode.id} onClick={() => handleComparisonModeChange(mode.id)} className={`p-2 rounded ${comparisonMode === mode.id ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'}`} title={mode.name}>
+                  <Icon className="w-4 h-4" />
+                </button>;
+            })}
+            </div>
+
             {/* 视图模式切换 */}
             <div className="flex items-center bg-slate-700 rounded-lg p-1">
               {viewModes.map(mode => {
@@ -361,6 +552,23 @@ export function DigitalTwin3D({
           </div>
         </div>
 
+        {/* 时间选择器 - 对比模式下显示 */}
+        {comparisonMode !== 'none' && <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <Calendar className="w-4 h-4 text-gray-400" />
+              <span className="text-gray-400 text-sm">当前时间:</span>
+              <select value={selectedTimePoints.current} onChange={e => handleTimePointChange('current', e.target.value)} className="bg-slate-700 text-white px-3 py-1 rounded text-sm">
+                {timePoints.map(point => <option key={point.id} value={point.id}>{point.name}</option>)}
+              </select>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-400 text-sm">对比时间:</span>
+              <select value={selectedTimePoints.previous} onChange={e => handleTimePointChange('previous', e.target.value)} className="bg-slate-700 text-white px-3 py-1 rounded text-sm">
+                {timePoints.map(point => <option key={point.id} value={point.id}>{point.name}</option>)}
+              </select>
+            </div>
+          </div>}
+
         {/* 动画速度控制 */}
         {isRotating && <div className="mt-3 flex items-center space-x-3">
             <span className="text-gray-400 text-sm">旋转速度:</span>
@@ -376,14 +584,53 @@ export function DigitalTwin3D({
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
               <p className="text-gray-400">正在加载3D模型...</p>
             </div>
-          </div> : <div className="relative">
-            <canvas ref={canvasRef} width={600} height={400} onClick={handleCanvasClick} className="w-full cursor-crosshair" style={{
-          transform: `scale(${zoomLevel})`,
-          transformOrigin: 'center'
-        }} />
+          </div> : <div className={`${comparisonMode === 'sideBySide' ? 'grid grid-cols-2 gap-4' : ''}`}>
+            {/* 当前模型 */}
+            <div className="relative">
+              <canvas ref={canvasRef} width={comparisonMode === 'sideBySide' ? 300 : 600} height={400} onClick={handleCanvasClick} className="w-full cursor-crosshair" style={{
+            transform: `scale(${zoomLevel})`,
+            transformOrigin: 'center'
+          }} />
+              
+              {/* 标签 */}
+              <div className="absolute top-4 left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2">
+                <span className="text-white text-sm font-medium">当前状态</span>
+                <div className="text-xs text-gray-400">{selectedTimePoints.current}</div>
+              </div>
+            </div>
+
+            {/* 对比模型 */}
+            {comparisonMode === 'sideBySide' && <div className="relative">
+                <canvas ref={comparisonCanvasRef} width={300} height={400} className="w-full cursor-crosshair" style={{
+            transform: `scale(${zoomLevel})`,
+            transformOrigin: 'center'
+          }} />
+                
+                {/* 标签 */}
+                <div className="absolute top-4 left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-2">
+                  <span className="text-white text-sm font-medium">对比状态</span>
+                  <div className="text-xs text-gray-400">{selectedTimePoints.previous}</div>
+                </div>
+              </div>}
+
+            {/* 叠加对比模式 */}
+            {comparisonMode === 'overlay' && <div className="absolute top-4 right-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-3">
+                <h4 className="text-white text-sm font-semibold mb-2">健康变化</h4>
+                <div className="space-y-1">
+                  {bodyParts.slice(0, 4).map(part => {
+              const change = getHealthChange(part.id);
+              return <div key={part.id} className="flex items-center justify-between text-xs">
+                      <span className="text-gray-300">{part.name}</span>
+                      <span className={`font-medium ${change > 0 ? 'text-green-400' : change < 0 ? 'text-red-400' : 'text-gray-400'}`}>
+                        {change > 0 ? '+' : ''}{change}%
+                      </span>
+                    </div>;
+            })}
+                </div>
+              </div>}
             
             {/* 健康指标图例 */}
-            <div className="absolute top-4 left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-3">
+            <div className="absolute bottom-4 left-4 bg-slate-800/90 backdrop-blur-sm rounded-lg p-3">
               <h4 className="text-white text-sm font-semibold mb-2">健康状态</h4>
               <div className="space-y-1">
                 <div className="flex items-center space-x-2">
@@ -441,6 +688,34 @@ export function DigitalTwin3D({
               </p>
             </div>
           </div>
+          
+          {/* 对比数据 */}
+          {comparisonMode !== 'none' && <div className="mt-4 pt-4 border-t border-slate-700">
+              <p className="text-gray-400 text-sm mb-2">历史对比</p>
+              <div className="flex items-center space-x-4">
+                <div className="text-center">
+                  <p className="text-xs text-gray-400">{selectedTimePoints.current}</p>
+                  <p className="text-lg font-bold text-white">{selectedPart.health}%</p>
+                </div>
+                <ArrowRight className="w-4 h-4 text-gray-400" />
+                <div className="text-center">
+                  <p className="text-xs text-gray-400">{selectedTimePoints.previous}</p>
+                  <p className="text-lg font-bold text-gray-400">
+                    {(() => {
+                const previousData = historicalData[selectedTimePoints.previous];
+                const previousPart = previousData?.find(p => p.id === selectedPart.id);
+                return previousPart ? previousPart.health + '%' : 'N/A';
+              })()}
+                  </p>
+                </div>
+                <div className="flex-1 text-center">
+                  <p className="text-xs text-gray-400">变化</p>
+                  <p className={`text-lg font-bold ${getHealthChange(selectedPart.id) > 0 ? 'text-green-400' : getHealthChange(selectedPart.id) < 0 ? 'text-red-400' : 'text-gray-400'}`}>
+                    {getHealthChange(selectedPart.id) > 0 ? '+' : ''}{getHealthChange(selectedPart.id)}%
+                  </p>
+                </div>
+              </div>
+            </div>}
         </div>}
     </div>;
 }
