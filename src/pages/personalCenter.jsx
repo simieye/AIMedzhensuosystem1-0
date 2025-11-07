@@ -1,16 +1,20 @@
 // @ts-ignore;
 import React, { useState, useEffect } from 'react';
 // @ts-ignore;
-import { Button, Card, CardContent, CardHeader, CardTitle, Avatar, AvatarFallback, AvatarImage, useToast } from '@/components/ui';
+import { Button, Card, CardContent, CardHeader, CardTitle, Tabs, TabsContent, TabsList, TabsTrigger, useToast } from '@/components/ui';
 // @ts-ignore;
-import { User, Settings, Shield, Key, LogOut, ChevronRight, Edit, Camera, Mail, Phone, Calendar, MapPin, Activity, Heart, Brain, Target, Award } from 'lucide-react';
+import { User, Settings, Award, FileText, Crown, Activity, Brain, Heart, Target, TrendingUp, Calendar, Bell, LogOut, Camera, Edit, Shield, Star } from 'lucide-react';
 
 // @ts-ignore;
-import { DigitalTwin3D } from '@/components/DigitalTwin3D';
+import { TabBar } from '@/components/TabBar';
 // @ts-ignore;
-import { HealthDataComparison } from '@/components/HealthDataComparison';
+import { InteractiveDigitalTwin } from '@/components/InteractiveDigitalTwin';
 // @ts-ignore;
-import { AIAssistant } from '@/components/AIAssistant';
+import { AIHealthReport } from '@/components/AIHealthReport';
+// @ts-ignore;
+import { MemberRenewal } from '@/components/MemberRenewal';
+// @ts-ignore;
+import { LongevityReport } from '@/components/LongevityReport';
 export default function PersonalCenter(props) {
   const {
     $w,
@@ -19,200 +23,177 @@ export default function PersonalCenter(props) {
   const {
     toast
   } = useToast();
-  const [user, setUser] = useState(null);
-  const [activeSection, setActiveSection] = useState('overview'); // overview, 3dmodel, comparison
-  const [selectedBodyPart, setSelectedBodyPart] = useState(null);
+  const [activeTab, setActiveTab] = useState('profile');
+  const [userData, setUserData] = useState(null);
+  const [healthData, setHealthData] = useState(null);
+  const [membershipData, setMembershipData] = useState(null);
   useEffect(() => {
-    // 模拟获取用户信息
-    setUser({
-      id: '1',
+    // 模拟加载用户数据
+    const mockUserData = {
+      id: $w.auth.currentUser?.userId || 'user001',
       name: $w.auth.currentUser?.name || '张晓明',
-      nickname: $w.auth.currentUser?.nickName || '健康达人',
-      email: 'zhangxiaoming@example.com',
-      phone: '138****8888',
-      avatar: $w.auth.currentUser?.avatarUrl || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
-      location: '北京市',
+      nickName: $w.auth.currentUser?.nickName || '健康达人',
+      avatar: $w.auth.currentUser?.avatarUrl || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop',
+      email: $w.auth.currentUser?.email || 'zhangxiaoming@example.com',
+      phone: '138****5678',
+      gender: 'male',
+      age: 35,
       joinDate: '2023-01-15',
-      status: 'active',
-      memberLevel: 'platinum',
-      memberPoints: 15890,
-      healthScore: 92,
-      healthAge: 52.3,
-      actualAge: 53,
-      biologicalAge: 52.3,
-      ageChange: -0.8
-    });
+      level: 'Premium会员',
+      points: 2580,
+      healthScore: 85,
+      healthAge: 32
+    };
+    const mockHealthData = {
+      overall: 85,
+      age: 35,
+      gender: 'male',
+      healthGoals: ['抗衰老', '免疫力提升'],
+      healthIssues: ['易疲劳', '睡眠质量一般'],
+      preferences: ['天然成分', '无副作用']
+    };
+    const mockMembershipData = {
+      currentPlan: {
+        id: 'premium',
+        name: 'Premium会员',
+        level: '高级',
+        price: 2999,
+        duration: '12个月',
+        endDate: '2024-06-14',
+        remainingDays: 45,
+        status: 'active'
+      },
+      usage: {
+        aiConsultations: 156,
+        healthPlans: 8,
+        expertAppointments: 3,
+        savedAmount: 2580,
+        healthScoreImprovement: 12
+      }
+    };
+    setUserData(mockUserData);
+    setHealthData(mockHealthData);
+    setMembershipData(mockMembershipData);
   }, [$w.auth.currentUser]);
+  const handleTabChange = tabId => {
+    setActiveTab(tabId);
+    const pageMap = {
+      profile: 'personalCenter',
+      digital_twin: 'personalCenter',
+      health_report: 'personalCenter',
+      membership: 'personalCenter',
+      longevity_report: 'personalCenter'
+    };
+    if (pageMap[tabId]) {
+      $w.utils.navigateTo({
+        pageId: pageMap[tabId],
+        params: {}
+      });
+    }
+  };
+  const handleOrganClick = organ => {
+    toast({
+      title: "器官分析",
+      description: `已分析${organ.name}的健康状况`,
+      duration: 3000
+    });
+  };
+  const handleReportGenerated = report => {
+    toast({
+      title: "报告生成成功",
+      description: `健康报告已生成，评分：${report.overallScore}分`,
+      duration: 3000
+    });
+  };
+  const handleReportShare = report => {
+    toast({
+      title: "分享成功",
+      description: "健康报告已分享",
+      duration: 3000
+    });
+  };
+  const handleRenewal = renewalResult => {
+    toast({
+      title: "续费成功",
+      description: `会员已续费至${new Date(renewalResult.nextBillingDate).toLocaleDateString('zh-CN')}`,
+      duration: 5000
+    });
+  };
+  const handleUpgrade = plan => {
+    toast({
+      title: "升级会员",
+      description: `正在为您升级到${plan.name}`,
+      duration: 3000
+    });
+  };
+  const handleLongevityShare = shareData => {
+    toast({
+      title: "分享成功",
+      description: `长寿月报已分享到${shareData.platform}`,
+      duration: 3000
+    });
+  };
+  const handleLongevityDownload = report => {
+    toast({
+      title: "下载中",
+      description: "正在生成长寿月报PDF文件...",
+      duration: 3000
+    });
+  };
   const handleLogout = () => {
     toast({
-      title: "退出成功",
-      description: "您已成功退出登录"
+      title: "退出登录",
+      description: "正在退出...",
+      duration: 2000
     });
-    $w.utils.navigateTo({
-      pageId: 'login',
-      params: {}
-    });
-  };
-  const handleBodyPartClick = bodyPart => {
-    setSelectedBodyPart(bodyPart);
-    toast({
-      title: "部位详情",
-      description: `查看${bodyPart.name}的详细健康信息`
-    });
-  };
-  const handleExportData = data => {
-    // 模拟导出功能
-    const dataStr = JSON.stringify(data, null, 2);
-    const dataBlob = new Blob([dataStr], {
-      type: 'application/json'
-    });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `health_data_${new Date().toISOString().split('T')[0]}.json`;
-    link.click();
-    URL.revokeObjectURL(url);
-    toast({
-      title: "导出成功",
-      description: "健康数据已导出"
-    });
-  };
-  const handleShareData = data => {
-    // 模拟分享功能
-    if (navigator.share) {
-      navigator.share({
-        title: '我的健康数据',
-        text: '查看我的健康数据分析',
-        url: window.location.href
-      }).then(() => {
-        toast({
-          title: "分享成功",
-          description: "健康数据已分享"
-        });
-      }).catch(() => {
-        toast({
-          title: "分享取消",
-          description: "分享已取消"
-        });
+    // 实际退出逻辑
+    setTimeout(() => {
+      $w.utils.navigateTo({
+        pageId: 'login',
+        params: {}
       });
-    } else {
-      // 复制链接到剪贴板
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        toast({
-          title: "链接已复制",
-          description: "分享链接已复制到剪贴板"
-        });
-      });
-    }
+    }, 2000);
   };
-  const handleAIQuery = async query => {
-    // 模拟AI查询处理
+  const handleEditProfile = () => {
     toast({
-      title: "AI查询",
-      description: `正在处理: ${query.text}`
+      title: "编辑资料",
+      description: "跳转到资料编辑页面...",
+      duration: 2000
     });
-    return {
-      text: "我是您的私人长寿医生小臻，可以帮您解读检测报告、制定个性化方案、预约专家服务等。",
-      action: null
-    };
   };
-  const handleAIAction = action => {
-    // 处理AI触发的RPA操作
-    switch (action.type) {
-      case 'create_plan':
-        toast({
-          title: "方案生成",
-          description: "正在为您生成个性化运动方案..."
-        });
-        break;
-      case 'recommend_product':
-        toast({
-          title: "产品推荐",
-          description: "正在推荐适合您的保健品..."
-        });
-        break;
-      case 'booking':
-        toast({
-          title: "预约服务",
-          description: "正在为您预约专家服务..."
-        });
-        break;
-      case 'order':
-        toast({
-          title: "下单处理",
-          description: "正在处理您的订单..."
-        });
-        break;
+  const getTabIcon = tabId => {
+    switch (tabId) {
+      case 'profile':
+        return User;
+      case 'digital_twin':
+        return Activity;
+      case 'health_report':
+        return FileText;
+      case 'membership':
+        return Crown;
+      case 'longevity_report':
+        return Award;
       default:
-        toast({
-          title: "处理中",
-          description: "正在处理您的请求..."
-        });
+        return User;
     }
   };
-  const menuItems = [{
-    icon: Edit,
-    label: '编辑资料',
-    description: '修改个人信息',
-    onClick: () => $w.utils.navigateTo({
-      pageId: 'editProfile',
-      params: {}
-    }),
-    color: 'text-blue-600'
-  }, {
-    icon: Key,
-    label: '修改密码',
-    description: '更改账户密码',
-    onClick: () => $w.utils.navigateTo({
-      pageId: 'changePassword',
-      params: {}
-    }),
-    color: 'text-orange-600'
-  }, {
-    icon: Shield,
-    label: '安全设置',
-    description: '管理账户安全',
-    onClick: () => $w.utils.navigateTo({
-      pageId: 'security',
-      params: {}
-    }),
-    color: 'text-green-600'
-  }, {
-    icon: Settings,
-    label: '账户设置',
-    description: '偏好设置和选项',
-    onClick: () => toast({
-      title: "功能开发中",
-      description: "账户设置功能正在开发中"
-    }),
-    color: 'text-purple-600'
-  }];
-  const quickStats = [{
-    icon: Heart,
-    label: '健康评分',
-    value: user?.healthScore || 0,
-    unit: '分',
-    color: 'text-red-500'
-  }, {
-    icon: Activity,
-    label: '生物年龄',
-    value: user?.biologicalAge || 0,
-    unit: '岁',
-    color: 'text-blue-500'
-  }, {
-    icon: Award,
-    label: '会员积分',
-    value: user?.memberPoints || 0,
-    unit: '分',
-    color: 'text-yellow-500'
-  }, {
-    icon: Target,
-    label: '年龄逆转',
-    value: Math.abs((user?.actualAge || 0) - (user?.biologicalAge || 0)),
-    unit: '岁',
-    color: 'text-green-500'
-  }];
-  if (!user) {
+  const getTabTitle = tabId => {
+    switch (tabId) {
+      case 'profile':
+        return '个人资料';
+      case 'digital_twin':
+        return '3D数字孪生';
+      case 'health_report':
+        return '健康报告';
+      case 'membership':
+        return '会员管理';
+      case 'longevity_report':
+        return '长寿月报';
+      default:
+        return '个人中心';
+    }
+  };
+  if (!userData) {
     return <div style={style} className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
@@ -220,174 +201,172 @@ export default function PersonalCenter(props) {
         </div>
       </div>;
   }
-  return <div style={style} className="min-h-screen bg-gray-50">
-      {/* 顶部背景 - 奢华医疗风格 */}
-      <div className="bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 h-48 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>
-        <div className="relative container mx-auto px-4 h-full flex items-center">
-          <div className="text-white">
-            <h1 className="text-3xl font-bold mb-2">臻寿个人中心</h1>
-            <p className="text-yellow-100">您的私人长寿医生·小臻已就绪</p>
+  return <div style={style} className="min-h-screen bg-gray-50 pb-16">
+      {/* 顶部导航 */}
+      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <img src={userData.avatar} alt={userData.name} className="w-16 h-16 rounded-full border-2 border-white" />
+                <button className="absolute bottom-0 right-0 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center border-2 border-white">
+                  <Camera className="w-3 h-3 text-white" />
+                </button>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold">{userData.nickName}</h1>
+                <p className="text-indigo-100">{userData.level}</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <div className="text-2xl font-bold">{userData.healthScore}</div>
+                <div className="text-indigo-100 text-sm">健康评分</div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold">{userData.points}</div>
+                <div className="text-indigo-100 text-sm">积分</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 -mt-20 relative z-10">
-        {/* 用户信息卡片 - 奢华风格 */}
-        <Card className="shadow-xl mb-6 bg-gradient-to-br from-white to-yellow-50 border-yellow-200">
-          <CardContent className="p-6">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
-              <div className="relative">
-                <Avatar className="w-24 h-24 border-4 border-yellow-400">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="text-2xl bg-gradient-to-br from-yellow-500 to-yellow-600 text-white">{user.name?.charAt(0) || 'U'}</AvatarFallback>
-                </Avatar>
-                <button className="absolute bottom-0 right-0 bg-yellow-500 text-white p-2 rounded-full hover:bg-yellow-600 transition-colors shadow-lg">
-                  <Camera className="w-4 h-4" />
-                </button>
-              </div>
-              
-              <div className="flex-1 text-center sm:text-left">
-                <h2 className="text-2xl font-bold text-gray-800 mb-1">{user.name}</h2>
-                <p className="text-gray-600 mb-3">@{user.nickname}</p>
-                
-                <div className="flex flex-wrap gap-4 text-sm text-gray-600 justify-center sm:justify-start">
-                  <div className="flex items-center">
-                    <Mail className="w-4 h-4 mr-1" />
-                    {user.email}
-                  </div>
-                  <div className="flex items-center">
-                    <Phone className="w-4 h-4 mr-1" />
-                    {user.phone}
-                  </div>
-                  <div className="flex items-center">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    {user.location}
-                  </div>
-                  <div className="flex items-center">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    加入于 {user.joinDate}
-                  </div>
-                </div>
-              </div>
-
-              {/* 快速统计 - 奢华风格 */}
-              <div className="grid grid-cols-2 gap-4">
-                {quickStats.map((stat, index) => {
-                const Icon = stat.icon;
-                return <div key={index} className="text-center">
-                    <div className={`w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-2`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="text-lg font-bold text-gray-800">{stat.value}</div>
-                    <div className="text-xs text-gray-600">{stat.label}</div>
-                  </div>;
-              })}
-              </div>
-            </div>
-
-            {/* 生物年龄提示 */}
-            <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Brain className="w-5 h-5 text-green-600" />
-                  <span className="text-green-800 font-medium">
-                    生物年龄 {user.biologicalAge}岁（实际年龄 {user.actualAge}岁）
-                  </span>
-                </div>
-                <span className="text-green-600 font-bold">
-                  {user.ageChange > 0 ? '+' : ''}{user.ageChange}岁
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* 功能导航标签 */}
-        <div className="flex space-x-1 mb-6 bg-gradient-to-r from-yellow-100 to-yellow-50 p-1 rounded-xl border border-yellow-200">
-          {['overview', '3dmodel', 'comparison'].map(section => <button key={section} onClick={() => setActiveSection(section)} className={`flex-1 py-3 px-4 rounded-lg text-sm font-medium transition-all ${activeSection === section ? 'bg-white text-yellow-600 shadow-md border border-yellow-300' : 'text-gray-600 hover:text-gray-800 hover:bg-white/50'}`}>
-              {section === 'overview' ? '概览' : section === '3dmodel' ? '数字孪生' : '数据对比'}
-            </button>)}
-        </div>
-
+      <div className="container mx-auto px-4 py-6">
         {/* 主要内容区域 */}
-        {activeSection === 'overview' && <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
-            {menuItems.map((item, index) => <Card key={index} className="hover:shadow-lg transition-all cursor-pointer border-yellow-200 hover:border-yellow-400 bg-gradient-to-br from-white to-yellow-50" onClick={item.onClick}>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className={`p-3 rounded-lg bg-gradient-to-br from-yellow-400 to-yellow-600 ${item.color} text-white`}>
-                        <item.icon className="w-5 h-5" />
-                      </div>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
+            {['profile', 'digital_twin', 'health_report', 'membership', 'longevity_report'].map(tabId => {
+            const Icon = getTabIcon(tabId);
+            return <TabsTrigger key={tabId} value={tabId} className="flex items-center space-x-2">
+                <Icon className="w-4 h-4" />
+                <span>{getTabTitle(tabId)}</span>
+              </TabsTrigger>;
+          })}
+          </TabsList>
+
+          {/* 个人资料 */}
+          <TabsContent value="profile" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center">
+                    <User className="w-5 h-5 mr-2" />
+                    个人资料
+                  </CardTitle>
+                  <Button variant="outline" size="sm" onClick={handleEditProfile}>
+                    <Edit className="w-4 h-4 mr-2" />
+                    编辑资料
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-4">
+                      <img src={userData.avatar} alt={userData.name} className="w-20 h-20 rounded-full" />
                       <div>
-                        <h3 className="font-semibold text-gray-800">{item.label}</h3>
-                        <p className="text-sm text-gray-600">{item.description}</p>
+                        <h3 className="text-lg font-semibold">{userData.name}</h3>
+                        <p className="text-gray-600">{userData.nickName}</p>
+                        <p className="text-sm text-gray-500">ID: {userData.id}</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-yellow-600" />
-                  </div>
-                </CardContent>
-              </Card>)}
-          </div>}
-
-        {activeSection === '3dmodel' && <div className="space-y-6">
-            <DigitalTwin3D healthData={{
-          overall: user.healthScore,
-          age: user.biologicalAge
-        }} onBodyPartClick={handleBodyPartClick} />
-            
-            {/* 选中部位详情 */}
-            {selectedBodyPart && <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Brain className="w-6 h-6 text-blue-600" />
-                    <h3 className="text-lg font-semibold text-blue-800">{selectedBodyPart.name}详细分析</h3>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <p className="text-sm text-gray-600 mb-1">健康评分</p>
-                      <p className="text-2xl font-bold text-blue-600">{selectedBodyPart.health}%</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600 mb-1">健康状态</p>
-                      <p className="text-lg font-semibold text-blue-800">
-                        {selectedBodyPart.status === 'excellent' ? '优秀' : selectedBodyPart.status === 'good' ? '良好' : selectedBodyPart.status === 'fair' ? '一般' : '需改善'}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600 mb-1">建议措施</p>
-                      <p className="text-sm text-blue-700">
-                        {selectedBodyPart.issues.length > 0 ? '建议进一步检查' : '保持良好状态'}
-                      </p>
+                    
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">邮箱:</span>
+                        <span className="font-medium">{userData.email}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">手机:</span>
+                        <span className="font-medium">{userData.phone}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">性别:</span>
+                        <span className="font-medium">{userData.gender === 'male' ? '男' : '女'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">年龄:</span>
+                        <span className="font-medium">{userData.age}岁</span>
+                      </div>
                     </div>
                   </div>
-                  {selectedBodyPart.issues.length > 0 && <div className="mt-4">
-                      <p className="text-sm text-gray-600 mb-2">注意事项：</p>
-                      <ul className="list-disc list-inside text-sm text-blue-700 space-y-1">
-                        {selectedBodyPart.issues.map((issue, index) => <li key={index}>{issue}</li>)}
-                      </ul>
-                    </div>}
-                </CardContent>
-              </Card>}
-          </div>}
+                  
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center p-4 bg-blue-50 rounded-lg">
+                        <div className="text-2xl font-bold text-blue-600">{userData.healthScore}</div>
+                        <div className="text-sm text-gray-600">健康评分</div>
+                      </div>
+                      <div className="text-center p-4 bg-green-50 rounded-lg">
+                        <div className="text-2xl font-bold text-green-600">{userData.healthAge}</div>
+                        <div className="text-sm text-gray-600">健康年龄</div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">会员等级:</span>
+                        <span className="font-medium text-purple-600">{userData.level}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">积分:</span>
+                        <span className="font-medium text-orange-600">{userData.points}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">加入时间:</span>
+                        <span className="font-medium">{userData.joinDate}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-        {activeSection === 'comparison' && <HealthDataComparison currentData={{
-        score: user.healthScore,
-        age: user.biologicalAge
-      }} historicalData={[]} onExport={handleExportData} onShare={handleShareData} />}
+            {/* 快捷操作 */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Button variant="outline" className="h-20 flex-col">
+                <Settings className="w-6 h-6 mb-2" />
+                <span>账号设置</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col">
+                <Shield className="w-6 h-6 mb-2" />
+                <span>隐私设置</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col">
+                <Bell className="w-6 h-6 mb-2" />
+                <span>通知设置</span>
+              </Button>
+              <Button variant="outline" className="h-20 flex-col text-red-600 hover:text-red-700" onClick={handleLogout}>
+                <LogOut className="w-6 h-6 mb-2" />
+                <span>退出登录</span>
+              </Button>
+            </div>
+          </TabsContent>
 
-        {/* 退出登录按钮 */}
-        <Card className="border-red-200">
-          <CardContent className="p-4">
-            <Button variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700" onClick={handleLogout}>
-              <LogOut className="w-4 h-4 mr-2" />
-              退出登录
-            </Button>
-          </CardContent>
-        </Card>
+          {/* 3D数字孪生 */}
+          <TabsContent value="digital_twin" className="space-y-6">
+            <InteractiveDigitalTwin userData={healthData} onOrganClick={handleOrganClick} />
+          </TabsContent>
+
+          {/* 健康报告 */}
+          <TabsContent value="health_report" className="space-y-6">
+            <AIHealthReport userData={healthData} onReportGenerated={handleReportGenerated} onShare={handleReportShare} />
+          </TabsContent>
+
+          {/* 会员管理 */}
+          <TabsContent value="membership" className="space-y-6">
+            <MemberRenewal currentMembership={membershipData} onRenewal={handleRenewal} onUpgrade={handleUpgrade} />
+          </TabsContent>
+
+          {/* 长寿月报 */}
+          <TabsContent value="longevity_report" className="space-y-6">
+            <LongevityReport userData={healthData} onShare={handleLongevityShare} onDownload={handleLongevityDownload} />
+          </TabsContent>
+        </Tabs>
       </div>
 
-      {/* AI助手 */}
-      <AIAssistant onQuery={handleAIQuery} onAction={handleAIAction} />
+      {/* 底部导航 */}
+      <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
     </div>;
 }

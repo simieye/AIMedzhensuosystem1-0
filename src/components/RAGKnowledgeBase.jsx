@@ -1,313 +1,275 @@
 // @ts-ignore;
 import React, { useState, useEffect } from 'react';
 // @ts-ignore;
-import { Button, Card, CardContent, CardHeader, CardTitle, useToast } from '@/components/ui';
+import { Card, CardContent, CardHeader, CardTitle, Button, useToast } from '@/components/ui';
 // @ts-ignore;
-import { BookOpen, FileText, Search, TrendingUp, AlertTriangle, Pill, FlaskConical, Users, ExternalLink, Clock, Star, ChevronRight, Brain, Lightbulb } from 'lucide-react';
+import { BookOpen, ExternalLink, Search, Filter, TrendingUp, Users, Star, Clock, ChevronRight, Database, Brain } from 'lucide-react';
 
 export function RAGKnowledgeBase({
-  healthData,
-  onRecommendationSelect,
-  className = ''
+  symptoms,
+  diagnosis,
+  onRecommendationSelect
 }) {
   const {
     toast
   } = useToast();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  useEffect(() => {
+    if (symptoms || diagnosis) {
+      generateRecommendations();
+    }
+  }, [symptoms, diagnosis]);
+  const generateRecommendations = async () => {
+    setIsLoading(true);
+    try {
+      // 模拟RAG检索过程
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const mockRecommendations = [{
+        id: 1,
+        title: '心血管疾病预防与管理的最新进展',
+        authors: ['张明华', '李晓明', '王建军'],
+        journal: '中华心血管病杂志',
+        year: 2024,
+        doi: '10.3760/cma.j.cn.112148-20240115-00123',
+        abstract: '本文综述了近年来心血管疾病预防与管理的最新研究进展，包括生活方式干预、药物治疗、新型治疗技术等方面的突破性发现。研究表明，通过综合干预措施，心血管疾病的发病率可降低30-40%...',
+        category: 'cardiology',
+        relevanceScore: 0.95,
+        citationCount: 156,
+        openAccess: true,
+        keyFindings: ['综合干预可降低发病率30-40%', '生活方式干预是基础', '新型药物显示良好效果'],
+        recommendations: ['建议进行心血管风险评估', '考虑生活方式干预计划', '定期监测相关指标']
+      }, {
+        id: 2,
+        title: '血脂异常管理的临床实践指南（2024版）',
+        authors: ['中华医学会内分泌学分会'],
+        journal: '中华内分泌代谢杂志',
+        year: 2024,
+        doi: '10.3760/cma.j.cn.311282-20240220-00045',
+        abstract: '本指南基于最新的循证医学证据，为血脂异常的诊断、治疗和管理提供了全面的临床指导。指南强调了个体化治疗的重要性，并提供了具体的药物选择和剂量调整建议...',
+        category: 'endocrinology',
+        relevanceScore: 0.92,
+        citationCount: 89,
+        openAccess: true,
+        keyFindings: ['个体化治疗方案效果更佳', '新型降脂药物安全性良好', '生活方式干预仍为基础'],
+        recommendations: ['根据指南调整治疗方案', '定期监测血脂水平', '加强生活方式管理']
+      }, {
+        id: 3,
+        title: '人工智能在医疗诊断中的应用与挑战',
+        authors: ['刘志强', '陈晓华', '赵文静'],
+        journal: '中国医学影像技术',
+        year: 2024,
+        doi: '10.13929/j.issn.1003-3289.2024.01.015',
+        abstract: '随着人工智能技术的快速发展，AI在医疗诊断领域的应用越来越广泛。本文系统回顾了AI在各种疾病诊断中的应用现状，分析了其优势、局限性及未来发展方向...',
+        category: 'ai_medicine',
+        relevanceScore: 0.78,
+        citationCount: 67,
+        openAccess: false,
+        keyFindings: ['AI诊断准确率可达95%以上', '需要结合临床判断', '数据质量是关键因素'],
+        recommendations: ['可考虑AI辅助诊断', '重视数据质量控制', '保持临床警惕性']
+      }, {
+        id: 4,
+        title: '慢性疲劳综合征的综合治疗策略',
+        authors: ['王丽华', '张建国', '李秀英'],
+        journal: '中华全科医学',
+        year: 2023,
+        doi: '10.3760/cma.j.issn.1007-9572.2023.12.008',
+        abstract: '慢性疲劳综合征是一种常见的功能性紊乱，严重影响患者的生活质量。本文探讨了基于循证医学的综合治疗策略，包括药物治疗、心理干预、生活方式调整等多维度干预方案...',
+        category: 'neurology',
+        relevanceScore: 0.85,
+        citationCount: 45,
+        openAccess: true,
+        keyFindings: ['综合治疗效果优于单一治疗', '心理干预重要性突出', '需要长期管理'],
+        recommendations: ['采用综合治疗方案', '重视心理健康', '建立长期管理计划']
+      }];
+      setRecommendations(mockRecommendations);
+    } catch (error) {
+      toast({
+        title: "检索失败",
+        description: "知识库检索失败，请稍后重试",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const categories = [{
     id: 'all',
     name: '全部',
-    icon: BookOpen
+    icon: Database
   }, {
-    id: 'uric_acid',
-    name: '尿酸管理',
+    id: 'cardiology',
+    name: '心血管',
+    icon: Heart
+  }, {
+    id: 'endocrinology',
+    name: '内分泌',
+    icon: Brain
+  }, {
+    id: 'neurology',
+    name: '神经科',
+    icon: Users
+  }, {
+    id: 'ai_medicine',
+    name: 'AI医疗',
     icon: TrendingUp
-  }, {
-    id: 'traditional_medicine',
-    name: '中医方案',
-    icon: FlaskConical
-  }, {
-    id: 'clinical_guidelines',
-    name: '临床指南',
-    icon: FileText
-  }, {
-    id: 'research',
-    name: '最新研究',
-    icon: Search
   }];
-  const mockKnowledgeBase = {
-    uric_acid: [{
-      id: 'UA001',
-      title: '高尿酸血症的中医辨证论治',
-      authors: ['张中医', '李华佗'],
-      journal: '中医杂志',
-      year: 2023,
-      impactFactor: 2.8,
-      abstract: '高尿酸血症是现代常见代谢性疾病，中医认为其发病机制主要与脾肾功能失调、湿热内蕴有关。本研究通过临床观察发现，采用清热利湿、健脾补肾的方法治疗高尿酸血症具有显著效果...',
-      keyFindings: ['中医辨证分型治疗有效率85.6%', '汉方清幽方剂降低尿酸效果显著', '副作用少，患者依从性高'],
-      recommendations: [{
-        name: '汉方清幽方案',
-        type: 'treatment',
-        description: '基于中医经典方剂改良，包含黄柏、苍术、薏苡仁等成分',
-        efficacy: '降低尿酸30-40%，改善症状',
-        duration: '8周为一个疗程',
-        price: '¥1,280/疗程'
-      }],
-      riskLevel: 'moderate',
-      confidence: 0.92
-    }, {
-      id: 'UA002',
-      title: '尿酸与心血管疾病关联性研究',
-      authors: ['王心血管', '刘代谢'],
-      journal: '中华心血管病杂志',
-      year: 2023,
-      impactFactor: 3.2,
-      abstract: '大规模队列研究显示，高尿酸血症是心血管疾病的独立危险因素。尿酸水平每增加1mg/dL，心血管事件风险增加12%。控制尿酸水平对预防心血管疾病具有重要意义...',
-      keyFindings: ['尿酸水平与心血管风险呈正相关', '降尿酸治疗可降低心血管事件发生率', '建议将尿酸控制在6.0mg/dL以下'],
-      recommendations: [{
-        name: '综合管理方案',
-        type: 'lifestyle',
-        description: '结合饮食控制、运动干预和药物治疗',
-        efficacy: '全面降低心血管风险',
-        duration: '长期坚持',
-        price: '个性化定制'
-      }],
-      riskLevel: 'high',
-      confidence: 0.88
-    }],
-    traditional_medicine: [{
-      id: 'TM001',
-      title: '汉方清幽方的临床应用研究',
-      authors: ['中医研究院专家组'],
-      journal: '中医临床研究',
-      year: 2024,
-      impactFactor: 2.1,
-      abstract: '汉方清幽方是基于传统中医理论研制的治疗高尿酸血症的复方制剂。该方剂由黄柏、苍术、薏苡仁、茯苓、泽泻等多味中药组成，具有清热利湿、健脾补肾的功效...',
-      keyFindings: ['总有效率87.3%', '尿酸平均下降35.2%', '症状改善率92.1%', '不良反应发生率<2%'],
-      recommendations: [{
-        name: '汉方清幽方案',
-        type: 'treatment',
-        description: '标准化中药配方，个体化剂量调整',
-        efficacy: '显著降低尿酸，改善肾功能',
-        duration: '6-8周',
-        price: '¥1,580/疗程'
-      }],
-      riskLevel: 'low',
-      confidence: 0.95
-    }],
-    clinical_guidelines: [{
-      id: 'CG001',
-      title: '中国高尿酸血症诊疗指南(2023版)',
-      authors: ['中华医学会内分泌学分会'],
-      journal: '中华内分泌代谢杂志',
-      year: 2023,
-      impactFactor: 4.1,
-      abstract: '最新版诊疗指南基于循证医学证据，对高尿酸血症的诊断、治疗和随访提出了明确建议。指南强调个体化治疗和综合管理的重要性...',
-      keyFindings: ['更新诊断标准', '强调早期干预', '推荐目标值<6.0mg/dL', '注重生活方式干预'],
-      recommendations: [{
-        name: '标准化诊疗流程',
-        type: 'guideline',
-        description: '按照指南推荐的标准化诊疗路径',
-        efficacy: '规范化治疗，提高疗效',
-        duration: '长期管理',
-        price: '医保覆盖'
-      }],
-      riskLevel: 'low',
-      confidence: 0.98
-    }],
-    research: [{
-      id: 'RS001',
-      title: '新型降尿酸药物的临床试验结果',
-      authors: ['国际多中心研究组'],
-      journal: '新英格兰医学杂志',
-      year: 2024,
-      impactFactor: 5.8,
-      abstract: '最新研究显示，新型选择性尿酸转运蛋白抑制剂在降低尿酸方面显示出优异效果，且具有良好的安全性。该药物为高尿酸血症患者提供了新的治疗选择...',
-      keyFindings: ['新型药物降尿酸效果显著', '副作用发生率低', '患者依从性好', '长期安全性良好'],
-      recommendations: [{
-        name: '新药物治疗方案',
-        type: 'medication',
-        description: '最新研发的靶向药物治疗',
-        efficacy: '强效降尿酸，安全性高',
-        duration: '按需调整',
-        price: '¥3,200/月'
-      }],
-      riskLevel: 'moderate',
-      confidence: 0.85
-    }]
-  };
-  useEffect(() => {
-    // 根据健康数据初始化推荐
-    if (healthData && healthData.uricAcid && healthData.uricAcid > 7.0) {
-      handleSearch('尿酸偏高');
-    }
-  }, [healthData]);
-  const handleSearch = async query => {
-    setIsSearching(true);
-    setSearchQuery(query);
-
-    // 模拟RAG检索过程
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    let results = [];
-    const lowerQuery = query.toLowerCase();
-
-    // 根据查询内容筛选相关知识
-    if (lowerQuery.includes('尿酸') || lowerQuery.includes('gout')) {
-      results = [...mockKnowledgeBase.uric_acid, ...mockKnowledgeBase.traditional_medicine];
-    } else if (lowerQuery.includes('中医') || lowerQuery.includes('汉方')) {
-      results = mockKnowledgeBase.traditional_medicine;
-    } else if (lowerQuery.includes('指南') || lowerQuery.includes('诊疗')) {
-      results = mockKnowledgeBase.clinical_guidelines;
-    } else {
-      // 默认返回所有内容
-      results = Object.values(mockKnowledgeBase).flat();
-    }
-
-    // 按相关性和置信度排序
-    results.sort((a, b) => b.confidence - a.confidence);
-    setRecommendations(results.slice(0, 6));
-    setIsSearching(false);
-    toast({
-      title: "检索完成",
-      description: `找到${results.length}条相关医学文献`
-    });
-  };
-  const handleCategoryChange = category => {
-    setSelectedCategory(category);
-    if (category === 'all') {
-      setRecommendations(Object.values(mockKnowledgeBase).flat().slice(0, 6));
-    } else {
-      setRecommendations(mockKnowledgeBase[category] || []);
-    }
-  };
-  const getRiskLevelColor = level => {
-    switch (level) {
-      case 'low':
-        return 'text-green-600 bg-green-100';
-      case 'moderate':
-        return 'text-yellow-600 bg-yellow-100';
-      case 'high':
+  const filteredRecommendations = recommendations.filter(rec => {
+    const matchesCategory = selectedCategory === 'all' || rec.category === selectedCategory;
+    const matchesSearch = !searchQuery || rec.title.toLowerCase().includes(searchQuery.toLowerCase()) || rec.abstract.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+  const getCategoryColor = category => {
+    switch (category) {
+      case 'cardiology':
         return 'text-red-600 bg-red-100';
+      case 'endocrinology':
+        return 'text-blue-600 bg-blue-100';
+      case 'neurology':
+        return 'text-purple-600 bg-purple-100';
+      case 'ai_medicine':
+        return 'text-green-600 bg-green-100';
       default:
         return 'text-gray-600 bg-gray-100';
     }
   };
-  const getRiskLevelText = level => {
-    switch (level) {
-      case 'low':
-        return '低风险';
-      case 'moderate':
-        return '中等风险';
-      case 'high':
-        return '高风险';
-      default:
-        return '未知';
-    }
+  const getCategoryName = category => {
+    const cat = categories.find(c => c.id === category);
+    return cat ? cat.name : '其他';
   };
-  return <div className={`bg-white rounded-lg shadow-lg ${className}`}>
+  const handleRecommendationClick = recommendation => {
+    onRecommendationSelect?.(recommendation);
+    toast({
+      title: "已选择文献",
+      description: `已选择《${recommendation.title}》`
+    });
+  };
+  const handleSearch = () => {
+    // 触发搜索
+    generateRecommendations();
+  };
+  return <Card className="w-full">
       <CardHeader>
-        <CardTitle className="flex items-center">
-          <Brain className="w-5 h-5 mr-2 text-blue-600" />
-          RAG医学知识库
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {/* 搜索框 */}
-        <div className="relative">
-          <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-          <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSearch(searchQuery)} placeholder="搜索医学文献、治疗方案..." className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-          <Button onClick={() => handleSearch(searchQuery)} disabled={isSearching} className="absolute right-2 top-2 bg-blue-600 hover:bg-blue-700">
-            {isSearching ? <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div> : <Search className="w-4 h-4" />}
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center">
+            <BookOpen className="w-5 h-5 mr-2" />
+            RAG知识库推荐
+          </CardTitle>
+          <Button variant="outline" size="sm" onClick={generateRecommendations} disabled={isLoading}>
+            <Search className="w-4 h-4 mr-2" />
+            重新检索
           </Button>
         </div>
-
-        {/* 分类筛选 */}
-        <div className="flex flex-wrap gap-2">
-          {categories.map(category => {
-          const Icon = category.icon;
-          return <button key={category.id} onClick={() => handleCategoryChange(category.id)} className={`flex items-center space-x-2 px-3 py-2 rounded-lg border transition-colors ${selectedCategory === category.id ? 'border-blue-600 bg-blue-50 text-blue-800' : 'border-gray-300 hover:border-gray-400'}`}>
-              <Icon className="w-4 h-4" />
-              <span className="text-sm">{category.name}</span>
-            </button>;
-        })}
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {/* 搜索和筛选 */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="搜索医学文献..." className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div className="flex gap-2">
+            {categories.map(category => {
+            const Icon = category.icon;
+            return <button key={category.id} onClick={() => setSelectedCategory(category.id)} className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-1 ${selectedCategory === category.id ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
+                <Icon className="w-4 h-4" />
+                <span>{category.name}</span>
+              </button>;
+          })}
+          </div>
         </div>
 
-        {/* 推荐内容 */}
-        <div className="space-y-4">
-          {isSearching ? <div className="flex items-center justify-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mr-3"></div>
-              <span className="text-gray-600">AI正在检索最新医学文献...</span>
-            </div> : recommendations.length > 0 ? recommendations.map(item => <Card key={item.id} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-gray-800 mb-1">{item.title}</h4>
-                      <p className="text-sm text-gray-600 mb-2">
-                        {item.authors.join(', ')} • {item.journal} • {item.year}
-                      </p>
-                      <div className="flex items-center space-x-4 text-xs text-gray-500">
-                        <span className="flex items-center">
-                          <Star className="w-3 h-3 mr-1" />
-                          IF: {item.impactFactor}
-                        </span>
-                        <span className={`px-2 py-1 rounded ${getRiskLevelColor(item.riskLevel)}`}>
-                          {getRiskLevelText(item.riskLevel)}
-                        </span>
-                        <span className="flex items-center">
-                          <TrendingUp className="w-3 h-3 mr-1" />
-                          置信度: {(item.confidence * 100).toFixed(1)}%
-                        </span>
-                      </div>
+        {/* 加载状态 */}
+        {isLoading && <div className="flex items-center justify-center p-8 bg-blue-50 rounded-lg">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mr-3"></div>
+            <div>
+              <p className="text-blue-800 font-semibold">正在检索知识库...</p>
+              <p className="text-blue-600 text-sm">AI正在分析最新医学文献</p>
+            </div>
+          </div>}
+
+        {/* 推荐结果 */}
+        {!isLoading && filteredRecommendations.length > 0 && <div className="space-y-4">
+            {filteredRecommendations.map(recommendation => <div key={recommendation.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onClick={() => handleRecommendationClick(recommendation)}>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-800 mb-1 line-clamp-2">
+                      {recommendation.title}
+                    </h3>
+                    <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+                      <span>{recommendation.journal}</span>
+                      <span>{recommendation.year}</span>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(recommendation.category)}`}>
+                        {getCategoryName(recommendation.category)}
+                      </span>
                     </div>
-                    <Button variant="outline" size="sm">
-                      <ExternalLink className="w-4 h-4" />
-                    </Button>
                   </div>
-                  
-                  <div className="mb-3">
-                    <p className="text-sm text-gray-700 line-clamp-3">{item.abstract}</p>
+                  <div className="flex items-center space-x-2 text-sm">
+                    <div className="flex items-center">
+                      <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
+                      <span>{recommendation.relevanceScore.toFixed(2)}</span>
+                    </div>
+                    {recommendation.openAccess && <span className="text-green-600 text-xs">开放获取</span>}
                   </div>
-                  
-                  <div className="mb-3">
-                    <h5 className="text-sm font-medium text-gray-800 mb-2">关键发现：</h5>
-                    <ul className="text-sm text-gray-600 space-y-1">
-                      {item.keyFindings.map((finding, index) => <li key={index} className="flex items-start space-x-2">
-                          <ChevronRight className="w-3 h-3 text-blue-600 mt-0.5 flex-shrink-0" />
+                </div>
+
+                <p className="text-sm text-gray-600 mb-3 line-clamp-3">
+                  {recommendation.abstract}
+                </p>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4 text-xs text-gray-500">
+                    <div className="flex items-center">
+                      <Users className="w-3 h-3 mr-1" />
+                      <span>{recommendation.authors.slice(0, 2).join(', ')}{recommendation.authors.length > 2 ? '等' : ''}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <TrendingUp className="w-3 h-3 mr-1" />
+                      <span>引用 {recommendation.citationCount}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Clock className="w-3 h-3 mr-1" />
+                      <span>DOI: {recommendation.doi}</span>
+                    </div>
+                  </div>
+                  <Button size="sm" variant="outline">
+                    <ExternalLink className="w-4 h-4 mr-1" />
+                    查看全文
+                  </Button>
+                </div>
+
+                {/* 关键发现 */}
+                {recommendation.keyFindings && recommendation.keyFindings.length > 0 && <div className="mt-3 p-3 bg-blue-50 rounded-lg">
+                    <h4 className="font-medium text-blue-800 mb-2 text-sm">关键发现</h4>
+                    <ul className="space-y-1">
+                      {recommendation.keyFindings.map((finding, index) => <li key={index} className="text-sm text-blue-700 flex items-start">
+                          <span className="text-blue-500 mr-2">•</span>
                           <span>{finding}</span>
                         </li>)}
                     </ul>
-                  </div>
-                  
-                  {item.recommendations && item.recommendations.length > 0 && <div className="bg-blue-50 rounded-lg p-3">
-                      <h5 className="text-sm font-medium text-blue-800 mb-2 flex items-center">
-                        <Lightbulb className="w-4 h-4 mr-2" />
-                        推荐方案
-                      </h5>
-                      {item.recommendations.map((rec, index) => <div key={index} className="mb-3 last:mb-0">
-                          <div className="flex items-center justify-between mb-1">
-                            <h6 className="font-medium text-blue-800">{rec.name}</h6>
-                            <span className="text-sm text-blue-600">{rec.price}</span>
-                          </div>
-                          <p className="text-sm text-blue-700 mb-1">{rec.description}</p>
-                          <div className="flex items-center justify-between text-xs text-blue-600">
-                            <span>疗效: {rec.efficacy}</span>
-                            <span>疗程: {rec.duration}</span>
-                          </div>
-                          <Button size="sm" className="mt-2 w-full bg-blue-600 hover:bg-blue-700" onClick={() => onRecommendationSelect?.(rec)}>
-                            选择此方案
-                          </Button>
-                        </div>)}
-                    </div>}
-                </CardContent>
-              </Card>) : <div className="text-center py-8">
-              <BookOpen className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-              <p className="text-gray-600">暂无相关文献</p>
-              <p className="text-sm text-gray-500 mt-2">请尝试其他搜索关键词</p>
-            </div>}
-        </div>
+                  </div>}
+
+                {/* 推荐建议 */}
+                {recommendation.recommendations && recommendation.recommendations.length > 0 && <div className="mt-3 p-3 bg-green-50 rounded-lg">
+                    <h4 className="font-medium text-green-800 mb-2 text-sm">临床建议</h4>
+                    <ul className="space-y-1">
+                      {recommendation.recommendations.map((rec, index) => <li key={index} className="text-sm text-green-700 flex items-start">
+                          <span className="text-green-500 mr-2">✓</span>
+                          <span>{rec}</span>
+                        </li>)}
+                    </ul>
+                  </div>}
+              </div>)}
+          </div>}
+
+        {/* 无结果 */}
+        {!isLoading && filteredRecommendations.length === 0 && <div className="text-center py-8">
+            <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-700 mb-2">暂无相关文献</h3>
+            <p className="text-gray-500">请尝试调整搜索条件或重新检索</p>
+          </div>}
       </CardContent>
-    </div>;
+    </Card>;
 }
