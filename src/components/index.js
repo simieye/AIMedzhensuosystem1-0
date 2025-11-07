@@ -4,3 +4,5 @@ export * from './TabBar.jsx';
 export * from './LoadingSpinner.jsx';
 export * from './EmptyState.jsx';
 export * from './ConfirmDialog.jsx';
+export * from './DigitalTwin3D.jsx';
+export * from './HealthDataComparison.jsx';
