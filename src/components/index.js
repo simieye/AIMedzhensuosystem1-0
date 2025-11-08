@@ -7,7 +7,3 @@ export * from './ConfirmDialog.jsx';
 export * from './DigitalTwin3D.jsx';
 export * from './HealthDataComparison.jsx';
 export * from './AIAssistant.jsx';
-export * from './KnowledgeCard.jsx';
-export * from './KnowledgeStats.jsx';
-export * from './KnowledgeEditor.jsx';
-export * from './KnowledgeAnalytics.jsx';

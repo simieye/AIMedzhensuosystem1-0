@@ -2,482 +2,455 @@
   [
     {
       "_id": "1",
-      "source_id": "SRC001",
-      "source_name": "国家卫健委疫情数据",
-      "source_url": "https://www.nhc.gov.cn/xcs/yqtb/list.shtml",
-      "source_type": "government",
-      "data_type": "health_statistics",
-      "crawl_time": 1705310400000,
+      "crawler_id": "CRAWLER_001",
+      "source_name": "国家卫健委官网",
+      "source_url": "https://www.nhc.gov.cn",
+      "source_type": "government_website",
+      "content_type": "health_policy",
+      "category": "政策法规",
+      "title": "关于进一步加强基层医疗卫生服务体系建设的指导意见",
+      "content": "为深入贯彻落实党的二十大精神，全面推进健康中国建设...",
       "raw_data": {
-        "title": "全国新型冠状病毒肺炎疫情最新情况",
-        "publish_date": "2024-01-15",
-        "new_cases": 1250,
-        "total_cases": 123456789,
-        "new_deaths": 5,
-        "total_deaths": 12345,
-        "recovered": 123400000,
-        "active_cases": 456789,
-        "regions": [
-          {
-            "name": "北京市",
-            "new_cases": 50,
-            "total_cases": 1234567
-          },
-          {
-            "name": "上海市",
-            "new_cases": 30,
-            "total_cases": 987654
-          }
+        "html_content": "<html>...</html>",
+        "response_headers": {
+          "content-type": "text/html",
+          "content-length": "15234"
+        },
+        "status_code": 200
+      },
+      "structured_data": {
+        "policy_type": "指导意见",
+        "issuing_authority": "国家卫生健康委员会",
+        "effective_date": "2024-01-15",
+        "target_audience": ["基层医疗机构", "地方政府"],
+        "key_points": [
+          "加强基层医疗资源配置",
+          "提升基层医疗服务能力",
+          "完善基层医疗保障制度"
         ]
       },
-      "processed_data": {
-        "summary": {
-          "date": "2024-01-15",
-          "new_cases": 1250,
-          "total_cases": 123456789,
-          "mortality_rate": 0.01,
-          "recovery_rate": 99.96
-        },
-        "trends": {
-          "cases_trend": "decreasing",
-          "deaths_trend": "stable",
-          "recovery_trend": "increasing"
-        },
-        "regions_ranked": [
-          {
-            "name": "北京市",
-            "cases": 1234567,
-            "rank": 1
-          },
-          {
-            "name": "上海市",
-            "cases": 987654,
-            "rank": 2
-          }
-        ]
-      },
-      "data_format": "json",
-      "data_size": 2048,
-      "record_count": 35,
-      "processing_status": "completed",
-      "quality_score": 95.5,
+      "crawl_start_time": 1705310400000,
+      "crawl_end_time": 1705310460000,
+      "process_status": "completed",
+      "quality_score": 95,
       "validation_result": {
         "is_valid": true,
-        "completeness": 98,
-        "accuracy": 96,
-        "consistency": 92,
-        "timeliness": 100
+        "validation_rules": ["title_exists", "content_complete", "date_valid"],
+        "validation_time": 1705310450000
       },
-      "error_message": "",
+      "duplicate_check": {
+        "is_duplicate": false,
+        "similarity_score": 0.12,
+        "matched_documents": []
+      },
+      "error_info": {},
       "retry_count": 0,
       "next_crawl_time": 1705396800000,
       "crawl_frequency": "daily",
+      "tags": ["基层医疗", "政策", "指导意见"],
+      "keywords": ["基层医疗", "医疗卫生服务", "健康中国"],
+      "author": "国家卫生健康委员会",
+      "publish_date": "2024-01-15",
+      "language": "zh-CN",
+      "region": "全国",
+      "data_size": 15234,
+      "processing_time": 6000,
+      "related_links": [
+        "https://www.nhc.gov.cn/related_policy_1",
+        "https://www.nhc.gov.cn/related_policy_2"
+      ],
+      "attachments": [
+        "https://www.nhc.gov.cn/files/policy_document.pdf"
+      ],
+      "images": [
+        "https://www.nhc.gov.cn/images/policy_cover.jpg"
+      ],
       "is_active": true,
-      "tags": ["疫情数据", "官方数据", "每日更新"],
-      "metadata": {
-        "source_department": "国家卫生健康委员会",
-        "data_license": "official",
-        "update_frequency": "每日",
-        "data_quality": "high",
-        "coverage": "全国"
-      },
-      "config": {
-        "crawl_interval": 86400000,
-        "timeout": 30000,
-        "retry_limit": 3,
-        "headers": {
-          "User-Agent": "Mozilla/5.0 (compatible; HealthBot/1.0)"
-        },
-        "selectors": {
-          "title": "h1.title",
-          "content": "div.content",
-          "date": "span.date"
-        }
-      },
-      "version": "v1.2.0",
-      "checksum": "sha256:abc123def456...",
+      "priority": "high",
+      "notes": "重要政策文件，需要重点关注",
       "createdAt": 1705310400000,
-      "updatedAt": 1705310400000,
+      "updatedAt": 1705310460000,
       "owner": "system",
-      "createBy": "rpa_bot",
-      "updateBy": "rpa_bot"
+      "createBy": "rpa_system",
+      "updateBy": "rpa_system"
     },
     {
       "_id": "2",
-      "source_id": "SRC002",
-      "source_name": "WHO全球健康数据",
-      "source_url": "https://www.who.int/data/gho/data/themes",
-      "source_type": "international",
-      "data_type": "global_health",
-      "crawl_time": 1705310400000,
+      "crawler_id": "CRAWLER_002",
+      "source_name": "中国医学科学院",
+      "source_url": "https://www.cams.ac.cn",
+      "source_type": "research_institution",
+      "content_type": "research_paper",
+      "category": "医学研究",
+      "title": "基于人工智能的肺癌早期诊断技术研究进展",
+      "content": "肺癌是全球发病率和死亡率最高的恶性肿瘤之一...",
       "raw_data": {
-        "dataset": "Global Health Observatory",
-        "indicators": [
-          {
-            "name": "Life expectancy at birth",
-            "value": 73.4,
-            "year": 2022,
-            "country": "Global"
-          },
-          {
-            "name": "Infant mortality rate",
-            "value": 14.2,
-            "year": 2022,
-            "country": "Global"
-          }
-        ],
-        "countries": [
-          {
-            "name": "China",
-            "life_expectancy": 78.4,
-            "infant_mortality": 6.1
-          },
-          {
-            "name": "United States",
-            "life_expectancy": 76.1,
-            "infant_mortality": 5.6
-          }
-        ]
-      },
-      "processed_data": {
-        "global_summary": {
-          "average_life_expectancy": 73.4,
-          "average_infant_mortality": 14.2,
-          "data_year": 2022
+        "html_content": "<html>...</html>",
+        "response_headers": {
+          "content-type": "text/html",
+          "content-length": "28456"
         },
-        "country_comparisons": {
-          "china": {
-            "life_expectancy_rank": 53,
-            "infant_mortality_rank": 152
-          },
-          "usa": {
-            "life_expectancy_rank": 68,
-            "infant_mortality_rank": 142
-          }
-        }
+        "status_code": 200
       },
-      "data_format": "json",
-      "data_size": 4096,
-      "record_count": 195,
-      "processing_status": "completed",
-      "quality_score": 98.2,
+      "structured_data": {
+        "paper_type": "综述",
+        "research_field": "肿瘤学",
+        "authors": ["张三", "李四", "王五"],
+        "journal": "中华医学杂志",
+        "volume": "104",
+        "issue": "2",
+        "pages": "123-130",
+        "doi": "10.3760/cma.j.issn.0376-2491.2024.02.001",
+        "abstract": "本文综述了人工智能在肺癌早期诊断中的应用...",
+        "keywords": ["肺癌", "人工智能", "早期诊断", "医学影像"]
+      },
+      "crawl_start_time": 1705311000000,
+      "crawl_end_time": 1705311080000,
+      "process_status": "completed",
+      "quality_score": 88,
       "validation_result": {
         "is_valid": true,
-        "completeness": 100,
-        "accuracy": 98,
-        "consistency": 96,
-        "timeliness": 99
+        "validation_rules": ["title_exists", "content_complete", "authors_valid", "doi_valid"],
+        "validation_time": 1705311070000
       },
-      "error_message": "",
+      "duplicate_check": {
+        "is_duplicate": false,
+        "similarity_score": 0.08,
+        "matched_documents": []
+      },
+      "error_info": {},
       "retry_count": 0,
-      "next_crawl_time": 1705483200000,
+      "next_crawl_time": 1705397400000,
       "crawl_frequency": "weekly",
+      "tags": ["肺癌", "人工智能", "早期诊断"],
+      "keywords": ["肺癌", "AI", "医学影像", "诊断技术"],
+      "author": "张三, 李四, 王五",
+      "publish_date": "2024-01-10",
+      "language": "zh-CN",
+      "region": "全国",
+      "data_size": 28456,
+      "processing_time": 8000,
+      "related_links": [
+        "https://www.cams.ac.cn/research/ai_lung_cancer",
+        "https://www.cams.ac.cn/journal/issue/104/2"
+      ],
+      "attachments": [
+        "https://www.cams.ac.cn/papers/ai_lung_cancer.pdf"
+      ],
+      "images": [
+        "https://www.cams.ac.cn/images/ai_diagnosis_flowchart.jpg"
+      ],
       "is_active": true,
-      "tags": ["WHO", "全球健康", "国际数据"],
-      "metadata": {
-        "source_organization": "World Health Organization",
-        "data_license": "CC BY-NC-SA 3.0",
-        "update_frequency": "每周",
-        "data_quality": "very_high",
-        "coverage": "全球"
-      },
-      "config": {
-        "crawl_interval": 604800000,
-        "timeout": 45000,
-        "retry_limit": 5,
-        "headers": {
-          "User-Agent": "Mozilla/5.0 (compatible; HealthBot/1.0)",
-          "Accept-Language": "en-US,en;q=0.9"
-        },
-        "api_endpoint": "https://ghoapi.azureedge.net/api"
-      },
-      "version": "v2.1.0",
-      "checksum": "sha256:def789ghi012...",
-      "createdAt": 1705310400000,
-      "updatedAt": 1705310400000,
+      "priority": "medium",
+      "notes": "重要的AI医学应用研究",
+      "createdAt": 1705311000000,
+      "updatedAt": 1705311080000,
       "owner": "system",
-      "createBy": "rpa_bot",
-      "updateBy": "rpa_bot"
+      "createBy": "rpa_system",
+      "updateBy": "rpa_system"
     },
     {
       "_id": "3",
-      "source_id": "SRC003",
-      "source_name": "京东健康商品数据",
-      "source_url": "https://health.jd.com/",
-      "source_type": "ecommerce",
-      "data_type": "product_info",
-      "crawl_time": 1705310400000,
+      "crawler_id": "CRAWLER_003",
+      "source_name": "国家药品监督管理局",
+      "source_url": "https://www.nmpa.gov.cn",
+      "source_type": "regulatory_agency",
+      "content_type": "drug_approval",
+      "category": "药品监管",
+      "title": "关于批准新型降糖药物格列美脲片上市的通知",
+      "content": "根据《中华人民共和国药品管理法》规定...",
       "raw_data": {
-        "products": [
-          {
-            "id": "100001",
-            "name": "欧姆龙血压计",
-            "price": 299.00,
-            "category": "医疗器械",
-            "brand": "欧姆龙",
-            "rating": 4.8,
-            "sales": 12500,
-            "reviews": 890
-          },
-          {
-            "id": "100002",
-            "name": "汤臣倍健维生素C",
-            "price": 89.00,
-            "category": "保健品",
-            "brand": "汤臣倍健",
-            "rating": 4.6,
-            "sales": 8900,
-            "reviews": 567
-          }
-        ],
-        "categories": [
-          {
-            "name": "医疗器械",
-            "product_count": 1250
-          },
-          {
-            "name": "保健品",
-            "product_count": 3450
-          }
-        ]
-      },
-      "processed_data": {
-        "market_analysis": {
-          "total_products": 4700,
-          "average_price": 156.50,
-          "top_categories": ["保健品", "医疗器械", "中药"],
-          "price_distribution": {
-            "under_50": 25,
-            "50_to_100": 35,
-            "100_to_200": 25,
-            "over_200": 15
-          }
+        "html_content": "<html>...</html>",
+        "response_headers": {
+          "content-type": "text/html",
+          "content-length": "9876"
         },
-        "trending_products": [
-          {
-            "name": "欧姆龙血压计",
-            "trend_score": 8.9,
-            "price_change": -5.2
-          }
-        ]
+        "status_code": 200
       },
-      "data_format": "json",
-      "data_size": 8192,
-      "record_count": 4700,
-      "processing_status": "completed",
-      "quality_score": 87.3,
+      "structured_data": {
+        "approval_type": "新药上市",
+        "drug_name": "格列美脲片",
+        "generic_name": "Glimepiride Tablets",
+        "manufacturer": "某制药有限公司",
+        "approval_number": "国药准字H20240001",
+        "specification": "2mg",
+        "indication": "2型糖尿病",
+        "approval_date": "2024-01-12",
+        "validity_period": "5年"
+      },
+      "crawl_start_time": 1705311600000,
+      "crawl_end_time": 1705311650000,
+      "process_status": "completed",
+      "quality_score": 92,
       "validation_result": {
         "is_valid": true,
-        "completeness": 85,
-        "accuracy": 88,
-        "consistency": 90,
-        "timeliness": 86
+        "validation_rules": ["title_exists", "drug_name_valid", "approval_number_valid"],
+        "validation_time": 1705311640000
       },
-      "error_message": "",
-      "retry_count": 1,
-      "next_crawl_time": 1705396800000,
+      "duplicate_check": {
+        "is_duplicate": false,
+        "similarity_score": 0.05,
+        "matched_documents": []
+      },
+      "error_info": {},
+      "retry_count": 0,
+      "next_crawl_time": 1705398000000,
       "crawl_frequency": "daily",
+      "tags": ["药品批准", "降糖药", "格列美脲"],
+      "keywords": ["格列美脲", "糖尿病", "新药上市"],
+      "author": "国家药品监督管理局",
+      "publish_date": "2024-01-12",
+      "language": "zh-CN",
+      "region": "全国",
+      "data_size": 9876,
+      "processing_time": 5000,
+      "related_links": [
+        "https://www.nmpa.gov.cn/drug/approval_process",
+        "https://www.nmpa.gov.cn/drug/glimepiride_info"
+      ],
+      "attachments": [
+        "https://www.nmpa.gov.cn/files/approval_document.pdf"
+      ],
+      "images": [],
       "is_active": true,
-      "tags": ["电商", "商品数据", "价格监控"],
-      "metadata": {
-        "source_platform": "京东健康",
-        "data_license": "commercial",
-        "update_frequency": "实时",
-        "data_quality": "medium",
-        "coverage": "中国"
-      },
-      "config": {
-        "crawl_interval": 86400000,
-        "timeout": 60000,
-        "retry_limit": 3,
-        "headers": {
-          "User-Agent": "Mozilla/5.0 (compatible; HealthBot/1.0)"
-        },
-        "rate_limit": {
-          "requests_per_minute": 30,
-          "delay_between_requests": 2000
-        }
-      },
-      "version": "v1.5.0",
-      "checksum": "sha256:ghi345jkl678...",
-      "createdAt": 1705310400000,
-      "updatedAt": 1705310400000,
+      "priority": "high",
+      "notes": "新药上市信息，需要及时更新到药品数据库",
+      "createdAt": 1705311600000,
+      "updatedAt": 1705311650000,
       "owner": "system",
-      "createBy": "rpa_bot",
-      "updateBy": "rpa_bot"
+      "createBy": "rpa_system",
+      "updateBy": "rpa_system"
     },
     {
       "_id": "4",
-      "source_id": "SRC004",
-      "source_name": "医学文献数据库",
-      "source_url": "https://pubmed.ncbi.nlm.nih.gov/",
-      "source_type": "academic",
-      "data_type": "research_papers",
-      "crawl_time": 1705310400000,
+      "crawler_id": "CRAWLER_004",
+      "source_name": "中国疾病预防控制中心",
+      "source_url": "https://www.chinacdc.cn",
+      "source_type": "public_health_agency",
+      "content_type": "disease_statistics",
+      "category": "疾病统计",
+      "title": "2023年全国传染病疫情监测报告",
+      "content": "2023年，全国共报告法定传染病发病病例...",
       "raw_data": {
-        "papers": [
-          {
-            "pmid": "37891234",
-            "title": "Artificial Intelligence in Healthcare: A Systematic Review",
-            "authors": ["Zhang L", "Wang M", "Li J"],
-            "journal": "Nature Medicine",
-            "publish_date": "2024-01-10",
-            "abstract": "This systematic review examines the current state...",
-            "keywords": ["AI", "healthcare", "machine learning"],
-            "doi": "10.1038/s41591-024-01234-5"
-          }
-        ],
-        "search_query": "artificial intelligence AND healthcare",
-        "total_results": 1250,
-        "page": 1
-      },
-      "processed_data": {
-        "research_trends": {
-          "top_keywords": ["AI", "machine learning", "deep learning", "diagnosis"],
-          "publication_trend": "increasing",
-          "top_journals": ["Nature Medicine", "The Lancet", "JAMA"]
+        "html_content": "<html>...</html>",
+        "response_headers": {
+          "content-type": "text/html",
+          "content-length": "45678"
         },
-        "author_network": {
-          "prolific_authors": ["Zhang L", "Wang M", "Li J"],
-          "collaboration_clusters": [
-            {
-              "cluster_id": 1,
-              "authors": ["Zhang L", "Wang M"],
-              "papers_count": 15
-            }
-          ]
-        }
+        "status_code": 200
       },
-      "data_format": "json",
-      "data_size": 6144,
-      "record_count": 50,
-      "processing_status": "processing",
-      "quality_score": 92.1,
+      "structured_data": {
+        "report_type": "年度统计报告",
+        "report_period": "2023年",
+        "disease_categories": ["甲类传染病", "乙类传染病", "丙类传染病"],
+        "total_cases": 3456789,
+        "total_deaths": 12345,
+        "top_diseases": [
+          {"name": "流感", "cases": 1234567, "deaths": 234},
+          {"name": "肺结核", "cases": 876543, "deaths": 567},
+          {"name": "病毒性肝炎", "cases": 654321, "deaths": 123}
+        ],
+        "trend_analysis": "总体呈下降趋势"
+      },
+      "crawl_start_time": 1705312200000,
+      "crawl_end_time": 1705312300000,
+      "process_status": "completed",
+      "quality_score": 96,
       "validation_result": {
         "is_valid": true,
-        "completeness": 90,
-        "accuracy": 94,
-        "consistency": 92,
-        "timeliness": 92
+        "validation_rules": ["title_exists", "data_complete", "statistics_valid"],
+        "validation_time": 1705312290000
       },
-      "error_message": "",
+      "duplicate_check": {
+        "is_duplicate": false,
+        "similarity_score": 0.03,
+        "matched_documents": []
+      },
+      "error_info": {},
       "retry_count": 0,
-      "next_crawl_time": 1705396800000,
-      "crawl_frequency": "daily",
+      "next_crawl_time": 1705398600000,
+      "crawl_frequency": "monthly",
+      "tags": ["传染病", "疫情监测", "统计数据"],
+      "keywords": ["传染病", "疫情", "监测报告", "统计数据"],
+      "author": "中国疾病预防控制中心",
+      "publish_date": "2024-01-08",
+      "language": "zh-CN",
+      "region": "全国",
+      "data_size": 45678,
+      "processing_time": 10000,
+      "related_links": [
+        "https://www.chinacdc.cn/weekly_report",
+        "https://www.chinacdc.cn/disease_statistics"
+      ],
+      "attachments": [
+        "https://www.chinacdc.cn/files/2023_disease_report.pdf"
+      ],
+      "images": [
+        "https://www.chinacdc.cn/images/disease_trend_chart.jpg"
+      ],
       "is_active": true,
-      "tags": ["学术文献", "医学研究", "AI医疗"],
-      "metadata": {
-        "source_database": "PubMed",
-        "data_license": "public_domain",
-        "update_frequency": "每日",
-        "data_quality": "high",
-        "coverage": "全球"
-      },
-      "config": {
-        "crawl_interval": 86400000,
-        "timeout": 45000,
-        "retry_limit": 3,
-        "headers": {
-          "User-Agent": "Mozilla/5.0 (compatible; HealthBot/1.0)"
-        },
-        "api_endpoint": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
-      },
-      "version": "v1.3.0",
-      "checksum": "sha256:jkl678mno901...",
-      "createdAt": 1705310400000,
-      "updatedAt": 1705310400000,
+      "priority": "high",
+      "notes": "重要的疫情监测数据，用于健康风险评估",
+      "createdAt": 1705312200000,
+      "updatedAt": 1705312300000,
       "owner": "system",
-      "createBy": "rpa_bot",
-      "updateBy": "rpa_bot"
+      "createBy": "rpa_system",
+      "updateBy": "rpa_system"
     },
     {
       "_id": "5",
-      "source_id": "SRC005",
-      "source_name": "天气健康数据",
-      "source_url": "https://weather.com/health",
-      "source_type": "weather",
-      "data_type": "environmental_health",
-      "crawl_time": 1705310400000,
+      "crawler_id": "CRAWLER_005",
+      "source_name": "世界卫生组织",
+      "source_url": "https://www.who.int",
+      "source_type": "international_organization",
+      "content_type": "health_guideline",
+      "category": "健康指南",
+      "title": "WHO发布2024年全球健康监测技术指南",
+      "content": "世界卫生组织今日发布了2024年全球健康监测技术指南...",
       "raw_data": {
-        "location": "Beijing, China",
-        "current": {
-          "temperature": 5.2,
-          "humidity": 45,
-          "air_quality_index": 85,
-          "uv_index": 2,
-          "pressure": 1013
+        "html_content": "<html>...</html>",
+        "response_headers": {
+          "content-type": "text/html",
+          "content-length": "32145"
         },
-        "forecast": [
-          {
-            "date": "2024-01-16",
-            "high": 8,
-            "low": -2,
-            "condition": "partly_cloudy",
-            "air_quality": 78
-          }
+        "status_code": 200
+      },
+      "structured_data": {
+        "guideline_type": "技术指南",
+        "issuing_organization": "世界卫生组织",
+        "publication_date": "2024-01-14",
+        "target_audience": ["各国卫生部门", "医疗机构", "研究机构"],
+        "key_topics": [
+          "健康监测标准",
+          "数据收集方法",
+          "质量控制要求",
+          "技术实施规范"
         ],
-        "health_alerts": [
-          {
-            "type": "air_quality",
-            "level": "moderate",
-            "message": "Sensitive individuals should limit outdoor activities"
-          }
-        ]
+        "version": "2024.1",
+        "implementation_deadline": "2024-06-30"
       },
-      "processed_data": {
-        "health_impact": {
-          "air_quality_risk": "moderate",
-          "temperature_comfort": "cold",
-          "humidity_level": "comfortable",
-          "overall_health_score": 72
-        },
-        "recommendations": [
-          "Wear warm clothing due to cold temperatures",
-          "Consider wearing a mask due to moderate air quality",
-          "Limit prolonged outdoor exposure for sensitive groups"
-        ]
-      },
-      "data_format": "json",
-      "data_size": 1024,
-      "record_count": 10,
-      "processing_status": "failed",
-      "quality_score": 45.0,
+      "crawl_start_time": 1705312800000,
+      "crawl_end_time": 1705312870000,
+      "process_status": "completed",
+      "quality_score": 94,
       "validation_result": {
-        "is_valid": false,
-        "completeness": 60,
-        "accuracy": 50,
-        "consistency": 40,
-        "timeliness": 30
+        "is_valid": true,
+        "validation_rules": ["title_exists", "content_complete", "organization_valid"],
+        "validation_time": 1705312860000
       },
-      "error_message": "API rate limit exceeded. Please try again later.",
-      "retry_count": 2,
-      "next_crawl_time": 1705396800000,
-      "crawl_frequency": "hourly",
-      "is_active": false,
-      "tags": ["天气", "环境健康", "空气质量"],
-      "metadata": {
-        "source_provider": "Weather.com",
-        "data_license": "commercial",
-        "update_frequency": "每小时",
-        "data_quality": "variable",
-        "coverage": "全球主要城市"
+      "duplicate_check": {
+        "is_duplicate": false,
+        "similarity_score": 0.07,
+        "matched_documents": []
       },
-      "config": {
-        "crawl_interval": 3600000,
-        "timeout": 15000,
-        "retry_limit": 5,
-        "headers": {
-          "User-Agent": "Mozilla/5.0 (compatible; HealthBot/1.0)"
-        },
-        "api_key": "weather_api_key_123"
-      },
-      "version": "v1.0.0",
-      "checksum": "sha256:mno901pqr234...",
-      "createdAt": 1705310400000,
-      "updatedAt": 1705310400000,
+      "error_info": {},
+      "retry_count": 0,
+      "next_crawl_time": 1705399200000,
+      "crawl_frequency": "weekly",
+      "tags": ["WHO", "健康监测", "技术指南"],
+      "keywords": ["世界卫生组织", "健康监测", "技术指南", "全球健康"],
+      "author": "世界卫生组织",
+      "publish_date": "2024-01-14",
+      "language": "en",
+      "region": "全球",
+      "data_size": 32145,
+      "processing_time": 7000,
+      "related_links": [
+        "https://www.who.int/health-monitoring",
+        "https://www.who.int/guidelines/2024"
+      ],
+      "attachments": [
+        "https://www.who.int/files/health_monitoring_guide_2024.pdf"
+      ],
+      "images": [
+        "https://www.who.int/images/health_monitoring_cover.jpg"
+      ],
+      "is_active": true,
+      "priority": "medium",
+      "notes": "国际健康指南，对国内健康监测有重要参考价值",
+      "createdAt": 1705312800000,
+      "updatedAt": 1705312870000,
       "owner": "system",
-      "createBy": "rpa_bot",
-      "updateBy": "rpa_bot"
+      "createBy": "rpa_system",
+      "updateBy": "rpa_system"
+    },
+    {
+      "_id": "6",
+      "crawler_id": "CRAWLER_006",
+      "source_name": "PubMed医学数据库",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov",
+      "source_type": "medical_database",
+      "content_type": "clinical_trial",
+      "category": "临床试验",
+      "title": "新型降压药物的临床试验结果公布",
+      "content": "一项关于新型降压药物的多中心随机对照试验...",
+      "raw_data": {
+        "html_content": "<html>...</html>",
+        "response_headers": {
+          "content-type": "text/html",
+          "content-length": "18976"
+        },
+        "status_code": 200
+      },
+      "structured_data": {
+        "trial_type": "多中心随机对照试验",
+        "phase": "III期临床试验",
+        "drug_name": "新降压药X",
+        "sample_size": 2500,
+        "duration": "24个月",
+        "primary_endpoint": "血压控制率",
+        "secondary_endpoints": ["不良反应发生率", "生活质量评分"],
+        "results": {
+          "efficacy": "显著优于对照组",
+          "safety": "安全性良好",
+          "statistical_significance": "p<0.001"
+        },
+        "clinical_trial_id": "NCT04567890"
+      },
+      "crawl_start_time": 1705313400000,
+      "crawl_end_time": 1705313460000,
+      "process_status": "completed",
+      "quality_score": 90,
+      "validation_result": {
+        "is_valid": true,
+        "validation_rules": ["title_exists", "trial_id_valid", "data_complete"],
+        "validation_time": 1705313450000
+      },
+      "duplicate_check": {
+        "is_duplicate": false,
+        "similarity_score": 0.09,
+        "matched_documents": []
+      },
+      "error_info": {},
+      "retry_count": 0,
+      "next_crawl_time": 1705399800000,
+      "crawl_frequency": "weekly",
+      "tags": ["临床试验", "降压药", "随机对照"],
+      "keywords": ["降压药", "临床试验", "高血压", "随机对照试验"],
+      "author": "多中心研究团队",
+      "publish_date": "2024-01-11",
+      "language": "en",
+      "region": "国际",
+      "data_size": 18976,
+      "processing_time": 6000,
+      "related_links": [
+        "https://clinicaltrials.gov/NCT04567890",
+        "https://pubmed.ncbi.nlm.nih.gov/34567890"
+      ],
+      "attachments": [
+        "https://pubmed.ncbi.nlm.nih.gov/files/trial_results.pdf"
+      ],
+      "images": [
+        "https://pubmed.ncbi.nlm.nih.gov/images/trial_flowchart.jpg"
+      ],
+      "is_active": true,
+      "priority": "medium",
+      "notes": "重要的临床试验结果，对临床实践有指导意义",
+      "createdAt": 1705313400000,
+      "updatedAt": 1705313460000,
+      "owner": "system",
+      "createBy": "rpa_system",
+      "updateBy": "rpa_system"
     }
   ]
   

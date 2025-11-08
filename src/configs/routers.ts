@@ -11,8 +11,6 @@ import MALL from '../pages/mall.jsx';
 import CUSTOMFORMULA from '../pages/customFormula.jsx';
 import PERSONALCENTER from '../pages/personalCenter.jsx';
 import HOME from '../pages/home.jsx';
-import RPAMANAGEMENT from '../pages/rpaManagement.jsx';
-import KNOWLEDGEMANAGEMENT from '../pages/knowledgeManagement.jsx';
 export const routers = [{
   id: "login",
   component: LOGIN
@@ -52,10 +50,4 @@ export const routers = [{
 }, {
   id: "home",
   component: HOME
-}, {
-  id: "rpaManagement",
-  component: RPAMANAGEMENT
-}, {
-  id: "knowledgeManagement",
-  component: KNOWLEDGEMANAGEMENT
 }]

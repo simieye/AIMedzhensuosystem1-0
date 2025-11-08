@@ -4,8 +4,8 @@
     "title": "RPA爬虫数据管理",
     "schemas": [
       {
-        "name": "source_id",
-        "title": "数据源标识",
+        "name": "crawler_id",
+        "title": "爬虫任务ID",
         "type": "String"
       },
       {
@@ -24,15 +24,24 @@
         "type": "String"
       },
       {
-        "name": "data_type",
-        "title": "数据类型",
+        "name": "content_type",
+        "title": "内容类型",
         "type": "String"
       },
       {
-        "name": "crawl_time",
-        "title": "爬取时间",
-        "type": "DateTime",
-        "format": "timestamp-ms"
+        "name": "category",
+        "title": "数据分类",
+        "type": "String"
+      },
+      {
+        "name": "title",
+        "title": "数据标题",
+        "type": "String"
+      },
+      {
+        "name": "content",
+        "title": "数据内容",
+        "type": "RichText"
       },
       {
         "name": "raw_data",
@@ -43,36 +52,33 @@
         }
       },
       {
-        "name": "processed_data",
-        "title": "处理后数据",
+        "name": "structured_data",
+        "title": "结构化数据",
         "type": "Object",
         "items": {
           "type": "Object"
         }
       },
       {
-        "name": "data_format",
-        "title": "数据格式",
-        "type": "String"
+        "name": "crawl_start_time",
+        "title": "爬取开始时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
       },
       {
-        "name": "data_size",
-        "title": "数据大小",
-        "type": "Number"
+        "name": "crawl_end_time",
+        "title": "爬取结束时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
       },
       {
-        "name": "record_count",
-        "title": "记录数量",
-        "type": "Number"
-      },
-      {
-        "name": "processing_status",
+        "name": "process_status",
         "title": "处理状态",
         "type": "String"
       },
       {
         "name": "quality_score",
-        "title": "数据质量评分",
+        "title": "质量评分",
         "type": "Number"
       },
       {
@@ -84,9 +90,20 @@
         }
       },
       {
-        "name": "error_message",
+        "name": "duplicate_check",
+        "title": "去重检查",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "error_info",
         "title": "错误信息",
-        "type": "MultiLineString"
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
       },
       {
         "name": "retry_count",
@@ -105,11 +122,6 @@
         "type": "String"
       },
       {
-        "name": "is_active",
-        "title": "是否活跃",
-        "type": "Boolean"
-      },
-      {
         "name": "tags",
         "title": "标签",
         "type": "Array",
@@ -118,30 +130,82 @@
         }
       },
       {
-        "name": "metadata",
-        "title": "元数据",
-        "type": "Object",
+        "name": "keywords",
+        "title": "关键词",
+        "type": "Array",
         "items": {
-          "type": "Object"
+          "type": "String"
         }
       },
       {
-        "name": "config",
-        "title": "爬取配置",
-        "type": "Object",
+        "name": "author",
+        "title": "作者",
+        "type": "String"
+      },
+      {
+        "name": "publish_date",
+        "title": "发布日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "language",
+        "title": "语言",
+        "type": "String"
+      },
+      {
+        "name": "region",
+        "title": "地区",
+        "type": "String"
+      },
+      {
+        "name": "data_size",
+        "title": "数据大小",
+        "type": "Number"
+      },
+      {
+        "name": "processing_time",
+        "title": "处理耗时",
+        "type": "Number"
+      },
+      {
+        "name": "related_links",
+        "title": "相关链接",
+        "type": "Array",
         "items": {
-          "type": "Object"
+          "type": "Url"
         }
       },
       {
-        "name": "version",
-        "title": "数据版本",
+        "name": "attachments",
+        "title": "附件",
+        "type": "Array",
+        "items": {
+          "type": "File"
+        }
+      },
+      {
+        "name": "images",
+        "title": "图片",
+        "type": "Array",
+        "items": {
+          "type": "Image"
+        }
+      },
+      {
+        "name": "is_active",
+        "title": "是否有效",
+        "type": "Boolean"
+      },
+      {
+        "name": "priority",
+        "title": "优先级",
         "type": "String"
       },
       {
-        "name": "checksum",
-        "title": "数据校验和",
-        "type": "String"
+        "name": "notes",
+        "title": "备注",
+        "type": "MultiLineString"
       }
     ]
   }

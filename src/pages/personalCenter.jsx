@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // @ts-ignore;
 import { Button, Card, CardContent, CardHeader, CardTitle, Alert, AlertDescription, useToast } from '@/components/ui';
 // @ts-ignore;
-import { User, Settings, Shield, Heart, Brain, Activity, Calendar, Award, FileText, Share2, Download, RefreshCw, TrendingUp, Clock, Star, Zap, ChevronRight, Eye, MessageCircle, Dna, Target, Gift, CreditCard, Bell, CheckCircle, AlertCircle, Info, X, BarChart3, PieChart } from 'lucide-react';
+import { User, Settings, Shield, Heart, Brain, Activity, Calendar, Award, FileText, Share2, Download, RefreshCw, TrendingUp, Clock, Star, Zap, ChevronRight, Eye, MessageCircle, Dna, Target, Gift, CreditCard, Bell, CheckCircle, AlertCircle, Info, X, BarChart3, PieChart, Database, Globe, Cpu, Layers, History, Play, Pause, Settings2, Filter, Search, Upload, Cloud, Server, HardDrive, Wifi, ZapOff, Plus } from 'lucide-react';
 
 // @ts-ignore;
 import { TabBar } from '@/components/TabBar';
@@ -32,7 +32,201 @@ export default function PersonalCenter(props) {
   const [shareOptions, setShareOptions] = useState(false);
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
   const [isProcessingRenewal, setIsProcessingRenewal] = useState(false);
+
+  // 知识库管理相关状态
+  const [knowledgeBaseData, setKnowledgeBaseData] = useState(null);
+  const [isUpdatingKB, setIsUpdatingKB] = useState(false);
+  const [updateProgress, setUpdateProgress] = useState(0);
+  const [showKBDetail, setShowKBDetail] = useState(false);
+  const [selectedKBItem, setSelectedKBItem] = useState(null);
+  const [kbUpdateHistory, setKbUpdateHistory] = useState([]);
+  const [kbStats, setKbStats] = useState(null);
+  const [activeKBTab, setActiveKBTab] = useState('overview');
+  const [searchKBQuery, setSearchKBQuery] = useState('');
+  const [filterKBStatus, setFilterKBStatus] = useState('all');
   const organDetailRef = useRef(null);
+
+  // 模拟知识库数据
+  const mockKnowledgeBaseData = {
+    overview: {
+      totalEntries: 15420,
+      activeEntries: 14856,
+      lastUpdate: new Date('2024-01-15T10:30:00'),
+      nextUpdate: new Date('2024-01-16T02:00:00'),
+      currentVersion: 'v3.2.1',
+      updateFrequency: 'daily',
+      autoUpdateEnabled: true,
+      qualityScore: 94.2,
+      dataSources: [{
+        name: 'PubMed',
+        status: 'active',
+        lastSync: new Date('2024-01-15T08:00:00'),
+        entries: 5234
+      }, {
+        name: 'USPTO',
+        status: 'active',
+        lastSync: new Date('2024-01-15T09:30:00'),
+        entries: 3126
+      }, {
+        name: 'ClinicalTrials.gov',
+        status: 'active',
+        lastSync: new Date('2024-01-15T10:00:00'),
+        entries: 2847
+      }, {
+        name: 'WHO',
+        status: 'active',
+        lastSync: new Date('2024-01-15T07:30:00'),
+        entries: 1893
+      }, {
+        name: 'Nature',
+        status: 'active',
+        lastSync: new Date('2024-01-15T11:00:00'),
+        entries: 2340
+      }]
+    },
+    categories: [{
+      name: '抗衰老研究',
+      entries: 3420,
+      growth: 12.5,
+      quality: 96.2
+    }, {
+      name: '心血管健康',
+      entries: 2890,
+      growth: 8.3,
+      quality: 94.7
+    }, {
+      name: '神经科学',
+      entries: 2560,
+      growth: 15.2,
+      quality: 92.8
+    }, {
+      name: '免疫学',
+      entries: 2140,
+      growth: 10.1,
+      quality: 93.5
+    }, {
+      name: '代谢疾病',
+      entries: 1870,
+      growth: 7.8,
+      quality: 91.2
+    }, {
+      name: '基因治疗',
+      entries: 1650,
+      growth: 18.9,
+      quality: 95.1
+    }],
+    recentUpdates: [{
+      id: 'kb_001',
+      title: 'NMN抗衰老机制新发现',
+      category: '抗衰老研究',
+      updateTime: new Date('2024-01-15T14:30:00'),
+      source: 'PubMed',
+      qualityScore: 96.5,
+      confidence: 0.94,
+      version: 'v3.2.1'
+    }, {
+      id: 'kb_002',
+      title: '心血管疾病预防新指南',
+      category: '心血管健康',
+      updateTime: new Date('2024-01-15T13:15:00'),
+      source: 'WHO',
+      qualityScore: 94.2,
+      confidence: 0.91,
+      version: 'v3.2.1'
+    }, {
+      id: 'kb_003',
+      title: '阿尔茨海默病早期诊断',
+      category: '神经科学',
+      updateTime: new Date('2024-01-15T12:00:00'),
+      source: 'Nature',
+      qualityScore: 97.1,
+      confidence: 0.96,
+      version: 'v3.2.1'
+    }],
+    versionHistory: [{
+      version: 'v3.2.1',
+      releaseDate: new Date('2024-01-15'),
+      changes: ['新增PubMed数据源', '优化数据清洗算法', '修复已知bug'],
+      entriesAdded: 234,
+      entriesUpdated: 156,
+      entriesRemoved: 23
+    }, {
+      version: 'v3.2.0',
+      releaseDate: new Date('2024-01-10'),
+      changes: ['集成USPTO专利数据', '增强知识推理能力', '优化搜索算法'],
+      entriesAdded: 567,
+      entriesUpdated: 234,
+      entriesRemoved: 45
+    }, {
+      version: 'v3.1.2',
+      releaseDate: new Date('2024-01-05'),
+      changes: ['修复数据同步问题', '提升系统稳定性', '优化用户界面'],
+      entriesAdded: 123,
+      entriesUpdated: 89,
+      entriesRemoved: 12
+    }]
+  };
+
+  // 模拟知识库统计数据
+  const mockKBStats = {
+    growthData: [{
+      month: '8月',
+      entries: 12000,
+      quality: 91.2
+    }, {
+      month: '9月',
+      entries: 12800,
+      quality: 92.1
+    }, {
+      month: '10月',
+      entries: 13500,
+      quality: 92.8
+    }, {
+      month: '11月',
+      entries: 14200,
+      quality: 93.5
+    }, {
+      month: '12月',
+      entries: 14800,
+      quality: 93.9
+    }, {
+      month: '1月',
+      entries: 15420,
+      quality: 94.2
+    }],
+    categoryDistribution: [{
+      name: '抗衰老研究',
+      value: 3420,
+      color: '#8b5cf6'
+    }, {
+      name: '心血管健康',
+      value: 2890,
+      color: '#ef4444'
+    }, {
+      name: '神经科学',
+      value: 2560,
+      color: '#06b6d4'
+    }, {
+      name: '免疫学',
+      value: 2140,
+      color: '#f59e0b'
+    }, {
+      name: '代谢疾病',
+      value: 1870,
+      color: '#ec4899'
+    }, {
+      name: '基因治疗',
+      value: 1650,
+      color: '#10b981'
+    }],
+    qualityMetrics: {
+      accuracy: 94.2,
+      completeness: 91.8,
+      timeliness: 96.5,
+      consistency: 92.3,
+      relevance: 93.7
+    }
+  };
 
   // 3D器官数据
   const organsData = [{
@@ -218,6 +412,8 @@ export default function PersonalCenter(props) {
     // 初始化数据
     setMembershipInfo(mockMembershipInfo);
     setGeneAnalysis(mockGeneAnalysis);
+    setKnowledgeBaseData(mockKnowledgeBaseData);
+    setKbStats(mockKBStats);
     generateMonthlyReports();
     checkRenewalReminder();
   }, []);
@@ -272,8 +468,6 @@ export default function PersonalCenter(props) {
       title: "生成月度报告",
       description: "AI正在分析您的健康数据，生成个性化报告..."
     });
-
-    // 模拟报告生成过程
     setTimeout(() => {
       const newReport = {
         id: `report-${Date.now()}`,
@@ -310,8 +504,6 @@ export default function PersonalCenter(props) {
       title: "处理续费",
       description: "RPA正在为您处理会员续费..."
     });
-
-    // 模拟RPA续费处理
     setTimeout(() => {
       setIsProcessingRenewal(false);
       setRenewalReminder(null);
@@ -356,6 +548,51 @@ export default function PersonalCenter(props) {
     }
     setShareOptions(false);
   };
+
+  // 知识库管理相关函数
+  const handleKBUpdate = () => {
+    setIsUpdatingKB(true);
+    setUpdateProgress(0);
+    toast({
+      title: "知识库更新",
+      description: "正在启动知识库更新流程..."
+    });
+
+    // 模拟更新进度
+    const progressInterval = setInterval(() => {
+      setUpdateProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(progressInterval);
+          setIsUpdatingKB(false);
+          toast({
+            title: "更新完成",
+            description: "知识库已成功更新到最新版本"
+          });
+          // 更新知识库数据
+          setKnowledgeBaseData(prev => ({
+            ...prev,
+            overview: {
+              ...prev.overview,
+              lastUpdate: new Date(),
+              currentVersion: 'v3.2.2'
+            }
+          }));
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 500);
+  };
+  const handleKBItemDetail = item => {
+    setSelectedKBItem(item);
+    setShowKBDetail(true);
+  };
+  const handleKBDataSourceToggle = sourceName => {
+    toast({
+      title: "数据源配置",
+      description: `正在${knowledgeBaseData.overview.dataSources.find(s => s.name === sourceName).status === 'active' ? '禁用' : '启用'} ${sourceName} 数据源...`
+    });
+  };
   const handleTabChange = tabId => {
     setActiveTab(tabId);
     const pageMap = {
@@ -388,6 +625,18 @@ export default function PersonalCenter(props) {
         return 'text-gray-600 bg-gray-100';
     }
   };
+  const getKBStatusColor = status => {
+    switch (status) {
+      case 'active':
+        return 'text-green-600 bg-green-100';
+      case 'updating':
+        return 'text-blue-600 bg-blue-100';
+      case 'error':
+        return 'text-red-600 bg-red-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
+    }
+  };
   return <div style={style} className="min-h-screen bg-gray-50 pb-16">
       {/* 顶部导航 */}
       <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
@@ -395,7 +644,7 @@ export default function PersonalCenter(props) {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold mb-1">个人中心</h1>
-              <p className="text-indigo-100">3D数字孪生 · AI健康报告 · 基因分析</p>
+              <p className="text-indigo-100">3D数字孪生 · AI健康报告 · 基因分析 · 知识库管理</p>
             </div>
             <div className="flex items-center space-x-4">
               <div className="text-right">
@@ -405,6 +654,10 @@ export default function PersonalCenter(props) {
               <div className="text-right">
                 <div className="text-2xl font-bold">{geneAnalysis?.overallScore || 85}</div>
                 <div className="text-indigo-100 text-sm">基因评分</div>
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold">{knowledgeBaseData?.overview.totalEntries || 15420}</div>
+                <div className="text-indigo-100 text-sm">知识条目</div>
               </div>
             </div>
           </div>
@@ -597,6 +850,233 @@ export default function PersonalCenter(props) {
             </CardContent>
           </Card>
         </div>
+
+        {/* 知识库管理界面 */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Database className="w-5 h-5 mr-2" />
+                知识库管理
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button onClick={handleKBUpdate} disabled={isUpdatingKB} className="bg-purple-600 hover:bg-purple-700">
+                  {isUpdatingKB ? <RefreshCw className="w-4 h-4 mr-2 animate-spin" /> : <Cloud className="w-4 h-4 mr-2" />}
+                  {isUpdatingKB ? '更新中...' : '手动更新'}
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Settings2 className="w-4 h-4 mr-1" />
+                  配置
+                </Button>
+              </div>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {/* 知识库概览标签页 */}
+            <div className="flex space-x-1 mb-6 border-b">
+              {['overview', 'categories', 'sources', 'history'].map(tab => <button key={tab} onClick={() => setActiveKBTab(tab)} className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeKBTab === tab ? 'border-purple-600 text-purple-600' : 'border-transparent text-gray-600 hover:text-gray-800'}`}>
+                  {tab === 'overview' ? '概览' : tab === 'categories' ? '分类' : tab === 'sources' ? '数据源' : '历史'}
+                </button>)}
+            </div>
+
+            {/* 概览标签页 */}
+            {activeKBTab === 'overview' && knowledgeBaseData && <div className="space-y-6">
+                {/* 统计卡片 */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-blue-600 font-medium">总条目数</p>
+                        <p className="text-2xl font-bold text-blue-800">{knowledgeBaseData.overview.totalEntries.toLocaleString()}</p>
+                      </div>
+                      <Database className="w-8 h-8 text-blue-500" />
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-green-600 font-medium">活跃条目</p>
+                        <p className="text-2xl font-bold text-green-800">{knowledgeBaseData.overview.activeEntries.toLocaleString()}</p>
+                      </div>
+                      <CheckCircle className="w-8 h-8 text-green-500" />
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-purple-600 font-medium">质量评分</p>
+                        <p className="text-2xl font-bold text-purple-800">{knowledgeBaseData.overview.qualityScore}</p>
+                      </div>
+                      <Star className="w-8 h-8 text-purple-500" />
+                    </div>
+                  </div>
+                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-orange-600 font-medium">当前版本</p>
+                        <p className="text-2xl font-bold text-orange-800">{knowledgeBaseData.overview.currentVersion}</p>
+                      </div>
+                      <Layers className="w-8 h-8 text-orange-500" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 更新进度 */}
+                {isUpdatingKB && <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-blue-800">知识库更新进度</span>
+                      <span className="text-sm text-blue-600">{updateProgress}%</span>
+                    </div>
+                    <div className="w-full bg-blue-200 rounded-full h-2">
+                      <div className="bg-blue-600 h-2 rounded-full transition-all duration-300" style={{
+                  width: `${updateProgress}%`
+                }}></div>
+                    </div>
+                  </div>}
+
+                {/* 最近更新 */}
+                <div>
+                  <h4 className="font-semibold text-gray-800 mb-3">最近更新</h4>
+                  <div className="space-y-3">
+                    {knowledgeBaseData.recentUpdates.map(item => <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors" onClick={() => handleKBItemDetail(item)}>
+                        <div className="flex-1">
+                          <h5 className="font-medium text-gray-800">{item.title}</h5>
+                          <div className="flex items-center space-x-4 text-sm text-gray-600 mt-1">
+                            <span>{item.category}</span>
+                            <span>来源: {item.source}</span>
+                            <span>{item.updateTime.toLocaleString('zh-CN')}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <span className="text-sm font-medium text-purple-600">质量: {item.qualityScore}</span>
+                          <ChevronRight className="w-4 h-4 text-gray-400" />
+                        </div>
+                      </div>)}
+                  </div>
+                </div>
+
+                {/* 知识库增长趋势 */}
+                {kbStats && <div>
+                    <h4 className="font-semibold text-gray-800 mb-3">知识库增长趋势</h4>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <RechartsLineChart data={kbStats.growthData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="month" />
+                        <YAxis yAxisId="left" />
+                        <YAxis yAxisId="right" orientation="right" />
+                        <Tooltip />
+                        <Bar yAxisId="left" dataKey="entries" fill="#8b5cf6" name="条目数量" />
+                        <Line yAxisId="right" type="monotone" dataKey="quality" stroke="#10b981" strokeWidth={2} name="质量评分" />
+                      </RechartsLineChart>
+                    </ResponsiveContainer>
+                  </div>}
+              </div>}
+
+            {/* 分类标签页 */}
+            {activeKBTab === 'categories' && knowledgeBaseData && <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {knowledgeBaseData.categories.map((category, index) => <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                      <div className="flex items-center justify-between mb-3">
+                        <h5 className="font-semibold text-gray-800">{category.name}</h5>
+                        <span className="text-sm text-purple-600 font-medium">{category.entries.toLocaleString()} 条</span>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-gray-600">月增长率:</span>
+                          <span className="font-medium text-green-600">+{category.growth}%</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-gray-600">质量评分:</span>
+                          <span className="font-medium text-blue-600">{category.quality}</span>
+                        </div>
+                      </div>
+                      <div className="mt-3">
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="bg-purple-600 h-2 rounded-full" style={{
+                      width: `${category.quality}%`
+                    }}></div>
+                        </div>
+                      </div>
+                    </div>)}
+                </div>
+
+                {/* 分类分布图 */}
+                {kbStats && <div>
+                    <h4 className="font-semibold text-gray-800 mb-3">分类分布</h4>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <RechartsPieChart>
+                        <Pie data={kbStats.categoryDistribution} cx="50%" cy="50%" labelLine={false} label={({
+                    name,
+                    percent
+                  }) => `${name} ${(percent * 100).toFixed(0)}%`} outerRadius={80} fill="#8884d8" dataKey="value">
+                          {kbStats.categoryDistribution.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}
+                        </Pie>
+                        <Tooltip />
+                      </RechartsPieChart>
+                    </ResponsiveContainer>
+                  </div>}
+              </div>}
+
+            {/* 数据源标签页 */}
+            {activeKBTab === 'sources' && knowledgeBaseData && <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-semibold text-gray-800">数据源管理</h4>
+                  <Button variant="outline" size="sm">
+                    <Plus className="w-4 h-4 mr-1" />
+                    添加数据源
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  {knowledgeBaseData.overview.dataSources.map((source, index) => <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center space-x-4">
+                        <div className={`w-3 h-3 rounded-full ${source.status === 'active' ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                        <div>
+                          <h5 className="font-medium text-gray-800">{source.name}</h5>
+                          <div className="text-sm text-gray-600">
+                            最后同步: {source.lastSync.toLocaleString('zh-CN')}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <span className="text-sm font-medium text-purple-600">{source.entries.toLocaleString()} 条</span>
+                        <Button variant="outline" size="sm" onClick={() => handleKBDataSourceToggle(source.name)}>
+                          {source.status === 'active' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                        </Button>
+                      </div>
+                    </div>)}
+                </div>
+              </div>}
+
+            {/* 历史标签页 */}
+            {activeKBTab === 'history' && knowledgeBaseData && <div className="space-y-4">
+                <h4 className="font-semibold text-gray-800">版本历史</h4>
+                <div className="space-y-4">
+                  {knowledgeBaseData.versionHistory.map((version, index) => <div key={index} className="border rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-lg font-bold text-purple-600">{version.version}</span>
+                          <span className="text-sm text-gray-600">{version.releaseDate.toLocaleDateString('zh-CN')}</span>
+                        </div>
+                        <div className="flex items-center space-x-4 text-sm">
+                          <span className="text-green-600">+{version.entriesAdded}</span>
+                          <span className="text-blue-600">~{version.entriesUpdated}</span>
+                          <span className="text-red-600">-{version.entriesRemoved}</span>
+                        </div>
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-gray-800 mb-2">更新内容:</h5>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          {version.changes.map((change, changeIndex) => <li key={changeIndex} className="flex items-center">
+                              <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                              {change}
+                            </li>)}
+                        </ul>
+                      </div>
+                    </div>)}
+                </div>
+              </div>}
+          </CardContent>
+        </Card>
 
         {/* 长寿基因优势分析 */}
         <Card>
@@ -848,6 +1328,60 @@ export default function PersonalCenter(props) {
                       </li>)}
                   </ul>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>}
+
+      {/* 知识库详情弹窗 */}
+      {showKBDetail && selectedKBItem && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-800">知识条目详情</h3>
+              <button onClick={() => setShowKBDetail(false)} className="text-gray-400 hover:text-gray-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-2">{selectedKBItem.title}</h4>
+                <div className="flex items-center space-x-4 text-sm text-gray-600">
+                  <span>{selectedKBItem.category}</span>
+                  <span>来源: {selectedKBItem.source}</span>
+                  <span>版本: {selectedKBItem.version}</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 p-3 rounded">
+                  <div className="text-sm text-gray-600">质量评分</div>
+                  <div className="text-lg font-semibold text-purple-600">{selectedKBItem.qualityScore}</div>
+                </div>
+                <div className="bg-gray-50 p-3 rounded">
+                  <div className="text-sm text-gray-600">置信度</div>
+                  <div className="text-lg font-semibold text-blue-600">{(selectedKBItem.confidence * 100).toFixed(0)}%</div>
+                </div>
+              </div>
+
+              <div>
+                <h5 className="font-medium text-gray-700 mb-2">更新时间</h5>
+                <p className="text-sm text-gray-600">{selectedKBItem.updateTime.toLocaleString('zh-CN')}</p>
+              </div>
+
+              <div className="flex space-x-3">
+                <Button variant="outline" size="sm">
+                  <Eye className="w-4 h-4 mr-1" />
+                  查看详情
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Share2 className="w-4 h-4 mr-1" />
+                  分享
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Download className="w-4 h-4 mr-1" />
+                  下载
+                </Button>
               </div>
             </div>
           </div>
