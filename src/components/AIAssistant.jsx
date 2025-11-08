@@ -1,9 +1,9 @@
 // @ts-ignore;
 import React, { useState, useEffect, useRef } from 'react';
 // @ts-ignore;
-import { Button, Input, Card, CardContent, useToast } from '@/components/ui';
+import { Button, useToast } from '@/components/ui';
 // @ts-ignore;
-import { Mic, MicOff, Send, X, MessageCircle, Sparkles, Heart, Activity, Brain, Shield, Target, ChevronRight, User } from 'lucide-react';
+import { MessageCircle, X, Mic, Send, Image, MapPin, FileText, Calendar, User, Sparkles, Brain, Stethoscope, Receipt } from 'lucide-react';
 
 export function AIAssistant() {
   const {
@@ -11,143 +11,127 @@ export function AIAssistant() {
   } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
+  const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
-  const inputRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const locationInputRef = useRef(null);
 
-  // 快捷指令
-  const quickCommands = [{
-    id: 'health_check',
-    text: '健康检查',
-    icon: Heart,
-    color: 'bg-red-500',
-    action: () => handleQuickCommand('health_check')
-  }, {
-    id: 'activity_plan',
-    text: '运动计划',
-    icon: Activity,
+  // 快捷指令配置
+  const quickActions = [{
+    id: 'report',
+    label: '查看最新报告',
+    icon: FileText,
     color: 'bg-blue-500',
-    action: () => handleQuickCommand('activity_plan')
+    action: () => handleQuickAction('report')
   }, {
-    id: 'brain_training',
-    text: '健脑训练',
-    icon: Brain,
+    id: 'capsule',
+    label: '生成定制胶囊',
+    icon: Sparkles,
     color: 'bg-purple-500',
-    action: () => handleQuickCommand('brain_training')
+    action: () => handleQuickAction('capsule')
   }, {
-    id: 'immunity_boost',
-    text: '免疫力提升',
-    icon: Shield,
+    id: 'appointment',
+    label: '预约黄帝内针',
+    icon: Calendar,
     color: 'bg-green-500',
-    action: () => handleQuickCommand('immunity_boost')
+    action: () => handleQuickAction('appointment')
   }, {
-    id: 'goal_setting',
-    text: '目标设定',
-    icon: Target,
-    color: 'bg-yellow-500',
-    action: () => handleQuickCommand('goal_setting')
-  }, {
-    id: 'personal_advice',
-    text: '个性化建议',
+    id: 'doctor',
+    label: '联系人工医生',
     icon: User,
-    color: 'bg-indigo-500',
-    action: () => handleQuickCommand('personal_advice')
+    color: 'bg-orange-500',
+    action: () => handleQuickAction('doctor')
+  }, {
+    id: 'invoice',
+    label: '开电子发票',
+    icon: Receipt,
+    color: 'bg-red-500',
+    action: () => handleQuickAction('invoice')
   }];
 
   // 初始化欢迎消息
   useEffect(() => {
-    const welcomeMessage = {
-      id: 'welcome',
-      type: 'assistant',
-      content: '您好！��是您的AI健康助手小智 🤖\n\n我可以为您提供：\n• 健康数据分析和建议\n• 个性化运动和饮食计划\n• 疾病风险评估和预防\n• 心理健康指导\n• 24/7健康咨询服务\n\n请告诉我您需要什么帮助，或者点击下方的快捷指令开始吧！',
-      timestamp: new Date()
-    };
-    setMessages([welcomeMessage]);
-  }, []);
+    if (isOpen && messages.length === 0) {
+      const welcomeMessage = {
+        id: Date.now(),
+        type: 'assistant',
+        content: '您好！我是您的AI健康助手小智，很高兴为您服务！我可以帮您查看健康报告、生成定制方案、预约专家等服务。请问有什么可以帮助您的吗？',
+        timestamp: new Date(),
+        hasVoice: true
+      };
+      setMessages([welcomeMessage]);
+      // 模拟语音播放
+      setTimeout(() => {
+        playVoiceMessage(welcomeMessage.content);
+      }, 500);
+    }
+  }, [isOpen, messages.length]);
 
   // 自动滚动到底部
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  // 打开窗口时聚焦输入框
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 300);
-    }
-  }, [isOpen]);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
       behavior: 'smooth'
     });
   };
-  const handleQuickCommand = commandId => {
-    const command = quickCommands.find(cmd => cmd.id === commandId);
-    if (command) {
-      const userMessage = {
-        id: Date.now(),
-        type: 'user',
-        content: command.text,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, userMessage]);
-
-      // 模拟AI回复
-      setTimeout(() => {
-        const aiResponse = generateAIResponse(commandId);
-        setMessages(prev => [...prev, aiResponse]);
-      }, 1000);
+  const playVoiceMessage = text => {
+    // 模拟语音播放
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 0.9;
+      speechSynthesis.speak(utterance);
     }
   };
-  const generateAIResponse = commandId => {
-    const responses = {
-      health_check: {
-        content: '🔍 正在为您进行健康检查分析...\n\n根据您最近的健康数据：\n• 整体健康评分：92分（优秀）\n• 心血管系统：健康状态良好\n• 免疫力水平：正常范围\n• 睡眠质量：建议改善\n\n建议：保持规律作息，增加有氧运动，每晚保证7-8小时睡眠。',
-        suggestions: ['查看详细报告', '制定改善计划', '预约专家咨询']
-      },
-      activity_plan: {
-        content: '🏃‍♂️ 为您推荐个性化运动计划：\n\n**本周运动安排：**\n• 周一：有氧运动30分钟（跑步/游泳）\n• 周三：力量训练45分钟\n• 周五：瑜伽拉伸20分钟\n• 周日：户外徒步1小时\n\n根据您的身体状况，建议从低强度开始，逐步提升运动量。',
-        suggestions: ['查看详细计划', '下载运动APP', '购买运动装备']
-      },
-      brain_training: {
-        content: '🧠 健脑训练方案：\n\n**每日训练内容：**\n• 记忆力训练：15分钟\n• 逻辑思维：20分钟\n• 创造力练习：10分钟\n• 冥想放松：5分钟\n\n推荐应用：记忆力游戏、数独、围棋等。坚持训练可提升认知功能20-30%。',
-        suggestions: ['开始训练', '查看进度', '分享成果']
-      },
-      immunity_boost: {
-        content: '🛡️ 免疫力提升建议：\n\n**营养补充：**\n• 维生素C：每日1000mg\n• 维生素D：每日2000IU\n• 锌元素：每日15mg\n• 益生菌：每日1杯\n\n**生活习惯：**\n• 规律作息，不熬夜\n• 适度运动，增强体质\n• 保持心情愉快\n• 多晒太阳',
-        suggestions: ['购买营养品', '查看食谱', '制定作息表']
-      },
-      goal_setting: {
-        content: '🎯 帮您设定健康目标：\n\n**SMART原则：**\n• S（具体）：减重5公斤\n• M（可衡量）：每周减重0.5kg\n• A（可实现）：通过饮食+运动\n• R（相关性）：改善健康指标\n• T（时限）：3个月内完成\n\n建议将大目标分解为小目标，逐步实现。',
-        suggestions: ['设定目标', '制定计划', '跟踪进度']
-      },
-      personal_advice: {
-        content: '👤 基于您的健康数据，个性化建议：\n\n**重点关注：**\n• 心血管健康：有氧运动+低盐饮食\n• 体重管理：控制热量摄入\n• 睡眠改善：规律作息+放松训练\n• 压力管理：冥想+兴趣爱好\n\n**下个月重点：**\n建立运动习惯，改善睡眠质量。',
-        suggestions: ['查看详细分析', '定制方案', '预约咨询']
-      }
-    };
-    const response = responses[commandId] || {
-      content: '正在为您分析，请稍候...',
-      suggestions: []
-    };
-    return {
+  const handleQuickAction = action => {
+    let response = '';
+    switch (action) {
+      case 'report':
+        response = '正在为您生成最新的健康报告...报告显示您的整体健康评分为92分，各项指标良好。建议继续保持当前的健康生活方式。';
+        break;
+      case 'capsule':
+        response = '正在分析您的健康数据，为您生成个性化定制胶囊方案...根据您的体质分析，推荐NMN细胞活化精华辅酶Q10组合，预计可提升细胞活力35%。';
+        break;
+      case 'appointment':
+        response = '正在为您查询黄帝内针专家排班...张医生明天上午10:00有空档，是否需要为您预约？';
+        break;
+      case 'doctor':
+        response = '正在为您连接人工医生...请稍候，专业医生将在1分钟内为您服务。';
+        break;
+      case 'invoice':
+        response = '正在为您生成电子发票...请提供您的开票信息（抬头、税号等），我将为您处理。';
+        break;
+    }
+    const userMessage = {
       id: Date.now(),
-      type: 'assistant',
-      content: response.content,
-      suggestions: response.suggestions,
+      type: 'user',
+      content: quickActions.find(a => a.id === action)?.label || '',
       timestamp: new Date()
     };
+    const assistantMessage = {
+      id: Date.now() + 1,
+      type: 'assistant',
+      content: response,
+      timestamp: new Date(),
+      hasVoice: true
+    };
+    setMessages(prev => [...prev, userMessage, assistantMessage]);
+
+    // 播放语音回复
+    setTimeout(() => {
+      playVoiceMessage(response);
+    }, 1000);
   };
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
     const userMessage = {
       id: Date.now(),
       type: 'user',
-      content: inputText.trim(),
+      content: inputText,
       timestamp: new Date()
     };
     setMessages(prev => [...prev, userMessage]);
@@ -156,62 +140,125 @@ export function AIAssistant() {
 
     // 模拟AI回复
     setTimeout(() => {
-      const aiResponse = {
+      const responses = ['我理解您的需求，让我为您分析一下...', '根据您的描述，我建议您...', '这是一个很好的问题，我来为您详细解答...', '基于您的健康数据，我推荐以下方案...'];
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+      const assistantMessage = {
         id: Date.now() + 1,
         type: 'assistant',
-        content: '感谢您的咨询！我正在分析您的问题，为您提供专业的健康建议。请稍等片刻...',
-        timestamp: new Date()
+        content: randomResponse,
+        timestamp: new Date(),
+        hasVoice: true
       };
-      setMessages(prev => [...prev, aiResponse]);
+      setMessages(prev => [...prev, assistantMessage]);
       setIsTyping(false);
+
+      // 播放语音回复
+      setTimeout(() => {
+        playVoiceMessage(randomResponse);
+      }, 500);
     }, 1500);
   };
-  const handleVoiceInput = async () => {
-    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-      toast({
-        title: "语音识别不可用",
-        description: "您的浏览器不支持语音识别功能",
-        variant: "destructive"
-      });
-      return;
-    }
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'zh-CN';
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.onstart = () => {
+  const handleVoiceInput = () => {
+    if (!isRecording) {
+      // 开始录音
       setIsRecording(true);
       toast({
         title: "开始录音",
         description: "请说出您的问题..."
       });
-    };
-    recognition.onresult = event => {
-      const transcript = event.results[0][0].transcript;
-      setInputText(transcript);
+
+      // 模拟录音结束
+      setTimeout(() => {
+        setIsRecording(false);
+        const simulatedText = "我想查看我的健康报告";
+        setInputText(simulatedText);
+        toast({
+          title: "录音完成",
+          description: "已识别您的语音"
+        });
+      }, 3000);
+    } else {
+      // 停止录音
       setIsRecording(false);
+    }
+  };
+  const handleImageUpload = event => {
+    const file = event.target.files[0];
+    if (file) {
       toast({
-        title: "录音完成",
-        description: "识别结果：" + transcript
+        title: "图片上传",
+        description: `已上传图片: ${file.name}`
       });
-    };
-    recognition.onerror = event => {
-      setIsRecording(false);
+      const userMessage = {
+        id: Date.now(),
+        type: 'user',
+        content: `[图片] ${file.name}`,
+        timestamp: new Date(),
+        isImage: true,
+        imageUrl: URL.createObjectURL(file)
+      };
+      setMessages(prev => [...prev, userMessage]);
+
+      // 模拟AI分析图片
+      setTimeout(() => {
+        const assistantMessage = {
+          id: Date.now() + 1,
+          type: 'assistant',
+          content: '我已经收到您上传的图片，正在为您分析...根据图片内容，建议您进一步咨询专业医生进行详细检查。',
+          timestamp: new Date(),
+          hasVoice: true
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+        playVoiceMessage(assistantMessage.content);
+      }, 2000);
+    }
+  };
+  const handleLocationShare = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const {
+          latitude,
+          longitude
+        } = position.coords;
+        toast({
+          title: "位置获取成功",
+          description: `纬度: ${latitude.toFixed(6)}, 经度: ${longitude.toFixed(6)}`
+        });
+        const userMessage = {
+          id: Date.now(),
+          type: 'user',
+          content: `[位置] 纬度: ${latitude.toFixed(6)}, 经度: ${longitude.toFixed(6)}`,
+          timestamp: new Date(),
+          isLocation: true
+        };
+        setMessages(prev => [...prev, userMessage]);
+
+        // 模拟AI基于位置推荐
+        setTimeout(() => {
+          const assistantMessage = {
+            id: Date.now() + 1,
+            type: 'assistant',
+            content: `已获取您的位置信息。根据您的位置，为您推荐附近的合作医院：北京协和医院（距离2.3km）、北京大学第一医院（距离3.1km）。需要为您预约吗？`,
+            timestamp: new Date(),
+            hasVoice: true
+          };
+          setMessages(prev => [...prev, assistantMessage]);
+          playVoiceMessage(assistantMessage.content);
+        }, 1500);
+      }, error => {
+        toast({
+          title: "位置获取失败",
+          description: error.message,
+          variant: "destructive"
+        });
+      });
+    } else {
       toast({
-        title: "语音识别失败",
-        description: event.error,
+        title: "不支持定位",
+        description: "您的浏览器不支持地理定位功能",
         variant: "destructive"
       });
-    };
-    recognition.onend = () => {
-      setIsRecording(false);
-    };
-    recognition.start();
-  };
-  const handleSuggestionClick = suggestion => {
-    setInputText(suggestion);
-    inputRef.current?.focus();
+    }
   };
   const formatTime = date => {
     return date.toLocaleTimeString('zh-CN', {
@@ -221,82 +268,102 @@ export function AIAssistant() {
   };
   return <>
       {/* 悬浮按钮 */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <button onClick={() => setIsOpen(!isOpen)} className="relative w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group" style={{
-        animation: 'breathe 2.8s ease-in-out infinite',
-        backdropFilter: 'blur(10px)',
-        background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.9), rgba(217, 119, 6, 0.9))'
-      }}>
+      {!isOpen && <button onClick={() => setIsOpen(true)} className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 group" style={{
+      backdropFilter: 'blur(12px)',
+      background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.9), rgba(217, 119, 6, 0.9))',
+      animation: 'breathe 2.8s ease-in-out infinite'
+    }}>
           {/* DNA双螺旋动画 */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-8 h-8">
-              <div className="absolute inset-0 border-2 border-yellow-700 rounded-full" style={{
-              animation: 'rotate 3s linear infinite'
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-8 h-8 relative">
+                <div className="absolute inset-0 border-2 border-yellow-200 rounded-full animate-spin" style={{
+              animationDuration: '3s'
             }}></div>
-              <div className="absolute inset-1 border-2 border-yellow-800 rounded-full" style={{
-              animation: 'rotate 3s linear infinite reverse'
+                <div className="absolute inset-2 border-2 border-yellow-300 rounded-full animate-spin" style={{
+              animationDuration: '2s',
+              animationDirection: 'reverse'
             }}></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <MessageCircle className="w-4 h-4 text-yellow-900" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <MessageCircle className="w-4 h-4 text-yellow-800" />
+                </div>
               </div>
             </div>
+            {/* 呼吸灯效果 */}
+            <div className="absolute inset-0 rounded-full bg-yellow-300 opacity-30 animate-ping"></div>
           </div>
-          
-          {/* 呼吸灯效果 */}
-          <div className="absolute inset-0 rounded-full bg-yellow-400 opacity-30" style={{
-          animation: 'pulse 2.8s ease-in-out infinite'
-        }}></div>
-        </button>
-      </div>
+        </button>}
 
       {/* 全屏会话窗口 */}
-      {isOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="w-full h-full max-w-4xl max-h-[90vh] mx-4 my-8 bg-gradient-to-br from-green-900/90 to-emerald-900/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-green-700/30 flex flex-col">
-            {/* 头部 */}
-            <div className="flex items-center justify-between p-6 border-b border-green-700/30">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-yellow-900" />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-white">AI健康助手</h2>
-                  <p className="text-green-200 text-sm">24/7 在线服务</p>
-                </div>
+      {isOpen && <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* 背景遮罩 */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsOpen(false)}></div>
+          
+          {/* 会话窗口 */}
+          <div className="relative w-full max-w-2xl h-[80vh] max-h-[700px] rounded-3xl shadow-2xl overflow-hidden flex flex-col" style={{
+        backdropFilter: 'blur(20px)',
+        background: 'linear-gradient(135deg, rgba(6, 78, 59, 0.95), rgba(5, 46, 34, 0.95))'
+      }}>
+            {/* 顶部渐变星空 */}
+            <div className="relative h-20 bg-gradient-to-b from-indigo-900/50 via-purple-900/30 to-transparent">
+              <div className="absolute inset-0">
+                {[...Array(20)].map((_, i) => <div key={i} className="absolute w-1 h-1 bg-white rounded-full animate-pulse" style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              opacity: Math.random() * 0.8 + 0.2
+            }}></div>)}
               </div>
-              <button onClick={() => setIsOpen(false)} className="p-2 text-green-200 hover:text-white hover:bg-green-700/30 rounded-lg transition-colors">
-                <X className="w-5 h-5" />
-              </button>
+              
+              {/* 标题栏 */}
+              <div className="relative flex items-center justify-between p-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center">
+                    <Brain className="w-6 h-6 text-yellow-800" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold">AI健康助手</h3>
+                    <p className="text-yellow-200 text-sm">小智在线</p>
+                  </div>
+                </div>
+                <button onClick={() => setIsOpen(false)} className="w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors">
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
             </div>
 
             {/* 消息区域 */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {messages.map(message => <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.type === 'user' ? 'bg-yellow-500 text-white' : 'bg-green-700/50 text-white backdrop-blur-sm'}`}>
-                    <p className="whitespace-pre-line text-sm leading-relaxed">
-                      {message.content}
-                    </p>
-                    {message.suggestions && message.suggestions.length > 0 && <div className="mt-3 space-y-2">
-                        {message.suggestions.map((suggestion, index) => <button key={index} onClick={() => handleSuggestionClick(suggestion)} className="w-full text-left px-3 py-2 bg-green-600/30 hover:bg-green-600/50 rounded-lg text-sm transition-colors flex items-center justify-between group">
-                            <span>{suggestion}</span>
-                            <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                          </button>)}
+                  <div className={`max-w-[80%] rounded-2xl p-3 ${message.type === 'user' ? 'bg-blue-500 text-white' : 'bg-white/20 text-white backdrop-blur-sm'}`}>
+                    {message.isImage && <div className="mb-2">
+                        <img src={message.imageUrl} alt="上传的图片" className="rounded-lg max-w-full h-40 object-cover" />
                       </div>}
-                    <p className="text-xs opacity-70 mt-2">
-                      {formatTime(message.timestamp)}
-                    </p>
+                    {message.isLocation && <div className="mb-2 flex items-center space-x-2">
+                        <MapPin className="w-4 h-4" />
+                        <span className="text-sm">位置信息</span>
+                      </div>}
+                    <p className="text-sm leading-relaxed">{message.content}</p>
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-xs opacity-70">
+                        {formatTime(message.timestamp)}
+                      </span>
+                      {message.type === 'assistant' && message.hasVoice && <button onClick={() => playVoiceMessage(message.content)} className="ml-2 text-xs opacity-70 hover:opacity-100">
+                          🔊
+                        </button>}
+                    </div>
                   </div>
                 </div>)}
+              
               {isTyping && <div className="flex justify-start">
-                  <div className="bg-green-700/50 text-white rounded-2xl px-4 py-3 backdrop-blur-sm">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3">
                     <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
                       <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{
-                  animationDelay: '0ms'
+                  animationDelay: '0.1s'
                 }}></div>
                       <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{
-                  animationDelay: '150ms'
-                }}></div>
-                      <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{
-                  animationDelay: '300ms'
+                  animationDelay: '0.2s'
                 }}></div>
                     </div>
                   </div>
@@ -304,35 +371,49 @@ export function AIAssistant() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* 快捷指令 */}
-            <div className="px-6 py-3 border-t border-green-700/30">
-              <div className="flex space-x-2 overflow-x-auto pb-2">
-                {quickCommands.map(command => {
-              const Icon = command.icon;
-              return <button key={command.id} onClick={command.action} className={`flex items-center space-x-2 px-3 py-2 ${command.color} text-white rounded-lg whitespace-nowrap hover:opacity-90 transition-opacity`}>
-                      <Icon className="w-4 h-4" />
-                      <span className="text-sm">{command.text}</span>
+            {/* 快捷指令条 */}
+            <div className="p-4 border-t border-white/20">
+              <div className="flex flex-wrap gap-2 mb-3">
+                {quickActions.map(action => {
+              const Icon = action.icon;
+              return <button key={action.id} onClick={action.action} className={`${action.color} text-white px-3 py-1.5 rounded-full text-xs font-medium hover:opacity-90 transition-opacity flex items-center space-x-1`}>
+                      <Icon className="w-3 h-3" />
+                      <span>{action.label}</span>
                     </button>;
             })}
               </div>
-            </div>
 
-            {/* 输入区域 */}
-            <div className="p-6 border-t border-green-700/30">
-              <div className="flex items-center space-x-3">
-                <button onClick={handleVoiceInput} className={`p-3 rounded-full transition-colors ${isRecording ? 'bg-red-500 text-white animate-pulse' : 'bg-green-700/50 text-green-200 hover:bg-green-700/70'}`}>
-                  {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+              {/* 输入区域 */}
+              <div className="flex items-center space-x-2">
+                <div className="flex-1 relative">
+                  <input type="text" value={inputText} onChange={e => setInputText(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="输入您的问题..." className="w-full px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 rounded-full text-white placeholder-yellow-200 focus:outline-none focus:border-yellow-400 transition-colors" />
+                </div>
+                
+                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                
+                <input ref={locationInputRef} type="file" className="hidden" />
+
+                <button onClick={() => fileInputRef.current?.click()} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors" title="发送图片">
+                  <Image className="w-4 h-4 text-white" />
                 </button>
-                <input ref={inputRef} type="text" value={inputText} onChange={e => setInputText(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="输入您的问题..." className="flex-1 px-4 py-3 bg-green-700/30 text-white placeholder-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 backdrop-blur-sm" />
-                <button onClick={handleSendMessage} disabled={!inputText.trim()} className="p-3 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                  <Send className="w-5 h-5" />
+
+                <button onClick={handleLocationShare} className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors" title="分享位置">
+                  <MapPin className="w-4 h-4 text-white" />
+                </button>
+
+                <button onClick={handleVoiceInput} className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isRecording ? 'bg-red-500 hover:bg-red-600 animate-pulse' : 'bg-white/20 hover:bg-white/30'}`} title={isRecording ? '停止录音' : '语音输入'}>
+                  <Mic className="w-4 h-4 text-white" />
+                </button>
+
+                <button onClick={handleSendMessage} disabled={!inputText.trim()} className="w-10 h-10 bg-yellow-500 hover:bg-yellow-600 disabled:bg-gray-400 rounded-full flex items-center justify-center transition-colors" title="发送消息">
+                  <Send className="w-4 h-4 text-white" />
                 </button>
               </div>
             </div>
           </div>
         </div>}
 
-      {/* CSS动画 */}
+      {/* 添加CSS动画 */}
       <style jsx>{`
         @keyframes breathe {
           0%, 100% {
@@ -341,27 +422,7 @@ export function AIAssistant() {
           }
           50% {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(250, 204, 21, 0.6);
-          }
-        }
-
-        @keyframes pulse {
-          0%, 100% {
-            transform: scale(1);
-            opacity: 0.3;
-          }
-          50% {
-            transform: scale(1.2);
-            opacity: 0.1;
-          }
-        }
-
-        @keyframes rotate {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
+            box-shadow: 0 0 30px rgba(250, 204, 21, 0.5);
           }
         }
       `}</style>

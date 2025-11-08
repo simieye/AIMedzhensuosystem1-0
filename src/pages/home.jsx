@@ -3,88 +3,16 @@ import React, { useState, useEffect, useRef } from 'react';
 // @ts-ignore;
 import { Button, Card, CardContent, CardHeader, CardTitle, Alert, AlertDescription, useToast } from '@/components/ui';
 // @ts-ignore;
-import { Activity, Target, ShoppingBag, User, TrendingUp, Heart, Brain, Shield, Clock, Award, ChevronRight, Star, ArrowRight, BarChart3, Volume2, VolumeX, Mic } from 'lucide-react';
+import { Activity, Target, ShoppingBag, User, TrendingUp, Heart, Brain, Shield, Clock, Award, ChevronRight, Star, ArrowRight, BarChart3, Mic, Volume2, VolumeX, Calendar, Zap } from 'lucide-react';
 
 // @ts-ignore;
 import { TabBar } from '@/components/TabBar';
 // @ts-ignore;
 import { DigitalTwin3D } from '@/components/DigitalTwin3D';
 // @ts-ignore;
-import { HeartDetailModal } from '@/components/HeartDetailModal';
+import { AIAssistant } from '@/components/AIAssistant';
 // @ts-ignore;
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-
-// 语音控制Hook
-function useVoiceController() {
-  const [isListening, setIsListening] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [speechSupported, setSpeechSupported] = useState(false);
-  const recognitionRef = useRef(null);
-  const synthRef = useRef(null);
-  useEffect(() => {
-    const recognitionSupported = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
-    const synthesisSupported = 'speechSynthesis' in window;
-    setSpeechSupported(recognitionSupported && synthesisSupported);
-    synthRef.current = window.speechSynthesis;
-    if (recognitionSupported) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = 'zh-CN';
-    }
-  }, []);
-  const speak = (text, options = {}) => {
-    if (!speechSupported || !synthRef.current) {
-      return Promise.resolve();
-    }
-    return new Promise((resolve, reject) => {
-      synthRef.current.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'zh-CN';
-      utterance.rate = options.rate || 1;
-      utterance.pitch = options.pitch || 1;
-      utterance.volume = options.volume || 1;
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => {
-        setIsSpeaking(false);
-        resolve();
-      };
-      utterance.onerror = event => {
-        setIsSpeaking(false);
-        reject(event.error);
-      };
-      synthRef.current.speak(utterance);
-    });
-  };
-  const startListening = onResult => {
-    if (!speechSupported || !recognitionRef.current) return;
-    recognitionRef.current.onresult = event => {
-      const transcript = event.results[0][0].transcript.toLowerCase();
-      setIsListening(false);
-      onResult(transcript);
-    };
-    recognitionRef.current.onerror = () => {
-      setIsListening(false);
-    };
-    recognitionRef.current.start();
-    setIsListening(true);
-  };
-  const stopSpeaking = () => {
-    if (synthRef.current) {
-      synthRef.current.cancel();
-      setIsSpeaking(false);
-    }
-  };
-  return {
-    isListening,
-    isSpeaking,
-    speechSupported,
-    speak,
-    startListening,
-    stopSpeaking
-  };
-}
 export default function Home(props) {
   const {
     $w,
@@ -97,11 +25,39 @@ export default function Home(props) {
   const [userStats, setUserStats] = useState(null);
   const [healthData, setHealthData] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
-  const [showHeartModal, setShowHeartModal] = useState(false);
-  const [heartLongPressTimer, setHeartLongPressTimer] = useState(null);
-  const [isHeartPressed, setIsHeartPressed] = useState(false);
-  const voiceController = useVoiceController();
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState(true);
+  const [isListening, setIsListening] = useState(false);
+  const [voiceCommand, setVoiceCommand] = useState('');
+  const [showHRVDialog, setShowHRVDialog] = useState(false);
+  const [heartPressed, setHeartPressed] = useState(false);
+  const [heartPressTimer, setHeartPressTimer] = useState(null);
+  const [rpaStatus, setRpaStatus] = useState('idle'); // idle, running, completed
+  const [aiWelcomePlayed, setAiWelcomePlayed] = useState(false);
   const digitalTwinRef = useRef(null);
+  const voiceRecognitionRef = useRef(null);
+
+  // HRV数据
+  const hrvData = {
+    score: 78,
+    rmssd: 45,
+    pnn50: 12,
+    stressLevel: 'moderate',
+    recoveryStatus: 'good',
+    recommendations: ['建议增加有氧运动', '保持规律作息', '适当进行冥想放松']
+  };
+
+  // 语音指令映射
+  const voiceCommands = {
+    '查看肝功能': () => handleHealthQuery('liver'),
+    '检查心脏': () => handleHealthQuery('heart'),
+    '血压数据': () => handleHealthQuery('blood_pressure'),
+    '血糖水平': () => handleHealthQuery('blood_sugar'),
+    '预约医生': () => handleRPAAppointment(),
+    '生成报告': () => handleGenerateReport(),
+    '健康评分': () => handleHealthQuery('overall'),
+    '睡眠质量': () => handleHealthQuery('sleep'),
+    '运动数据': () => handleHealthQuery('exercise')
+  };
   useEffect(() => {
     // 模拟获取用户数据
     const mockUserStats = {
@@ -164,7 +120,7 @@ export default function Home(props) {
       tag: '推荐'
     }, {
       id: 3,
-      title: '全面体检套餐',
+      title: '全面���检套餐',
       type: 'service',
       description: '深度健康检测，全面评估',
       price: 1280,
@@ -176,110 +132,217 @@ export default function Home(props) {
     setHealthData(mockHealthData);
     setRecommendations(mockRecommendations);
 
-    // 页面加载后自动播报健康状态
-    setTimeout(() => {
-      announceHealthStatus(mockUserStats);
-    }, 2000);
+    // 初始化语音识别
+    initializeVoiceRecognition();
   }, []);
 
-  // 自动播报健康状态
-  const announceHealthStatus = async stats => {
-    if (!voiceController.speechSupported) return;
-    const healthMessage = `您好，${$w.auth.currentUser?.nickName || '用户'}。您的健康评分为${stats.healthScore}分，健康年龄为${stats.healthAge}岁，比实际年龄年轻${stats.actualAge - stats.healthAge}岁。整体健康状况良好，请继续保持。`;
-    try {
-      await voiceController.speak(healthMessage, {
-        rate: 0.9
-      });
-    } catch (error) {
-      console.log('语音播报失败:', error);
+  // AI自动播报健康状态
+  useEffect(() => {
+    if (userStats && !aiWelcomePlayed && isVoiceEnabled) {
+      const timer = setTimeout(() => {
+        playAIWelcomeMessage();
+        setAiWelcomePlayed(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [userStats, aiWelcomePlayed, isVoiceEnabled]);
+  const initializeVoiceRecognition = () => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      voiceRecognitionRef.current = new SpeechRecognition();
+      voiceRecognitionRef.current.continuous = false;
+      voiceRecognitionRef.current.interimResults = false;
+      voiceRecognitionRef.current.lang = 'zh-CN';
+      voiceRecognitionRef.current.onresult = event => {
+        const transcript = event.results[0][0].transcript;
+        setVoiceCommand(transcript);
+        processVoiceCommand(transcript);
+      };
+      voiceRecognitionRef.current.onerror = event => {
+        console.error('语音识别错误:', event.error);
+        setIsListening(false);
+        toast({
+          title: "语音识别失败",
+          description: "请检查麦克风权限或重试",
+          variant: "destructive"
+        });
+      };
+      voiceRecognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
     }
   };
-
-  // 语音指令处理
-  const handleVoiceCommand = command => {
-    console.log('收到语音指令:', command);
-    if (command.includes('检测中心') || command.includes('体检') || command.includes('检查')) {
+  const playAIWelcomeMessage = () => {
+    if ('speechSynthesis' in window) {
+      const welcomeText = `您好！今天是${new Date().toLocaleDateString('zh-CN', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })}。您的健康评分为${userStats.healthScore}分，健康年龄${userStats.healthAge}岁，比实际年龄年轻${userStats.actualAge - userStats.healthAge}岁。整体状况良好，请继续保持健康的生活方式。`;
+      const utterance = new SpeechSynthesisUtterance(welcomeText);
+      utterance.lang = 'zh-CN';
+      utterance.rate = 0.9;
+      utterance.pitch = 1.0;
+      utterance.volume = 0.8;
+      speechSynthesis.speak(utterance);
+      toast({
+        title: "AI健康助手",
+        description: "正在为您播报今日健康状态..."
+      });
+    }
+  };
+  const toggleVoiceListening = () => {
+    if (isListening) {
+      voiceRecognitionRef.current?.stop();
+      setIsListening(false);
+    } else {
+      if (voiceRecognitionRef.current) {
+        voiceRecognitionRef.current.start();
+        setIsListening(true);
+        toast({
+          title: "语音识别已启动",
+          description: "请说出您的健康查询指令..."
+        });
+      } else {
+        toast({
+          title: "语音识别不可用",
+          description: "您的浏览器不支持语音识别功能",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+  const processVoiceCommand = command => {
+    const matchedCommand = Object.keys(voiceCommands).find(key => command.includes(key));
+    if (matchedCommand) {
+      voiceCommands[matchedCommand]();
       toast({
         title: "语音指令识别",
-        description: "正在跳转到检测中心..."
+        description: `已识别指令: ${matchedCommand}`
       });
-      $w.utils.navigateTo({
-        pageId: 'detectionCenter',
-        params: {
-          highlight: 'heart'
-        }
-      });
-    } else if (command.includes('商城') || command.includes('购买')) {
-      toast({
-        title: "语音指令识别",
-        description: "正在跳转到商城..."
-      });
-      $w.utils.navigateTo({
-        pageId: 'mall',
-        params: {}
-      });
-    } else if (command.includes('方案') || command.includes('计划')) {
-      toast({
-        title: "语音指令识别",
-        description: "正在跳转到我的方案..."
-      });
-      $w.utils.navigateTo({
-        pageId: 'myPlan',
-        params: {}
-      });
-    } else if (command.includes('预约') || command.includes('挂号')) {
-      handleAutoAppointment();
-    } else if (command.includes('心脏') || command.includes('心率')) {
-      setShowHeartModal(true);
     } else {
       toast({
-        title: "语音指令",
-        description: `识别到指令：${command}`,
-        variant: "default"
+        title: "未识别指令",
+        description: "请尝试说: 查看肝功能、检查心脏、预约医生等",
+        variant: "destructive"
       });
     }
   };
+  const handleHealthQuery = organ => {
+    const organData = {
+      liver: {
+        name: '肝脏',
+        status: '功能正常',
+        indicators: ['ALT: 25 U/L', 'AST: 28 U/L', '总胆红素: 12.5 μmol/L'],
+        advice: '肝功能各项指标正常，建议避免饮酒，保持规律作息'
+      },
+      heart: {
+        name: '心脏',
+        status: '心率略高',
+        indicators: ['心率: 78 bpm', '血压: 125/82 mmHg', 'HRV: 45 ms'],
+        advice: '心率略高于正常范围，建议增加有氧运动，减少咖啡因摄入'
+      },
+      blood_pressure: {
+        name: '血压',
+        status: '正常偏高',
+        indicators: ['收缩压: 125 mmHg', '舒张压: 82 mmHg', '平均压: 96 mmHg'],
+        advice: '血压处于正常高值，建议低盐饮食，适量运动'
+      },
+      blood_sugar: {
+        name: '血糖',
+        status: '正常',
+        indicators: ['空腹血糖: 5.2 mmol/L', '餐后血糖: 6.8 mmol/L', '糖化血红蛋白: 5.5%'],
+        advice: '血糖水平正常，继续保持健康饮食和运动习惯'
+      },
+      overall: {
+        name: '整体健康',
+        status: '良好',
+        indicators: [`健康评分: ${userStats?.healthScore || 0}分`, `健康年龄: ${userStats?.healthAge || 0}岁`, `活跃计划: ${userStats?.activePlans || 0}个`],
+        advice: '整体健康状况良好，继续保持当前的生活方式'
+      },
+      sleep: {
+        name: '睡眠',
+        status: '良好',
+        indicators: ['深度睡眠: 2.5小时', '睡眠效率: 92%', 'REM睡眠: 1.8小时'],
+        advice: '睡眠质量良好，建议保持规律作息'
+      },
+      exercise: {
+        name: '运动',
+        status: '适中',
+        indicators: ['日均步数: 8,542步', '运动时长: 45分钟', '卡路里消耗: 320 kcal'],
+        advice: '运动量适中，建议增加力量训练'
+      }
+    };
+    const data = organData[organ];
+    if (data) {
+      toast({
+        title: `${data.name}检查结果`,
+        description: `${data.status} - ${data.advice}`
+      });
 
-  // RPA自动预约功能
-  const handleAutoAppointment = async () => {
+      // 语音播报结果
+      if (isVoiceEnabled && 'speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(`${data.name}${data.status}。${data.advice}`);
+        utterance.lang = 'zh-CN';
+        utterance.rate = 0.9;
+        speechSynthesis.speak(utterance);
+      }
+    }
+  };
+  const handleRPAAppointment = () => {
+    setRpaStatus('running');
     toast({
-      title: "智能预约",
+      title: "RPA自动预约",
       description: "正在为您分析最佳预约时间..."
     });
 
-    // 模拟RPA分析过程
+    // 模拟RPA流程
     setTimeout(() => {
+      setRpaStatus('completed');
       toast({
-        title: "预约建议",
-        description: "建议您明天下午2点预约心脏专科医生，已为您预留时间段",
-        action: <Button size="sm" onClick={() => confirmAppointment()}>
-            确认预约
-          </Button>
+        title: "预约成功",
+        description: "已为您预约明天上午10:00的张医生专家号"
       });
-    }, 2000);
+
+      // 语音播报预约结果
+      if (isVoiceEnabled && 'speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance('预约成功！已为您预约明天上午10点的张医生专家号，请准时就诊。');
+        utterance.lang = 'zh-CN';
+        utterance.rate = 0.9;
+        speechSynthesis.speak(utterance);
+      }
+      setTimeout(() => setRpaStatus('idle'), 3000);
+    }, 3000);
   };
-  const confirmAppointment = () => {
+  const handleGenerateReport = () => {
     toast({
-      title: "预约成功",
-      description: "已成功预约明天下午2点的心脏专科检查"
+      title: "生成健康报告",
+      description: "正在为您生成个性化健康报告..."
+    });
+    $w.utils.navigateTo({
+      pageId: 'healthReport',
+      params: {}
     });
   };
-
-  // 心脏长按处理
-  const handleHeartMouseDown = () => {
-    setIsHeartPressed(true);
+  const handleHeartPress = () => {
+    setHeartPressed(true);
+    // 长按检测
     const timer = setTimeout(() => {
-      setShowHeartModal(true);
-      setIsHeartPressed(false);
+      setShowHRVDialog(true);
+      toast({
+        title: "HRV数据分析",
+        description: "正在分析您的心率变异性数据..."
+      });
     }, 800); // 长按800ms触发
-    setHeartLongPressTimer(timer);
+    setHeartPressTimer(timer);
   };
-  const handleHeartMouseUp = () => {
-    if (heartLongPressTimer) {
-      clearTimeout(heartLongPressTimer);
-      setHeartLongPressTimer(null);
+  const handleHeartRelease = () => {
+    setHeartPressed(false);
+    if (heartPressTimer) {
+      clearTimeout(heartPressTimer);
+      setHeartPressTimer(null);
     }
-    setIsHeartPressed(false);
   };
   const handleTabChange = tabId => {
     setActiveTab(tabId);
@@ -330,7 +393,7 @@ export default function Home(props) {
         });
       },
       bookAppointment: () => {
-        handleAutoAppointment();
+        handleRPAAppointment();
       }
     };
     if (actionMap[action]) {
@@ -372,8 +435,8 @@ export default function Home(props) {
     color: 'bg-purple-500'
   }, {
     id: 'bookAppointment',
-    title: '智能预约',
-    description: 'AI自动预约',
+    title: '预约服务',
+    description: '预约专家咨询',
     icon: Clock,
     color: 'bg-orange-500'
   }];
@@ -384,7 +447,8 @@ export default function Home(props) {
     icon: Heart,
     color: 'text-red-500',
     trend: 'up',
-    isHeart: true
+    isInteractive: true,
+    onPress: handleHeartPress
   }, {
     title: '健康年龄',
     value: userStats?.healthAge || 0,
@@ -417,7 +481,7 @@ export default function Home(props) {
   }
   return <div style={style} className="min-h-screen bg-gray-50 pb-16">
       {/* 顶部欢迎区域 */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white relative">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between mb-4">
             <div>
@@ -432,58 +496,66 @@ export default function Home(props) {
             </div>
           </div>
 
-          {/* 语音控制按钮 */}
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm" onClick={() => voiceController.startListening(handleVoiceCommand)} disabled={!voiceController.speechSupported || voiceController.isListening} className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-              {voiceController.isListening ? <>
-                  <Mic className="w-4 h-4 mr-2 animate-pulse" />
-                  正在听取...
-                </> : <>
-                  <Mic className="w-4 h-4 mr-2" />
-                  语音助手
-                </>}
-            </Button>
-            
-            <Button variant="outline" size="sm" onClick={() => voiceController.stopSpeaking()} disabled={!voiceController.isSpeaking} className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-              {voiceController.isSpeaking ? <>
-                  <VolumeX className="w-4 h-4 mr-2" />
-                  停止播报
-                </> : <>
-                  <Volume2 className="w-4 h-4 mr-2" />
-                  语音播报
-                </>}
-            </Button>
-          </div>
+          {/* 语音控制区域 */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <button onClick={toggleVoiceListening} className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-colors ${isListening ? 'bg-red-500 animate-pulse' : 'bg-white/20 hover:bg-white/30'}`}>
+                {isListening ? <VolumeX className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                <span className="text-sm">{isListening ? '正在听...' : '语音助手'}</span>
+              </button>
+              
+              <button onClick={() => setIsVoiceEnabled(!isVoiceEnabled)} className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-colors ${isVoiceEnabled ? 'bg-white/20' : 'bg-gray-500/50'}`}>
+                {isVoiceEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                <span className="text-sm">{isVoiceEnabled ? '语音开启' : '语音关闭'}</span>
+              </button>
 
-          {/* 健康指标卡片 */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-            {healthMetrics.map((metric, index) => {
-            const Icon = metric.icon;
-            return <div key={index} className={`bg-white/10 backdrop-blur-sm rounded-lg p-3 ${metric.isHeart ? 'cursor-pointer' : ''}`} onMouseDown={metric.isHeart ? handleHeartMouseDown : undefined} onMouseUp={metric.isHeart ? handleHeartMouseUp : undefined} onTouchStart={metric.isHeart ? handleHeartMouseDown : undefined} onTouchEnd={metric.isHeart ? handleHeartMouseUp : undefined}>
-                  <div className="flex items-center justify-between mb-1">
-                    <Icon className={`w-5 h-5 ${metric.color} ${isHeartPressed && metric.isHeart ? 'animate-pulse' : ''}`} />
-                    {metric.trend === 'up' && <TrendingUp className="w-4 h-4 text-green-300" />}
-                  </div>
-                  <div className="text-xl font-bold">{metric.value}</div>
-                  <div className="text-blue-100 text-xs">{metric.title}</div>
-                  {metric.isHeart && <div className="text-blue-100 text-xs mt-1">长按查看详情</div>}
-                </div>;
-          })}
+              {rpaStatus === 'running' && <div className="flex items-center space-x-2 bg-yellow-500 px-3 py-1 rounded-full">
+                <Zap className="w-4 h-4 animate-pulse" />
+                <span className="text-sm">RPA执行中...</span>
+              </div>}
+            </div>
+
+            {voiceCommand && <div className="text-sm text-blue-100">
+                最后指令: {voiceCommand}
+              </div>}
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-6 space-y-6">
+        {/* 健康指标卡片 - 增强交互 */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {healthMetrics.map((metric, index) => {
+          const Icon = metric.icon;
+          return <div key={index} className={`${metric.isInteractive ? 'cursor-pointer' : ''} bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-all ${metric.isInteractive && heartPressed ? 'ring-2 ring-red-500 scale-105' : ''}`} onMouseDown={metric.onPress} onMouseUp={handleHeartRelease} onMouseLeave={handleHeartRelease}>
+                <div className="flex items-center justify-between mb-1">
+                  <Icon className={`w-5 h-5 ${metric.color}`} />
+                  {metric.trend === 'up' && <TrendingUp className="w-4 h-4 text-green-500" />}
+                </div>
+                <div className="text-xl font-bold">{metric.value}</div>
+                <div className="text-gray-600 text-xs">{metric.title}</div>
+                {metric.isInteractive && <div className="text-xs text-gray-400 mt-1">长按查看详情</div>}
+              </div>;
+        })}
+        </div>
+
         {/* 数字孪生3D模型 */}
         <div className="bg-white rounded-lg shadow-sm p-4">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">数字孪生人</h2>
-          <DigitalTwin3D ref={digitalTwinRef} healthData={{
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-800">数字孪生健康模型</h2>
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
+              <Activity className="w-4 h-4" />
+              <span>实时监测</span>
+            </div>
+          </div>
+          <DigitalTwin3D healthData={{
           overall: userStats.healthScore,
           age: userStats.healthAge
-        }} onBodyPartClick={bodyPart => {
-          if (bodyPart.id === 'heart') {
-            setShowHeartModal(true);
-          }
+        }} onBodyPartClick={part => {
+          toast({
+            title: "部位分析",
+            description: `正在分析${part.name}的健康数据...`
+          });
         }} />
         </div>
 
@@ -565,19 +637,80 @@ export default function Home(props) {
           <Brain className="h-4 w-4 text-blue-600" />
           <AlertDescription className="text-blue-800">
             <strong>AI健康提醒：</strong>您今天还没有记录运动数据，建议进行30分钟的有氧运动以保持健康状态。
-            点击语音助手按钮，说出"预约"可自动为您安排体检时间。
+            <button onClick={playAIWelcomeMessage} className="ml-2 text-blue-600 underline text-sm">
+              重新播报
+            </button>
           </AlertDescription>
         </Alert>
       </div>
 
-      {/* 心脏详情弹窗 */}
-      <HeartDetailModal isOpen={showHeartModal} onClose={() => setShowHeartModal(false)} heartData={{
-      heartRate: 72,
-      bloodPressure: '120/80',
-      status: 'excellent'
-    }} onBookAppointment={handleAutoAppointment} />
+      {/* HRV数据弹窗 */}
+      {showHRVDialog && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-800 flex items-center">
+                <Heart className="w-5 h-5 mr-2 text-red-500" />
+                HRV心率变异性分析
+              </h3>
+              <button onClick={() => setShowHRVDialog(false)} className="text-gray-400 hover:text-gray-600">
+                ✕
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="bg-red-50 p-4 rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-gray-700">HRV评分</span>
+                  <span className="text-2xl font-bold text-red-600">{hrvData.score}</span>
+                </div>
+                <div className="text-sm text-gray-600">心率变异性正常范围: 20-100</div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gray-50 p-3 rounded">
+                  <div className="text-sm text-gray-600">RMSSD</div>
+                  <div className="text-lg font-semibold">{hrvData.rmssd} ms</div>
+                </div>
+                <div className="bg-gray-50 p-3 rounded">
+                  <div className="text-sm text-gray-600">pNN50</div>
+                  <div className="text-lg font-semibold">{hrvData.pnn50}%</div>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 p-3 rounded">
+                <div className="text-sm text-gray-700 mb-1">压力水平</div>
+                <div className="flex items-center">
+                  <div className="flex-1 bg-gray-200 rounded-full h-2">
+                    <div className="bg-yellow-500 h-2 rounded-full" style={{
+                  width: '60%'
+                }}></div>
+                  </div>
+                  <span className="ml-2 text-sm font-medium">中等</span>
+                </div>
+              </div>
+
+              <div className="bg-green-50 p-3 rounded">
+                <div className="text-sm text-gray-700 mb-2">恢复状态</div>
+                <div className="text-sm text-green-800">{hrvData.recoveryStatus === 'good' ? '恢复良好' : '需要更多休息'}</div>
+              </div>
+
+              <div>
+                <div className="text-sm text-gray-700 mb-2">AI建议</div>
+                <ul className="text-sm text-gray-600 space-y-1">
+                  {hrvData.recommendations.map((rec, index) => <li key={index} className="flex items-start">
+                      <span className="text-green-500 mr-2">•</span>
+                      {rec}
+                    </li>)}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>}
 
       {/* 底部导航 */}
       <TabBar activeTab={activeTab} onTabChange={handleTabChange} />
+
+      {/* AI客服组件 */}
+      <AIAssistant />
     </div>;
 }
