@@ -1,0 +1,148 @@
+
+  {
+    "name": "rpa_crawler_data",
+    "title": "RPA爬虫数据管理",
+    "schemas": [
+      {
+        "name": "source_id",
+        "title": "数据源标识",
+        "type": "String"
+      },
+      {
+        "name": "source_name",
+        "title": "数据源名称",
+        "type": "String"
+      },
+      {
+        "name": "source_url",
+        "title": "数据源URL",
+        "type": "Url"
+      },
+      {
+        "name": "source_type",
+        "title": "数据源类型",
+        "type": "String"
+      },
+      {
+        "name": "data_type",
+        "title": "数据类型",
+        "type": "String"
+      },
+      {
+        "name": "crawl_time",
+        "title": "爬取时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "raw_data",
+        "title": "原始数据",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "processed_data",
+        "title": "处理后数据",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "data_format",
+        "title": "数据格式",
+        "type": "String"
+      },
+      {
+        "name": "data_size",
+        "title": "数据大小",
+        "type": "Number"
+      },
+      {
+        "name": "record_count",
+        "title": "记录数量",
+        "type": "Number"
+      },
+      {
+        "name": "processing_status",
+        "title": "处理状态",
+        "type": "String"
+      },
+      {
+        "name": "quality_score",
+        "title": "数据质量评分",
+        "type": "Number"
+      },
+      {
+        "name": "validation_result",
+        "title": "验证结果",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "error_message",
+        "title": "错误信息",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "retry_count",
+        "title": "重试次数",
+        "type": "Number"
+      },
+      {
+        "name": "next_crawl_time",
+        "title": "下次爬取时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "crawl_frequency",
+        "title": "爬取频率",
+        "type": "String"
+      },
+      {
+        "name": "is_active",
+        "title": "是否活跃",
+        "type": "Boolean"
+      },
+      {
+        "name": "tags",
+        "title": "标签",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "metadata",
+        "title": "元数据",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "config",
+        "title": "爬取配置",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "version",
+        "title": "数据版本",
+        "type": "String"
+      },
+      {
+        "name": "checksum",
+        "title": "数据校验和",
+        "type": "String"
+      }
+    ]
+  }
+  

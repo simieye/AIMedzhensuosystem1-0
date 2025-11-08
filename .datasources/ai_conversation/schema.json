@@ -1,0 +1,175 @@
+
+  {
+    "name": "ai_conversation",
+    "title": "AI对话记录管理",
+    "schemas": [
+      {
+        "name": "user_id",
+        "title": "用户ID",
+        "type": "String"
+      },
+      {
+        "name": "session_id",
+        "title": "会话ID",
+        "type": "String"
+      },
+      {
+        "name": "conversation_id",
+        "title": "对话ID",
+        "type": "String"
+      },
+      {
+        "name": "message_type",
+        "title": "消息类型",
+        "type": "String"
+      },
+      {
+        "name": "conversation_type",
+        "title": "对话类型",
+        "type": "String"
+      },
+      {
+        "name": "message_content",
+        "title": "消息内容",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "ai_response",
+        "title": "AI回复",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "message_time",
+        "title": "消息时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "response_time",
+        "title": "回复时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "response_duration",
+        "title": "响应时长",
+        "type": "Number"
+      },
+      {
+        "name": "context_data",
+        "title": "上下文数据",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "related_health_data",
+        "title": "关联健康数据",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "intent_analysis",
+        "title": "意图分析",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "entity_extraction",
+        "title": "实体提取",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "sentiment_analysis",
+        "title": "情感分析",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "quality_score",
+        "title": "对话质量评分",
+        "type": "Number"
+      },
+      {
+        "name": "user_feedback",
+        "title": "用户反馈",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "is_resolved",
+        "title": "是否已解决",
+        "type": "Boolean"
+      },
+      {
+        "name": "follow_up_required",
+        "title": "是否需要跟进",
+        "type": "Boolean"
+      },
+      {
+        "name": "follow_up_time",
+        "title": "跟进时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "tags",
+        "title": "标签",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "priority",
+        "title": "优先级",
+        "type": "String"
+      },
+      {
+        "name": "status",
+        "title": "对话状态",
+        "type": "String"
+      },
+      {
+        "name": "language",
+        "title": "语言",
+        "type": "String"
+      },
+      {
+        "name": "model_version",
+        "title": "AI模型版本",
+        "type": "String"
+      },
+      {
+        "name": "tokens_used",
+        "title": "使用的Token数量",
+        "type": "Number"
+      },
+      {
+        "name": "cost",
+        "title": "对话成本",
+        "type": "Number"
+      },
+      {
+        "name": "metadata",
+        "title": "元数据",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      }
+    ]
+  }
+  

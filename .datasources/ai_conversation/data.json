@@ -1,0 +1,410 @@
+
+  [
+    {
+      "_id": "1",
+      "user_id": "1",
+      "session_id": "SESSION_001",
+      "conversation_id": "CONV_001",
+      "message_type": "user_query",
+      "conversation_type": "health_consultation",
+      "message_content": "我最近血压有点高，有什么建议吗？",
+      "ai_response": "根据您的情况，我建议您：1. 控制盐分摄入，每日不超过6克；2. 保持规律运动，每周至少150分钟中等强度运动；3. 保持良好作息，避免熬夜；4. 定期监测血压，建议早晚各测一次。如果血压持续偏高，建议及时就医。",
+      "message_time": 1705310400000,
+      "response_time": 1705310420000,
+      "response_duration": 2000,
+      "context_data": {
+        "previous_messages": 2,
+        "session_duration": 300000,
+        "user_health_profile": {
+          "age": 35,
+          "gender": "male",
+          "has_hypertension": false
+        }
+      },
+      "related_health_data": [
+        {
+          "type": "blood_pressure",
+          "recent_readings": [
+            {
+              "date": "2024-01-14",
+              "systolic": 135,
+              "diastolic": 85
+            },
+            {
+              "date": "2024-01-13",
+              "systolic": 138,
+              "diastolic": 88
+            }
+          ]
+        }
+      ],
+      "intent_analysis": {
+        "primary_intent": "health_advice",
+        "confidence": 0.92,
+        "secondary_intents": ["blood_pressure_management", "lifestyle_recommendation"]
+      },
+      "entity_extraction": [
+        {
+          "entity": "血压",
+          "type": "health_metric",
+          "value": "高"
+        },
+        {
+          "entity": "建议",
+          "type": "request_type",
+          "value": "寻求建议"
+        }
+      ],
+      "sentiment_analysis": {
+        "polarity": "neutral",
+        "subjectivity": 0.3,
+        "emotion": "concerned",
+        "confidence": 0.85
+      },
+      "quality_score": 4.5,
+      "user_feedback": {
+        "rating": 5,
+        "comment": "建议很实用，谢谢",
+        "helpful": true,
+        "timestamp": 1705310500000
+      },
+      "is_resolved": true,
+      "follow_up_required": true,
+      "follow_up_time": 1705396800000,
+      "tags": ["血压", "健康建议", "生活方式"],
+      "priority": "medium",
+      "status": "completed",
+      "language": "zh-CN",
+      "model_version": "gpt-4-1106-preview",
+      "tokens_used": 256,
+      "cost": 0.0128,
+      "metadata": {
+        "device": "mobile",
+        "platform": "ios",
+        "app_version": "2.1.0",
+        "location": "北京市"
+      },
+      "createdAt": 1705310400000,
+      "updatedAt": 1705310500000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "2",
+      "user_id": "1",
+      "session_id": "SESSION_001",
+      "conversation_id": "CONV_002",
+      "message_type": "user_query",
+      "conversation_type": "data_analysis",
+      "message_content": "帮我分析一下我最近的健康数据趋势",
+      "ai_response": "根据您最近30天的健康数据分析：1. 血压呈下降趋势，从平均140/90降至130/85；2. 体重稳定下降，累计减重2.5kg；3. 运动量增加25%，睡眠质量提升15%。整体健康状况向好，建议继续保持当前的生活方式。",
+      "message_time": 1705310600000,
+      "response_time": 1705310630000,
+      "response_duration": 3000,
+      "context_data": {
+        "previous_messages": 3,
+        "session_duration": 600000,
+        "analysis_period": "30_days"
+      },
+      "related_health_data": [
+        {
+          "type": "blood_pressure",
+          "trend": "decreasing",
+          "improvement": 7.1
+        },
+        {
+          "type": "weight",
+          "trend": "decreasing",
+          "improvement": 3.2
+        },
+        {
+          "type": "exercise",
+          "trend": "increasing",
+          "improvement": 25.0
+        }
+      ],
+      "intent_analysis": {
+        "primary_intent": "data_analysis",
+        "confidence": 0.95,
+        "secondary_intents": ["health_trend", "progress_evaluation"]
+      },
+      "entity_extraction": [
+        {
+          "entity": "健康数据",
+          "type": "data_type",
+          "value": "health_metrics"
+        },
+        {
+          "entity": "趋势",
+          "type": "analysis_type",
+          "value": "trend_analysis"
+        }
+      ],
+      "sentiment_analysis": {
+        "polarity": "positive",
+        "subjectivity": 0.2,
+        "emotion": "curious",
+        "confidence": 0.88
+      },
+      "quality_score": 4.8,
+      "user_feedback": {
+        "rating": 4,
+        "comment": "分析很详细，希望能看到更多图表",
+        "helpful": true,
+        "timestamp": 1705310700000
+      },
+      "is_resolved": true,
+      "follow_up_required": false,
+      "follow_up_time": null,
+      "tags": ["数据分析", "趋势", "健康评估"],
+      "priority": "low",
+      "status": "completed",
+      "language": "zh-CN",
+      "model_version": "gpt-4-1106-preview",
+      "tokens_used": 384,
+      "cost": 0.0192,
+      "metadata": {
+        "device": "mobile",
+        "platform": "ios",
+        "app_version": "2.1.0",
+        "location": "北京市"
+      },
+      "createdAt": 1705310600000,
+      "updatedAt": 1705310700000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    },
+    {
+      "_id": "3",
+      "user_id": "2",
+      "session_id": "SESSION_002",
+      "conversation_id": "CONV_003",
+      "message_type": "user_query",
+      "conversation_type": "knowledge_qa",
+      "message_content": "什么是BMI？如何计算？",
+      "ai_response": "BMI（Body Mass Index，身体质量指数）是评估体重是否健康的重要指标。计算公式：BMI = 体重(kg) ÷ 身高²(m²)。例如：体重70kg，身高1.75m的人，BMI = 70 ÷ (1.75×1.75) = 22.9。BMI标准：18.5以下为偏瘦，18.5-23.9为正常，24-27.9为超重，28以上为肥胖。",
+      "message_time": 1705310800000,
+      "response_time": 1705310815000,
+      "response_duration": 1500,
+      "context_data": {
+        "previous_messages": 0,
+        "session_duration": 0,
+        "topic": "health_education"
+      },
+      "related_health_data": [],
+      "intent_analysis": {
+        "primary_intent": "knowledge_inquiry",
+        "confidence": 0.98,
+        "secondary_intents": ["health_education", "calculation_method"]
+      },
+      "entity_extraction": [
+        {
+          "entity": "BMI",
+          "type": "health_metric",
+          "value": "身体质量指数"
+        },
+        {
+          "entity": "计算",
+          "type": "action",
+          "value": "calculation"
+        }
+      ],
+      "sentiment_analysis": {
+        "polarity": "neutral",
+        "subjectivity": 0.1,
+        "emotion": "inquisitive",
+        "confidence": 0.92
+      },
+      "quality_score": 4.9,
+      "user_feedback": {
+        "rating": 5,
+        "comment": "解释很清楚，例子很有帮助",
+        "helpful": true,
+        "timestamp": 1705310900000
+      },
+      "is_resolved": true,
+      "follow_up_required": false,
+      "follow_up_time": null,
+      "tags": ["BMI", "健康知识", "计算方法"],
+      "priority": "low",
+      "status": "completed",
+      "language": "zh-CN",
+      "model_version": "gpt-3.5-turbo-1106",
+      "tokens_used": 186,
+      "cost": 0.000372,
+      "metadata": {
+        "device": "web",
+        "platform": "chrome",
+        "app_version": "2.1.0",
+        "location": "上海市"
+      },
+      "createdAt": 1705310800000,
+      "updatedAt": 1705310900000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "4",
+      "user_id": "2",
+      "session_id": "SESSION_003",
+      "conversation_id": "CONV_004",
+      "message_type": "user_query",
+      "conversation_type": "emergency_consultation",
+      "message_content": "我胸痛很严重，呼吸困难，怎么办？",
+      "ai_response": "您描述的症状可能是心脏问题的紧急情况，请立即：1. 拨打120急救电话；2. 保持冷静，坐下或半躺；3. 松开紧身衣物；4. 如有硝酸甘油，按医嘱服用。请不要自行驾车去医院，等待专业医护人员到达。时间就是生命，请立即行动！",
+      "message_time": 1705311000000,
+      "response_time": 1705311010000,
+      "response_duration": 1000,
+      "context_data": {
+        "previous_messages": 0,
+        "session_duration": 0,
+        "urgency_level": "high"
+      },
+      "related_health_data": [
+        {
+          "type": "symptoms",
+          "symptoms": ["chest_pain", "difficulty_breathing"],
+          "severity": "severe"
+        }
+      ],
+      "intent_analysis": {
+        "primary_intent": "emergency_help",
+        "confidence": 0.96,
+        "secondary_intents": ["medical_emergency", "urgent_care"]
+      },
+      "entity_extraction": [
+        {
+          "entity": "胸痛",
+          "type": "symptom",
+          "value": "chest_pain",
+          "severity": "severe"
+        },
+        {
+          "entity": "呼吸困难",
+          "type": "symptom",
+          "value": "difficulty_breathing",
+          "severity": "severe"
+        }
+      ],
+      "sentiment_analysis": {
+        "polarity": "negative",
+        "subjectivity": 0.8,
+        "emotion": "panic",
+        "confidence": 0.94
+      },
+      "quality_score": 5.0,
+      "user_feedback": {
+        "rating": 5,
+        "comment": "感谢及时提醒，已经叫救护车了",
+        "helpful": true,
+        "timestamp": 1705311200000
+      },
+      "is_resolved": true,
+      "follow_up_required": true,
+      "follow_up_time": 1705314600000,
+      "tags": ["紧急情况", "胸痛", "呼吸困难", "急救"],
+      "priority": "high",
+      "status": "completed",
+      "language": "zh-CN",
+      "model_version": "gpt-4-1106-preview",
+      "tokens_used": 128,
+      "cost": 0.0064,
+      "metadata": {
+        "device": "mobile",
+        "platform": "android",
+        "app_version": "2.1.0",
+        "location": "上海市",
+        "emergency_flag": true
+      },
+      "createdAt": 1705311000000,
+      "updatedAt": 1705311200000,
+      "owner": "2",
+      "createBy": "2",
+      "updateBy": "2"
+    },
+    {
+      "_id": "5",
+      "user_id": "1",
+      "session_id": "SESSION_004",
+      "conversation_id": "CONV_005",
+      "message_type": "user_query",
+      "conversation_type": "personalized_recommendation",
+      "message_content": "根据我的健康数据，推荐一些适合的运动",
+      "ai_response": "根据您的健康数据分析，我推荐以下运动方案：1. 有氧运动：快走、游泳，每周3-4次，每次30-45分钟；2. 力量训练：轻量级器械训练，每周2-3次；3. 柔韧性训练：瑜伽、拉伸，每周2-3次。注意事项：运动前要热身，运动强度要循序渐进，如���不适应立即停止。",
+      "message_time": 1705311300000,
+      "response_time": 1705311330000,
+      "response_duration": 3000,
+      "context_data": {
+        "previous_messages": 1,
+        "session_duration": 180000,
+        "personalization_level": "high"
+      },
+      "related_health_data": [
+        {
+          "type": "fitness_level",
+          "current_level": "beginner",
+          "target_level": "intermediate"
+        },
+        {
+          "type": "health_conditions",
+          "conditions": ["mild_hypertension"],
+          "restrictions": ["high_intensity"]
+        }
+      ],
+      "intent_analysis": {
+        "primary_intent": "personalized_recommendation",
+        "confidence": 0.91,
+        "secondary_intents": ["exercise_planning", "fitness_advice"]
+      },
+      "entity_extraction": [
+        {
+          "entity": "运动",
+          "type": "activity",
+          "value": "exercise"
+        },
+        {
+          "entity": "健康数据",
+          "type": "data_source",
+          "value": "personal_health_metrics"
+        }
+      ],
+      "sentiment_analysis": {
+        "polarity": "positive",
+        "subjectivity": 0.4,
+        "emotion": "motivated",
+        "confidence": 0.87
+      },
+      "quality_score": 4.6,
+      "user_feedback": {
+        "rating": 4,
+        "comment": "推荐很合理，会尝试执行",
+        "helpful": true,
+        "timestamp": 1705311400000
+      },
+      "is_resolved": true,
+      "follow_up_required": true,
+      "follow_up_time": 1705396800000,
+      "tags": ["运动推荐", "个性化", "健身计划"],
+      "priority": "medium",
+      "status": "completed",
+      "language": "zh-CN",
+      "model_version": "gpt-4-1106-preview",
+      "tokens_used": 342,
+      "cost": 0.0171,
+      "metadata": {
+        "device": "mobile",
+        "platform": "ios",
+        "app_version": "2.1.0",
+        "location": "北京市"
+      },
+      "createdAt": 1705311300000,
+      "updatedAt": 1705311400000,
+      "owner": "1",
+      "createBy": "1",
+      "updateBy": "1"
+    }
+  ]
+  

@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识库管理 - 智能知识系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .status-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        .knowledge-card {
+            transition: all 0.3s ease;
+        }
+        .knowledge-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .quality-indicator {
+            transition: all 0.3s ease;
+        }
+        .quality-indicator:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航 -->
+    <div class="gradient-bg text-white">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold mb-1">知识库管理</h1>
+                    <p class="text-purple-100">知识条目管理 · 内容编辑 · 更新历史 · 统计分析</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <div class="text-2xl font-bold">1,250</div>
+                        <div class="text-purple-100 text-sm">知识条目</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold">87%</div>
+                        <div class="text-purple-100 text-sm">平均质量</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold">45</div>
+                        <div class="text-purple-100 text-sm">本月新增</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-6">
+        <!-- 功能标签页 -->
+        <div class="flex space-x-1 mb-6 bg-gray-200 p-1 rounded-lg">
+            <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium bg-white text-purple-600 shadow-sm">
+                <i class="fas fa-book-open mr-2"></i>知识概览
+            </button>
+            <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-600 hover:text-gray-800">
+                <i class="fas fa-list mr-2"></i>知识条目
+            </button>
+            <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-600 hover:text-gray-800">
+                <i class="fas fa-edit mr-2"></i>内容编辑
+            </button>
+            <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-600 hover:text-gray-800">
+                <i class="fas fa-history mr-2"></i>更新历史
+            </button>
+            <button class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-gray-600 hover:text-gray-800">
+                <i class="fas fa-chart-bar mr-2"></i>统计分析
+            </button>
+        </div>
+
+        <!-- 知识概览 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <div class="bg-white rounded-lg p-6 card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-book text-blue-600"></i>
+                    </div>
+                    <span class="text-sm text-green-600 font-medium">+12%</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">1,250</h3>
+                <p class="text-gray-600 text-sm">知识条目</p>
+                <div class="mt-4 flex items-center text-sm text-gray-500">
+                    <div class="w-2 h-2 bg-green-500 rounded-full status-dot mr-2"></div>
+                    活跃增长
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check-circle text-green-600"></i>
+                    </div>
+                    <span class="text-sm text-green-600 font-medium">+3.2%</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">87%</h3>
+                <p class="text-gray-600 text-sm">平均质量</p>
+                <div class="mt-4 flex items-center text-sm text-gray-500">
+                    <i class="fas fa-arrow-up text-green-500 mr-2"></i>
+                    质量提升
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-users text-purple-600"></i>
+                    </div>
+                    <span class="text-sm text-purple-600 font-medium">+8.5%</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">45</h3>
+                <p class="text-gray-600 text-sm">本月新增</p>
+                <div class="mt-4 flex items-center text-sm text-gray-500">
+                    <i class="fas fa-chart-line text-purple-500 mr-2"></i>
+                    持续增长
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6 card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-star text-orange-600"></i>
+                    </div>
+                    <span class="text-sm text-orange-600 font-medium">4.6</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">4.6</h3>
+                <p class="text-gray-600 text-sm">用户评分</p>
+                <div class="mt-4 flex items-center text-sm text-gray-500">
+                    <i class="fas fa-thumbs-up text-orange-500 mr-2"></i>
+                    高度满意
+                </div>
+            </div>
+        </div>
+
+        <!-- 知识条目列表 -->
+        <div class="bg-white rounded-lg shadow-sm mb-6">
+            <div class="p-6 border-b">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold text-gray-800">知识条目</h2>
+                    <div class="flex items-center space-x-3">
+                        <div class="relative">
+                            <input type="text" placeholder="搜索知识..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                        <select class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option>全部分类</option>
+                            <option>抗衰老</option>
+                            <option>营养学</option>
+                            <option>运动健康</option>
+                            <option>心理健康</option>
+                        </select>
+                        <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-plus mr-2"></i>添加知识
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 知识卡片 1 -->
+                    <div class="border rounded-lg p-6 knowledge-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">已验证</span>
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">成熟</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">NMN抗衰老机制详解</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">NMN（烟酰胺单核苷酸）是NAD+的直接前体，通过补充NMN可以有效提升体内NAD+水平，激活SIRT1蛋白，从而改善细胞功能、延缓衰老...</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <span>来源: Nature Medicine</span>
+                            <span>作者: Dr. Zhang Wei</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm mb-4">
+                            <div>
+                                <span class="text-gray-600">置信度:</span>
+                                <span class="ml-2 font-medium">95%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">质量评分:</span>
+                                <span class="ml-2 font-medium">92%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">使用频率:</span>
+                                <span class="ml-2 font-medium">156</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">查看次数:</span>
+                                <span class="ml-2 font-medium">2,341</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-1 mb-4">
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">NMN</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">NAD+</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">抗衰老</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">SIRT1</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <span class="text-sm ml-1">4.6</span>
+                            </div>
+                            <button class="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                                查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 知识卡片 2 -->
+                    <div class="border rounded-lg p-6 knowledge-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">已验证</span>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">成长中</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">间歇性禁食的健康益处</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">间歇性禁食是一种饮食模式，通过周期性地在进食和禁食之间切换，带来多种健康益处。研究表明，间歇性禁食可以促进自噬、改善代谢健康...</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <span>来源: Cell Metabolism</span>
+                            <span>作者: Dr. Li Ming</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm mb-4">
+                            <div>
+                                <span class="text-gray-600">置信度:</span>
+                                <span class="ml-2 font-medium">88%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">质量评分:</span>
+                                <span class="ml-2 font-medium">90%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">使用频率:</span>
+                                <span class="ml-2 font-medium">98</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">查看次数:</span>
+                                <span class="ml-2 font-medium">1,876</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-1 mb-4">
+                            <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">间歇性禁食</span>
+                            <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">自噬</span>
+                            <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">代谢健康</span>
+                            <span class="text-xs bg-green-100 text-green-600 px-2 py-1 rounded">长寿</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <span class="text-sm ml-1">4.4</span>
+                            </div>
+                            <button class="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                                查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 知识卡片 3 -->
+                    <div class="border rounded-lg p-6 knowledge-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">待验证</span>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">开发中</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">端粒与衰老的关系</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">端粒是染色体末端的保护性结构，随着细胞分裂逐渐缩短，被认为是衰老的重要标志。端粒长度与生物年龄密切相关...</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <span>来源: Science</span>
+                            <span>作者: Dr. Wang Fang</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm mb-4">
+                            <div>
+                                <span class="text-gray-600">置信度:</span>
+                                <span class="ml-2 font-medium">91%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">质量评分:</span>
+                                <span class="ml-2 font-medium">89%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">使用频率:</span>
+                                <span class="ml-2 font-medium">67</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">查看次数:</span>
+                                <span class="ml-2 font-medium">1,234</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-1 mb-4">
+                            <span class="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded">端粒</span>
+                            <span class="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded">衰老</span>
+                            <span class="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded">细胞分裂</span>
+                            <span class="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded">染色体</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <span class="text-sm ml-1">4.2</span>
+                            </div>
+                            <button class="text-purple-600 hover:text-purple-800 text-sm font-medium">
+                                查看详情 <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 统计分析图表 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">知识增长趋势</h3>
+                <div class="chart-container">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">知识分类分布</h3>
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 质量评估 -->
+        <div class="bg-white rounded-lg p-6 mt-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">知识质量评估</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="relative inline-flex items-center justify-center">
+                        <div class="text-4xl font-bold text-blue-600">92%</div>
+                    </div>
+                    <div class="text-sm text-gray-600 mt-2">数据完整性</div>
+                    <div class="mt-2">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: 92%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-green-600">88%</div>
+                    <div class="text-sm text-gray-600 mt-2">数据准确性</div>
+                    <div class="mt-2">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 88%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-purple-600">95%</div>
+                    <div class="text-sm text-gray-600 mt-2">数据时效性</div>
+                    <div class="mt-2">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-purple-500 h-2 rounded-full" style="width: 95%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-orange-600">90%</div>
+                    <div class="text-sm text-gray-600 mt-2">数据一致性</div>
+                    <div class="mt-2">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-orange-500 h-2 rounded-full" style="width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 知识增长趋势图表
+        const growthCtx = document.getElementById('growthChart').getContext('2d');
+        const growthChart = new Chart(growthCtx, {
+            type: 'line',
+            data: {
+                labels: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                datasets: [{
+                    label: '新增知识',
+                    data: [28, 32, 38, 42, 45, 48],
+                    borderColor: 'rgb(34, 197, 94)',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: '更新知识',
+                    data: [15, 18, 20, 22, 23, 25],
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // 知识分类分布图表
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        const categoryChart = new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['抗衰老', '营养学', '运动健康', '心理健康', '其他'],
+                datasets: [{
+                    data: [320, 280, 200, 180, 270],
+                    backgroundColor: [
+                        'rgb(34, 197, 94)',
+                        'rgb(59, 130, 246)',
+                        'rgb(168, 85, 247)',
+                        'rgb(251, 146, 60)',
+                        'rgb(107, 114, 128)'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+
+  {
+    "name": "knowledge_base",
+    "title": "知识库管理",
+    "schemas": [
+      {
+        "name": "knowledge_id",
+        "title": "知识ID",
+        "type": "String"
+      },
+      {
+        "name": "title",
+        "title": "知识标题",
+        "type": "String"
+      },
+      {
+        "name": "content",
+        "title": "知识内容",
+        "type": "RichText"
+      },
+      {
+        "name": "summary",
+        "title": "知识摘要",
+        "type": "MultiLineString"
+      },
+      {
+        "name": "knowledge_type",
+        "title": "知识类型",
+        "type": "String"
+      },
+      {
+        "name": "category",
+        "title": "知识分类",
+        "type": "String"
+      },
+      {
+        "name": "subcategory",
+        "title": "子分类",
+        "type": "String"
+      },
+      {
+        "name": "source",
+        "title": "知识来源",
+        "type": "String"
+      },
+      {
+        "name": "source_url",
+        "title": "来源URL",
+        "type": "Url"
+      },
+      {
+        "name": "author",
+        "title": "作者",
+        "type": "String"
+      },
+      {
+        "name": "author_credentials",
+        "title": "作者资质",
+        "type": "String"
+      },
+      {
+        "name": "publish_date",
+        "title": "发布日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "last_updated",
+        "title": "最后更新时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "usage_frequency",
+        "title": "使用频率",
+        "type": "Number"
+      },
+      {
+        "name": "confidence_score",
+        "title": "置信度评分",
+        "type": "Number"
+      },
+      {
+        "name": "quality_score",
+        "title": "质量评分",
+        "type": "Number"
+      },
+      {
+        "name": "relevance_score",
+        "title": "相关性评分",
+        "type": "Number"
+      },
+      {
+        "name": "popularity_score",
+        "title": "受欢迎程度",
+        "type": "Number"
+      },
+      {
+        "name": "verification_status",
+        "title": "验证状态",
+        "type": "String"
+      },
+      {
+        "name": "verified_by",
+        "title": "验证人",
+        "type": "String"
+      },
+      {
+        "name": "verification_date",
+        "title": "验证日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "review_status",
+        "title": "审核状态",
+        "type": "String"
+      },
+      {
+        "name": "reviewed_by",
+        "title": "审核人",
+        "type": "String"
+      },
+      {
+        "name": "review_date",
+        "title": "审核日期",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "evolution_stage",
+        "title": "进化阶段",
+        "type": "String"
+      },
+      {
+        "name": "evolution_score",
+        "title": "进化评分",
+        "type": "Number"
+      },
+      {
+        "name": "auto_update_enabled",
+        "title": "是否启用自动更新",
+        "type": "Boolean"
+      },
+      {
+        "name": "update_frequency",
+        "title": "更新频率",
+        "type": "String"
+      },
+      {
+        "name": "last_auto_update",
+        "title": "最后自动更新时间",
+        "type": "DateTime",
+        "format": "timestamp-ms"
+      },
+      {
+        "name": "related_knowledge",
+        "title": "相关知识",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "references",
+        "title": "参考文献",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "keywords",
+        "title": "关键词",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "tags",
+        "title": "标签",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "language",
+        "title": "语言",
+        "type": "String"
+      },
+      {
+        "name": "difficulty_level",
+        "title": "难度等级",
+        "type": "String"
+      },
+      {
+        "name": "target_audience",
+        "title": "目标受众",
+        "type": "Array",
+        "items": {
+          "type": "String"
+        }
+      },
+      {
+        "name": "access_level",
+        "title": "访问级别",
+        "type": "String"
+      },
+      {
+        "name": "is_public",
+        "title": "是否公开",
+        "type": "Boolean"
+      },
+      {
+        "name": "view_count",
+        "title": "查看次数",
+        "type": "Number"
+      },
+      {
+        "name": "share_count",
+        "title": "分享次数",
+        "type": "Number"
+      },
+      {
+        "name": "bookmark_count",
+        "title": "收藏次数",
+        "type": "Number"
+      },
+      {
+        "name": "feedback_score",
+        "title": "反馈评分",
+        "type": "Number"
+      },
+      {
+        "name": "feedback_count",
+        "title": "反馈数量",
+        "type": "Number"
+      },
+      {
+        "name": "user_ratings",
+        "title": "用户评分",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "comments",
+        "title": "评论",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "attachments",
+        "title": "附件",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "multimedia_content",
+        "title": "多媒体内容",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "interactive_elements",
+        "title": "交互元素",
+        "type": "Array",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "metadata",
+        "title": "元数据",
+        "type": "Object",
+        "items": {
+          "type": "Object"
+        }
+      },
+      {
+        "name": "version",
+        "title": "版本号",
+        "type": "String"
+      },
+      {
+        "name": "status",
+        "title": "状态",
+        "type": "String"
+      },
+      {
+        "name": "priority",
+        "title": "优先级",
+        "type": "String"
+      },
+      {
+        "name": "expiry_date",
+        "title": "过期时间",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "archived_date",
+        "title": "归档时间",
+        "type": "Date",
+        "format": "date"
+      },
+      {
+        "name": "created_by",
+        "title": "创建人",
+        "type": "String"
+      },
+      {
+        "name": "updated_by",
+        "title": "更新人",
+        "type": "String"
+      }
+    ]
+  }
+  
