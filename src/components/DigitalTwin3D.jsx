@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Brain, Heart, Lungs, Liver, Kidney, Eye, Activity, Zap, Target, TrendingUp, AlertCircle, CheckCircle, Info, RotateCw, Maximize2, Grid3x3, Layers, Box } from 'lucide-react';
 
 export function DigitalTwin3D({
-  organsData,
+  organsData = [],
   onOrganClick,
   className = ''
 }) {
@@ -109,6 +109,15 @@ export function DigitalTwin3D({
     return healthColors[organ.status] || healthColors.good;
   };
   const render3DBody = () => {
+    // 确保 organsData 是数组且不为空
+    if (!Array.isArray(organsData) || organsData.length === 0) {
+      return <div className="flex items-center justify-center h-full">
+          <div className="text-center">
+            <Activity className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600">暂无器官数据</p>
+          </div>
+        </div>;
+    }
     return <div className="relative preserve-3d transition-transform duration-100" style={{
       transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${zoomLevel})`,
       transformStyle: 'preserve-3d'
