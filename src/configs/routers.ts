@@ -11,6 +11,7 @@ import MALL from '../pages/mall.jsx';
 import CUSTOMFORMULA from '../pages/customFormula.jsx';
 import PERSONALCENTER from '../pages/personalCenter.jsx';
 import HOME from '../pages/home.jsx';
+import TEST3DMODEL from '../pages/test3DModel.jsx';
 export const routers = [{
   id: "login",
   component: LOGIN
@@ -50,4 +51,7 @@ export const routers = [{
 }, {
   id: "home",
   component: HOME
+}, {
+  id: "test3DModel",
+  component: TEST3DMODEL
 }]
